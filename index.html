@@ -1,0 +1,4198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>생활지도 PLUS — 교사를 위한 도전행동 지도 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  /* ── 메인 팔레트 ── */
+  --teal:         #2A7B7B;
+  --teal-dark:    #1B4F4F;
+  --teal-mid:     #235E5E;      /* 메인 카드 — 히어로보다 한 단계 밝게 */
+  --teal-accent:  #7ECFCF;      /* 히어로 위 강조 텍스트·아이콘 */
+  --teal-light:   #E4F0F0;
+  --teal-hero-bg: #163F3F;      /* 히어로 배경 — teal-dark보다 약간 더 깊게 */
+
+  --amber:        #C97B3A;
+  --amber-light:  #FBF0E6;
+  --gold:         #F4C07A;      /* 히어로 h1 em 강조 — amber 계열 밝은 버전 */
+
+  --green:        #3B6E4A;
+  --green-light:  #E6F0E9;
+
+  /* ── 배경·서피스 ── */
+  --bg:           #EEECEA;      /* 카드 섹션 배경 — 이전보다 약간 진하게 */
+  --surface:      #FFFFFF;
+  --text:         #1A1A1A;
+  --text-sub:     #444444;      /* 이전 #5A5A5A → 대비 강화 */
+  --border:       #E2E0D8;
+  --radius:       10px;
+  --shadow:       0 2px 12px rgba(0,0,0,0.08);
+  --shadow-md:    0 4px 24px rgba(0,0,0,0.12);
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════
+   GLOBAL NAV
+═══════════════════════════════════════════ */
+#global-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--teal-dark);
+  height: 52px;
+}
+
+/* 네비 내부 — 콘텐츠와 동일한 max-width로 정렬 */
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+.nav-logo {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+  margin-right: auto;
+  cursor: pointer;
+  letter-spacing: -0.3px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.nav-logo .logo-main { color: white; }
+.nav-logo .logo-plus { color: var(--teal-accent); font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
+
+.nav-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: rgba(255,255,255,0.75);
+  background: transparent;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+.nav-btn.active {
+  color: white;
+  background: rgba(255,255,255,0.18);
+}
+
+/* 섹션 컬러 인디케이터 — nav-inner 기준 */
+.nav-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  transition: left 0.3s ease, width 0.3s ease, background 0.3s ease;
+  border-radius: 2px 2px 0 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   PAGE VIEWS — 해시 라우팅
+═══════════════════════════════════════════ */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ═══════════════════════════════════════════
+   ① HOME PAGE — 색상 개선
+═══════════════════════════════════════════ */
+
+#page-home {
+  min-height: calc(100vh - 52px);
+  background: var(--teal-hero-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 히어로 ── */
+.home-hero {
+  padding: 56px 24px 52px;
+  text-align: center;
+  position: relative;
+  flex-shrink: 0;
+  /* 히어로 → 카드 섹션 전환: 아래로 갈수록 밝아지는 그라디언트 */
+  background: linear-gradient(
+    to bottom,
+    var(--teal-hero-bg) 0%,
+    var(--teal-dark)    70%,
+    #1F5858             100%
+  );
+}
+/* 수평 구분선 제거 — 그라디언트로 대체 */
+.home-hero::after { display: none; }
+
+.home-hero .h-eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--teal-accent);
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding: 4px 14px;
+  border: 1px solid rgba(126,207,207,0.35);
+  border-radius: 999px;
+  background: rgba(126,207,207,0.08);
+}
+
+.home-hero h1 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(24px, 5vw, 42px);
+  font-weight: 700;
+  line-height: 1.35;
+  color: white;
+  margin-bottom: 18px;
+}
+.home-hero h1 em {
+  font-style: normal;
+  color: var(--gold);
+  position: relative;
+}
+.home-hero h1 em::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0.45;
+  border-radius: 1px;
+}
+
+.home-hero .h-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.75;
+  max-width: 440px;
+  margin: 0 auto 36px;
+}
+
+/* 상황 선택 버튼 */
+.home-situation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.sit-btn {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.82);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1.4;
+  text-align: left;
+}
+.sit-btn:hover {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.45);
+  color: white;
+  transform: translateY(-1px);
+}
+.sit-btn.active {
+  background: white;
+  color: var(--teal-dark);
+  border-color: white;
+  font-weight: 700;
+}
+
+/* 추천 섹션 */
+.home-recommend {
+  max-width: 600px;
+  margin: 28px auto 0;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 12px;
+  padding: 20px 22px;
+  display: none;
+  animation: fadeUp 0.25s ease;
+}
+.home-recommend.show { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rec-label {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal-accent);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.rec-items { display: flex; flex-direction: column; gap: 8px; }
+.rec-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.09);
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.18s;
+  text-align: left;
+  width: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.rec-item:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.28);
+}
+.rec-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.rec-item-text { flex: 1; }
+.rec-item-name { font-size: 15px; font-weight: 700; color: white; margin-bottom: 2px; }
+.rec-item-desc { font-size: 13.5px; color: rgba(255,255,255,0.55); }
+.rec-item-arrow { font-size: 13.5px; color: rgba(255,255,255,0.38); flex-shrink: 0; }
+
+/* ── 카드 섹션 — 히어로와 자연스럽게 연결 ── */
+.home-cards-section {
+  /* 상단은 히어로 끝 색과 동일하게 시작, 아래로 --bg로 전환 */
+  background: linear-gradient(
+    to bottom,
+    #1F5858  0px,
+    #1F5858  1px,
+    var(--bg) 72px
+  );
+  flex: 1;
+  padding: 0 24px 0;
+}
+.home-cards-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+.home-cards-title {
+  font-size: 13.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 비대칭 그리드 */
+.home-cards-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .home-cards-grid { grid-template-columns: 1fr; }
+}
+
+/* 메인 카드 — teal-mid로 히어로와 차별화 */
+.hcard-main {
+  grid-row: 1 / 3;
+  background: var(--teal-mid);           /* #235E5E — 히어로(#163F3F)보다 밝음 */
+  border-radius: 16px;
+  padding: 32px 28px;
+  cursor: pointer;
+  transition: all 0.22s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  /* 좌측 컬러 엣지 — 시그니처 */
+  border-left: 4px solid var(--teal-accent);
+}
+.hcard-main::before {
+  content: '';
+  position: absolute;
+  bottom: -40px; right: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hcard-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(27,79,79,0.4);
+  background: #2A6E6E;
+}
+
+.hcard-sym {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+.hcard-main .hcard-sym  { background: rgba(255,255,255,0.12); }
+.hcard-sub1 .hcard-sym  { background: rgba(201,123,58,0.12); }
+.hcard-sub2 .hcard-sym  { background: rgba(59,110,74,0.10); }
+
+.hcard-eyebrow {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.hcard-main .hcard-eyebrow { color: var(--teal-accent); }
+.hcard-sub1 .hcard-eyebrow { color: var(--amber); }
+.hcard-sub2 .hcard-eyebrow { color: var(--green); }
+
+.hcard-title {
+  font-family: 'Noto Serif KR', serif;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.hcard-main .hcard-title { font-size: 22px; color: white; }
+.hcard-sub1 .hcard-title,
+.hcard-sub2 .hcard-title { font-size: 17px; color: var(--text); }
+
+.hcard-desc {
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 20px;
+}
+.hcard-main .hcard-desc { font-size: 15px; color: rgba(255,255,255,0.72); }
+.hcard-sub1 .hcard-desc,
+.hcard-sub2 .hcard-desc { font-size: 14px; color: var(--text-sub); }
+
+.hcard-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.hcard-chip {
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+.hcard-main .hcard-chip {
+  background: rgba(255,255,255,0.13);
+  color: rgba(255,255,255,0.82);
+}
+.hcard-sub1 .hcard-chip {
+  background: var(--amber-light);
+  color: #8B4A10;
+  border: 1px solid #F0CCA8;
+}
+.hcard-sub2 .hcard-chip {
+  background: var(--green-light);
+  color: #2A5035;
+  border: 1px solid #B0CEB8;
+}
+
+.hcard-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: auto;
+}
+.hcard-main .hcard-cta  { color: var(--teal-accent); }
+.hcard-sub1 .hcard-cta  { color: var(--amber); }
+.hcard-sub2 .hcard-cta  { color: var(--green); }
+
+/* 서브 카드 */
+.hcard-sub1, .hcard-sub2 {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 22px;
+  cursor: pointer;
+  transition: all 0.22s;
+  display: flex;
+  flex-direction: column;
+}
+.hcard-sub1:hover {
+  border-color: var(--amber);
+  box-shadow: 0 6px 24px rgba(201,123,58,0.15);
+  transform: translateY(-2px);
+}
+.hcard-sub2:hover {
+  border-color: var(--green);
+  box-shadow: 0 6px 24px rgba(59,110,74,0.15);
+  transform: translateY(-2px);
+}
+
+/* ── 법적 근거 토글 ── */
+.home-law-wrap {
+  max-width: 960px;
+  margin: 28px auto 0;
+  padding-bottom: 40px;
+}
+.home-law-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13.5px;
+  color: var(--text-sub);
+  padding: 0;
+  margin-bottom: 10px;
+}
+.home-law-toggle:hover { color: var(--teal); }
+.home-law-toggle .ltog-icon { font-size: 15px; transition: transform 0.2s; }
+.home-law-toggle.open .ltog-icon { transform: rotate(180deg); }
+
+.home-law-body {
+  display: none;
+  background: var(--teal-light);
+  border: 1px solid #B2D8D8;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--teal-dark);
+  line-height: 1.7;
+}
+.home-law-body.open { display: block; }
+
+/* ── 크레딧 ── */
+.home-credit {
+  text-align: right;
+  padding: 0 24px 28px;
+  font-size: 13px;
+  color: var(--border);
+  letter-spacing: 0.3px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════
+   공통 섹션 레이아웃
+═══════════════════════════════════════════ */
+.section-header {
+  padding: 32px 20px 0;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.section-header .eyebrow {
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.section-header h2 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.section-header p {
+  font-size: 15px;
+  color: var(--text-sub);
+}
+.section-divider {
+  height: 3px;
+  border-radius: 2px;
+  margin-top: 16px;
+  max-width: 48px;
+}
+
+.section-body {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+
+/* ═══════════════════════════════════════════
+   ② LEARN PAGE — 개념 배우기 (개선)
+═══════════════════════════════════════════ */
+.learn-eyebrow { color: var(--teal); }
+.learn-divider  { background: var(--teal); }
+
+/* ── 탭 바 ── */
+.learn-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 28px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.learn-tabs::-webkit-scrollbar { display: none; }
+
+.ltab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-sub);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  white-space: nowrap;
+  transition: all 0.18s;
+}
+.ltab .ltab-num {
+  font-size: 13px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text-sub);
+  font-weight: 700;
+  transition: all 0.18s;
+}
+.ltab:hover { color: var(--teal); }
+.ltab:hover .ltab-num { background: var(--teal-light); color: var(--teal); }
+.ltab.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 700; }
+.ltab.active .ltab-num { background: var(--teal); color: white; }
+
+.ltab-content { display: none; }
+.ltab-content.active { display: block; animation: fadeIn 0.18s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── 탭 간 연결 버튼 ── */
+.ltab-next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 32px;
+  padding: 14px 18px;
+  background: var(--teal-light);
+  border: 1.5px solid #B2D8D8;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.18s;
+  width: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.ltab-next:hover { background: var(--teal); border-color: var(--teal); }
+.ltab-next:hover .lnext-label,
+.ltab-next:hover .lnext-title { color: white; }
+.ltab-next:hover .lnext-arrow { color: white; }
+.lnext-label { font-size: 13px; color: var(--teal); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; display: block; }
+.lnext-title { font-size: 15px; font-weight: 700; color: var(--teal-dark); }
+.lnext-arrow { font-size: 18px; color: var(--teal); flex-shrink: 0; }
+
+/* ── PBS 기초: 핵심 + 보조 분리 ── */
+/* 핵심 2개 — 큰 카드 */
+.concept-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+@media (max-width: 600px) { .concept-hero { grid-template-columns: 1fr; } }
+
+.concept-card-hero {
+  background: var(--teal-dark);
+  border-radius: 12px;
+  padding: 24px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.concept-card-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; right: -20px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+.concept-card-hero .cc-h-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal-accent);
+  margin-bottom: 10px;
+}
+.concept-card-hero h3 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+.concept-card-hero p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.65;
+}
+.concept-card-hero .cc-tag {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 13px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.85);
+  font-weight: 700;
+}
+
+/* 보조 카드 그리드 */
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.concept-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+}
+.concept-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.concept-card p {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.6;
+  flex: 1;
+}
+.concept-card .cc-tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+/* ── 기능 4가지 카드 ── */
+.func-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (max-width: 560px) { .func-grid { grid-template-columns: 1fr; } }
+
+.func-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  padding: 20px;
+  border-left: 4px solid;
+  display: flex;
+  flex-direction: column;
+}
+.func-card.f1 { border-left-color: #E05A5A; }
+.func-card.f2 { border-left-color: #E0963C; }
+.func-card.f3 { border-left-color: #3C7FE0; }
+.func-card.f4 { border-left-color: #8B5BE0; }
+
+.func-card .fc-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.func-card.f1 .fc-label { color: #E05A5A; }
+.func-card.f2 .fc-label { color: #E0963C; }
+.func-card.f3 .fc-label { color: #3C7FE0; }
+.func-card.f4 .fc-label { color: #8B5BE0; }
+
+.func-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.func-card p  { font-size: 14px; color: var(--text-sub); line-height: 1.6; flex: 1; }
+.func-card .fc-example {
+  margin-top: 10px;
+  font-size: 13.5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-sub);
+  line-height: 1.55;
+}
+
+/* ── 중재 4단계 — 순환 플로우 ── */
+.flow-wrap { margin-bottom: 24px; }
+
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.flow-step {
+  display: flex;
+  gap: 18px;
+  position: relative;
+}
+/* 기본 연결선 (아래로) */
+.flow-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 42px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--border);
+}
+/* 4단계 → 2단계 피드백 루프 표시 */
+.flow-feedback-banner {
+  margin: 6px 0 12px 58px;
+  padding: 10px 14px;
+  border: 1.5px dashed #B2D8D8;
+  border-radius: 8px;
+  background: var(--teal-light);
+  font-size: 14px;
+  color: var(--teal-dark);
+  line-height: 1.55;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.flow-feedback-banner .ffb-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+.flow-num {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Serif KR', serif;
+  z-index: 1;
+}
+.flow-num.loop { background: var(--teal-light); color: var(--teal-dark); border: 2px dashed var(--teal); font-size: 13.5px; }
+
+.flow-body {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  flex: 1;
+}
+.flow-body h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: var(--teal-dark); }
+.flow-body p  { font-size: 14px; color: var(--text-sub); line-height: 1.6; }
+.flow-tool {
+  margin-top: 8px;
+  font-size: 13.5px;
+  color: var(--teal);
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+.flow-tool:hover { text-decoration: underline; }
+
+/* ── 고시 Q&A ── */
+/* 질문 목록 헤더 */
+.qa-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.qa-header-label {
+  font-size: 13.5px;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+.qa-expand-all {
+  font-size: 13.5px;
+  color: var(--teal);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  padding: 0;
+}
+.qa-expand-all:hover { text-decoration: underline; }
+
+.law-qa-list { display: flex; flex-direction: column; gap: 8px; }
+.law-qa {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.law-qa-q {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.law-qa-q:hover { background: var(--teal-light); }
+.law-qa-q .qmark {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--teal);
+  min-width: 18px;
+  padding-top: 1px;
+}
+.law-qa-q .qtext {
+  font-size: 15px;
+  font-weight: 500;
+  flex: 1;
+  line-height: 1.5;
+  color: var(--text);
+}
+.law-qa-q .qarrow {
+  font-size: 13px;
+  color: var(--text-sub);
+  transition: transform 0.2s;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.law-qa.open .qarrow { transform: rotate(180deg); }
+.law-qa-a {
+  display: none;
+  padding: 14px 16px 16px 46px;
+  font-size: 14.5px;
+  color: var(--text-sub);
+  line-height: 1.7;
+  border-top: 1px solid var(--border);
+}
+.law-qa.open .law-qa-a { display: block; }
+.law-qa-a .law-ref {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--teal);
+  background: var(--teal-light);
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+.law-qa-a .law-caution {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #FFF8F0;
+  border-left: 3px solid var(--amber);
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  color: #7A4A18;
+}
+
+/* ── 지도방식 6단계 — 가로 스펙트럼 ── */
+.spectrum-wrap {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.spectrum-wrap h3 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--teal-dark);
+}
+.spectrum-subtitle {
+  font-size: 14px;
+  color: var(--text-sub);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+.spectrum-track {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.spec-item {
+  flex: 1;
+  border-radius: 8px;
+  padding: 12px 8px;
+  cursor: default;
+  transition: transform 0.15s, box-shadow 0.15s;
+  text-align: center;
+  position: relative;
+}
+.spec-item:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.spec-item .si-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 4px;
+}
+.spec-item .si-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.4;
+}
+/* 6단계 컬러 — 점진적으로 강도 증가 */
+.spec-item.s1 { background: #3B9E9E; }
+.spec-item.s2 { background: #3B8B7A; }
+.spec-item.s3 { background: #4E8E5E; }
+.spec-item.s4 { background: #7A7A3E; }
+.spec-item.s5 { background: #A86A30; }
+.spec-item.s6 { background: #3B9E9E; }  /* 보상은 별도 — PBS 핵심 */
+
+@media (max-width: 600px) {
+  .spectrum-track { flex-direction: column; gap: 6px; }
+  .spec-item { text-align: left; padding: 10px 14px; }
+  .spec-item .si-desc { display: none; }
+}
+
+.spectrum-note {
+  display: flex;
+  gap: 16px;
+  font-size: 13.5px;
+  color: var(--text-sub);
+}
+.sn-left { color: var(--teal); font-weight: 700; }
+.sn-right { color: var(--amber); font-weight: 700; margin-left: auto; }
+
+/* PBS ↔ 고시 연결 박스 */
+.pbs-law-bridge {
+  background: linear-gradient(135deg, var(--teal-light) 0%, #EFF8F0 100%);
+  border: 1.5px solid #B2D8D8;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+}
+.bridge-col { text-align: center; }
+.bridge-col .bc-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.bridge-col.pbs .bc-title { color: var(--teal); }
+.bridge-col.law .bc-title { color: var(--green); }
+.bridge-col .bc-items {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.7;
+}
+.bridge-arrow {
+  font-size: 22px;
+  color: var(--border);
+  text-align: center;
+}
+.bridge-msg {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--teal-dark);
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #B2D8D8;
+  grid-column: 1 / 4;
+}
+
+/* ═══════════════════════════════════════════
+   ③ SIMULATION PAGE — 상황 연습 (전면 재설계)
+═══════════════════════════════════════════ */
+.sim-eyebrow { color: var(--amber); }
+.sim-divider  { background: var(--amber); }
+
+/* ── 필터 그룹 분리 ── */
+.sim-filter-group {
+  margin-bottom: 24px;
+}
+.sim-filter-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+.sim-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.sim-filter-btn {
+  padding: 5px 13px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: white;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13.5px;
+  cursor: pointer;
+  color: var(--text-sub);
+  transition: all 0.18s;
+  font-weight: 500;
+}
+.sim-filter-btn:hover { border-color: var(--amber); color: var(--amber); }
+.sim-filter-btn.active { background: var(--amber); color: white; border-color: var(--amber); }
+
+/* ── 시나리오 카드 목록 ── */
+/* 첫 번째 카드(추천) 강조 */
+.sim-recommend-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 10px;
+}
+
+.scenario-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.scenario-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.scenario-card:hover {
+  border-color: var(--amber);
+  box-shadow: 0 4px 20px rgba(201,123,58,0.15);
+  transform: translateY(-2px);
+}
+/* 난이도 표시 — 우상단 */
+.sc-difficulty {
+  position: absolute;
+  top: 14px; right: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+.sc-difficulty.d1 { background: #E8F5E9; color: #2E7D32; }
+.sc-difficulty.d2 { background: #FFF8E1; color: #F57F17; }
+.sc-difficulty.d3 { background: #FDE8E8; color: #C62828; }
+
+.sc-badges {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding-right: 52px; /* 난이도 뱃지 공간 */
+}
+.sc-badge {
+  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+.sc-badge.func-관심 { background: #FDE8E8; color: #C44444; }
+.sc-badge.func-회피 { background: #FEF0E0; color: #A55A00; }
+.sc-badge.func-강화 { background: #E8EFFE; color: #3550C4; }
+.sc-badge.func-감각 { background: #F0E8FE; color: #7B44C4; }
+.sc-badge.func-고시 { background: var(--teal-light); color: var(--teal-dark); }
+.sc-badge.func-학급 { background: var(--green-light); color: var(--green); }
+.sc-badge.type { background: var(--bg); color: var(--text-sub); border: 1px solid var(--border); }
+
+.scenario-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.45;
+  color: var(--text);
+  flex: 1;
+}
+.scenario-card .sc-preview {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.sc-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--amber);
+  padding: 7px 14px;
+  border: 1.5px solid #F0CCA8;
+  border-radius: 6px;
+  background: var(--amber-light);
+  align-self: flex-start;
+  transition: all 0.15s;
+}
+.scenario-card:hover .sc-start-btn {
+  background: var(--amber);
+  color: white;
+  border-color: var(--amber);
+}
+
+/* ── 풀페이지 플레이어 ── */
+#sim-player {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 200;
+  overflow-y: auto;
+}
+#sim-player.open { display: block; }
+
+/* 플레이어 상단 바 */
+.sp-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+  height: 52px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.sp-back {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.sp-back:hover { background: rgba(255,255,255,0.3); }
+.sp-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 진행 바 */
+.sp-progress-wrap {
+  background: rgba(255,255,255,0.25);
+  border-radius: 999px;
+  height: 4px;
+  width: 100px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.sp-progress-bar {
+  height: 100%;
+  background: white;
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+.sp-progress-text {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 플레이어 본문 */
+.sp-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+
+/* 상황 박스 */
+.sp-situation {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-left: 5px solid var(--amber);
+  border-radius: 0 10px 10px 0;
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--text);
+}
+.sp-situation-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+
+/* 스텝 인디케이터 — 숫자형 */
+.sp-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24px;
+}
+.sp-step-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+}
+.sp-step-num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+  color: var(--text-sub);
+  transition: all 0.25s;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.sp-step-num.active { background: var(--amber); border-color: var(--amber); color: white; box-shadow: 0 0 0 4px rgba(201,123,58,0.2); }
+.sp-step-num.done   { background: var(--green); border-color: var(--green); color: white; }
+.sp-step-label {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-left: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
+}
+.sp-step-label.active { color: var(--amber); font-weight: 700; }
+.sp-step-label.done   { color: var(--green); font-weight: 600; }
+.sp-step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  margin: 0 4px;
+  transition: background 0.3s;
+}
+.sp-step-line.done { background: var(--green); }
+@media (max-width: 480px) { .sp-step-label { display: none; } }
+
+/* 스텝 카드 */
+.sp-step-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.sp-step-header {
+  background: var(--bg);
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sp-step-badge {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--amber);
+  background: var(--amber-light);
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+.sp-step-badge.done-badge { color: var(--green); background: var(--green-light); }
+.sp-step-q {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.5;
+  padding: 18px 18px 14px;
+}
+.sp-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 18px 18px;
+}
+.sp-choice {
+  padding: 13px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14.5px;
+  line-height: 1.55;
+  transition: all 0.15s;
+  background: var(--bg);
+  text-align: left;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.sp-choice:not(:disabled):hover { border-color: var(--amber); background: var(--amber-light); }
+.sp-choice .choice-letter {
+  font-weight: 700;
+  color: var(--text-sub);
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  min-width: 16px;
+}
+.sp-choice:not(:disabled):hover .choice-letter { color: var(--amber); }
+
+.sp-choice.sel-correct { border-color: #3B6E4A; background: var(--green-light); }
+.sp-choice.sel-correct .choice-letter { color: var(--green); }
+.sp-choice.sel-caution { border-color: var(--amber); background: var(--amber-light); }
+.sp-choice.sel-caution .choice-letter { color: var(--amber); }
+.sp-choice.sel-wrong   { border-color: #CC4444; background: #FDE8E8; }
+.sp-choice.sel-wrong .choice-letter { color: #CC4444; }
+
+/* 피드백 — 선택지 바로 아래, 눈에 잘 띄게 */
+.sp-feedback {
+  margin: 0 18px 18px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid transparent;
+  display: none;
+}
+.sp-feedback.show { display: block; animation: feedIn 0.22s ease; }
+@keyframes feedIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+.sp-feedback.correct { border-color: #A5C9A8; }
+.sp-feedback.caution { border-color: #F0CCA8; }
+.sp-feedback.wrong   { border-color: #F5AAAA; }
+
+.sp-fb-main {
+  padding: 14px 16px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.sp-fb-main.correct { background: var(--green-light); color: #1E4A2A; }
+.sp-fb-main.caution { background: var(--amber-light); color: #5A3010; }
+.sp-fb-main.wrong   { background: #FDE8E8; color: #5A1010; }
+.sp-fb-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+.sp-fb-law {
+  padding: 11px 16px;
+  background: var(--teal-light);
+  font-size: 14px;
+  color: var(--teal-dark);
+  line-height: 1.6;
+  border-top: 1px solid #B2D8D8;
+}
+.sp-fb-tip {
+  padding: 11px 16px;
+  background: #F5F3FF;
+  font-size: 14px;
+  color: #4A3580;
+  line-height: 1.6;
+  border-top: 1px solid #D8D4F5;
+}
+
+/* 다음 단계 버튼 */
+.sp-next-btn {
+  display: none;
+  width: calc(100% - 36px);
+  margin: 0 18px 18px;
+  padding: 13px;
+  background: var(--amber);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sp-next-btn.visible { display: block; }
+.sp-next-btn:hover { background: #B86A2A; }
+
+/* ── 완료 화면 ── */
+.sp-done {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.sp-done.show { display: block; animation: fadeIn 0.3s ease; }
+.sp-done-icon { font-size: 52px; margin-bottom: 16px; }
+.sp-done h2 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.sp-done p {
+  font-size: 15px;
+  color: var(--text-sub);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.sp-done-summary {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+.sp-done-summary h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-sub);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.sp-done-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.sp-done-row:last-child { border-bottom: none; }
+.sp-done-row .dr-label { color: var(--text-sub); min-width: 60px; flex-shrink: 0; }
+.sp-done-row .dr-val { color: var(--text); font-weight: 500; }
+.sp-done-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sp-done-btn {
+  padding: 13px;
+  border-radius: 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+}
+.sp-done-btn.primary { background: var(--amber); color: white; }
+.sp-done-btn.primary:hover { background: #B86A2A; }
+.sp-done-btn.secondary { background: white; color: var(--text); border: 1.5px solid var(--border); }
+.sp-done-btn.secondary:hover { border-color: var(--teal); color: var(--teal); }
+
+/* 추천 다음 시나리오 */
+.sp-done-next {
+  background: var(--amber-light);
+  border: 1.5px solid #F0CCA8;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.15s;
+  width: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.sp-done-next:hover { background: var(--amber); border-color: var(--amber); }
+.sp-done-next:hover .sdn-title,
+.sp-done-next:hover .sdn-label { color: white; }
+.sdn-label { font-size: 13px; font-weight: 700; color: var(--amber); display: block; margin-bottom: 3px; }
+.sdn-title { font-size: 14.5px; font-weight: 700; color: var(--text); }
+
+/* ═══════════════════════════════════════════
+   ④ REFERENCE PAGE — 레퍼런스 사전 (개선)
+═══════════════════════════════════════════ */
+.ref-eyebrow { color: var(--green); }
+.ref-divider  { background: var(--green); }
+
+/* ── 긴급 접근 버튼 ── */
+.ref-urgent-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  background: #FFF8F0;
+  border: 1.5px solid #F0CCA8;
+  border-radius: var(--radius);
+}
+.ref-urgent-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 100%;
+  margin-bottom: 4px;
+}
+.ref-urgent-btn {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1.5px solid #F0CCA8;
+  background: white;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #8B4A10;
+  transition: all 0.15s;
+}
+.ref-urgent-btn:hover { background: var(--amber); color: white; border-color: var(--amber); }
+
+/* 검색 */
+.ref-search-wrap {
+  position: relative;
+  margin-bottom: 8px;
+}
+.ref-search {
+  width: 100%;
+  padding: 13px 16px 13px 44px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  background: white;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.ref-search:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(59,110,74,0.12); }
+.ref-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-sub);
+  font-size: 17px;
+  pointer-events: none;
+}
+.ref-search-hint {
+  font-size: 13.5px;
+  color: var(--text-sub);
+  margin-bottom: 14px;
+  padding-left: 4px;
+}
+/* 검색 하이라이트 */
+.ref-highlight {
+  background: #FFF176;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* 필터 */
+.ref-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.ref-filter-btn {
+  padding: 5px 13px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: white;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13.5px;
+  cursor: pointer;
+  color: var(--text-sub);
+  font-weight: 500;
+  transition: all 0.18s;
+}
+.ref-filter-btn:hover  { border-color: var(--green); color: var(--green); }
+.ref-filter-btn.active { background: var(--green); color: white; border-color: var(--green); }
+
+/* 섹션 구분선 */
+.ref-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 12px;
+}
+.ref-section-divider span {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  white-space: nowrap;
+}
+.ref-section-divider::before,
+.ref-section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* 레퍼런스 카드 */
+.ref-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.ref-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.18s;
+}
+.ref-card:hover { box-shadow: var(--shadow); }
+.ref-card.open  { border-left-color: var(--green); }
+
+/* 기능별 컬러 바 */
+.ref-card[data-func-color="관심"]      { border-left-color: #E05A5A; }
+.ref-card[data-func-color="관심"].open { box-shadow: 0 2px 12px rgba(224,90,90,0.12); }
+.ref-card[data-func-color="회피"]      { border-left-color: #E0963C; }
+.ref-card[data-func-color="회피"].open { box-shadow: 0 2px 12px rgba(224,150,60,0.12); }
+.ref-card[data-func-color="강화"]      { border-left-color: #3C7FE0; }
+.ref-card[data-func-color="강화"].open { box-shadow: 0 2px 12px rgba(60,127,224,0.12); }
+.ref-card[data-func-color="감각"]      { border-left-color: #8B5BE0; }
+.ref-card[data-func-color="감각"].open { box-shadow: 0 2px 12px rgba(139,91,224,0.12); }
+.ref-card[data-func-color="공격"]      { border-left-color: #CC4444; }
+.ref-card[data-func-color="자해"]      { border-left-color: #D44488; }
+.ref-card[data-func-color="거부"]      { border-left-color: #888844; }
+.ref-card[data-func-color="도구"]      { border-left-color: var(--green); }
+
+.ref-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.ref-card-header:hover { background: var(--bg); }
+.ref-card.open .ref-card-header { background: var(--bg); }
+
+.ref-card-header .rch-info { flex: 1; min-width: 0; }
+.ref-card-header .rch-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.ref-card-header .rch-badges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.ref-badge {
+  font-size: 13px;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+.ref-badge.관심 { background: #FDE8E8; color: #C44444; }
+.ref-badge.회피 { background: #FEF0E0; color: #A55A00; }
+.ref-badge.강화 { background: #E8EFFE; color: #3550C4; }
+.ref-badge.감각 { background: #F0E8FE; color: #7B44C4; }
+.ref-badge.공격 { background: #FFE8E8; color: #AA3333; }
+.ref-badge.자해 { background: #FDE0F0; color: #AA2266; }
+.ref-badge.파괴 { background: #FFF0E0; color: #887630; }
+.ref-badge.방해 { background: #E8F4FE; color: #226688; }
+.ref-badge.거부 { background: #F0FFE8; color: #447744; }
+
+.ref-card-header .rch-toggle {
+  font-size: 13px;
+  color: var(--text-sub);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  padding: 4px;
+}
+.ref-card.open .rch-toggle { transform: rotate(180deg); }
+
+.ref-card-body { display: none; border-top: 1px solid var(--border); }
+.ref-card.open .ref-card-body { display: block; }
+
+.ref-card-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ref-card-tabs::-webkit-scrollbar { display: none; }
+.rct-btn {
+  padding: 9px 13px;
+  border: none;
+  background: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-sub);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.18s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.rct-btn:hover { color: var(--green); }
+.rct-btn.active { color: var(--green); border-bottom-color: var(--green); font-weight: 700; }
+.rct-btn.urgent { color: var(--amber); }
+.rct-btn.urgent.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+.ref-tab-content { display: none; padding: 16px; }
+.ref-tab-content.active { display: block; animation: fadeIn 0.15s ease; }
+
+.ref-section-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-sub);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  margin-top: 14px;
+}
+.ref-section-title:first-child { margin-top: 0; }
+
+.ref-pbs-content p  { font-size: 14.5px; color: var(--text); line-height: 1.65; margin-bottom: 6px; }
+.ref-pbs-content ul { padding-left: 18px; }
+.ref-pbs-content li { font-size: 14.5px; color: var(--text); line-height: 1.7; }
+
+.ref-script {
+  background: var(--teal-light);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.ref-script .rs-label { font-size: 13px; font-weight: 700; color: var(--teal-dark); margin-bottom: 4px; }
+.ref-script .rs-text  { font-size: 14.5px; color: var(--teal-dark); line-height: 1.65; }
+
+.ref-law-box { background: var(--teal-light); border-radius: 8px; padding: 14px 16px; }
+.ref-law-box .rlb-clause { font-size: 13.5px; font-weight: 700; color: var(--teal); margin-bottom: 4px; margin-top: 12px; }
+.ref-law-box .rlb-clause:first-child { margin-top: 0; }
+.ref-law-box p { font-size: 14px; color: var(--teal-dark); line-height: 1.65; margin-bottom: 0; }
+
+.ref-never { background: #FDE8E8; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+.ref-never .rn-label { font-size: 13.5px; font-weight: 700; color: #882222; margin-bottom: 6px; }
+.ref-never ul { padding-left: 16px; }
+.ref-never li { font-size: 14px; color: #882222; line-height: 1.65; }
+
+/* 서식 목록 */
+.form-list { display: flex; flex-direction: column; gap: 8px; }
+.form-item {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.form-item:hover { border-color: var(--green); background: var(--green-light); }
+.form-item .fi-icon { font-size: 18px; flex-shrink: 0; }
+.form-item .fi-info { flex: 1; min-width: 0; }
+.form-item .fi-name { font-size: 14.5px; font-weight: 700; margin-bottom: 2px; }
+.form-item .fi-desc { font-size: 13.5px; color: var(--text-sub); line-height: 1.4; }
+.form-item .fi-btn  { font-size: 13.5px; color: var(--green); font-weight: 700; flex-shrink: 0; white-space: nowrap; }
+.form-item .fi-btn.ready { background: var(--green); color: white; padding: 3px 10px; border-radius: 4px; }
+.qabf-link-btn {
+  width: 100%;
+  padding: 11px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.15s;
+}
+.qabf-link-btn:hover { background: #2A5035; }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+#site-footer {
+  background: var(--teal-dark);
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 24px;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+#site-footer strong { color: rgba(255,255,255,0.85); }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .home-cards { grid-template-columns: 1fr; }
+  .func-grid  { grid-template-columns: 1fr; }
+  .scenario-list { grid-template-columns: 1fr; }
+  .pyr-row .pyr-desc { display: none; }
+}
+
+/* ═══════════════════════════════════════════
+   PRINT
+═══════════════════════════════════════════ */
+@media print {
+  #global-nav, #sim-player { display: none !important; }
+  .page { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     GLOBAL NAV
+═══════════════════════════════════════════ -->
+<nav id="global-nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">
+      <span class="logo-main">생활지도</span>
+      <span class="logo-plus">PLUS</span>
+    </div>
+    <button class="nav-btn" id="nav-home" onclick="showPage('home')">홈</button>
+    <button class="nav-btn" id="nav-learn" onclick="showPage('learn')">개념 배우기</button>
+    <button class="nav-btn" id="nav-sim"   onclick="showPage('sim')">상황 연습</button>
+    <button class="nav-btn" id="nav-ref"   onclick="showPage('ref')">레퍼런스 사전</button>
+    <div class="nav-indicator" id="navIndicator"></div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════
+     ① HOME PAGE — 재설계
+═══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- 히어로: 상황 공감 + 즉시 안내 -->
+  <div class="home-hero">
+    <div class="h-eyebrow">교사를 위한 도전행동 지도 가이드</div>
+    <h1>오늘 교실에서<br><em>어떤 일이 있었나요?</em></h1>
+    <p class="h-sub">상황을 선택하면 지금 필요한 것을 바로 안내합니다.</p>
+
+    <!-- 상황 선택 버튼 -->
+    <div class="home-situation">
+      <button class="sit-btn" onclick="selectSit('learn', this)">📖 도전행동이 뭔지<br>아직 잘 모릅니다</button>
+      <button class="sit-btn" onclick="selectSit('sim', this)">🎮 비슷한 상황을<br>미리 연습해보고 싶습니다</button>
+      <button class="sit-btn" onclick="selectSit('ref', this)">🔍 지금 당장<br>이 행동 어떻게 하지?</button>
+      <button class="sit-btn" onclick="selectSit('qabf', this)">🔬 왜 이런 행동을<br>하는지 파악하고 싶습니다</button>
+    </div>
+
+    <!-- 선택 후 추천 -->
+    <div class="home-recommend" id="homeRecommend">
+      <div class="rec-label" id="recLabel">추천</div>
+      <div class="rec-items" id="recItems"></div>
+    </div>
+  </div>
+
+  <!-- 섹션 카드 — 비대칭 레이아웃 -->
+  <div class="home-cards-section">
+    <div class="home-cards-inner">
+      <div class="home-cards-title">모든 섹션</div>
+      <div class="home-cards-grid">
+
+        <!-- 메인 카드: 개념 배우기 -->
+        <div class="hcard-main" onclick="showPage('learn')">
+          <div class="hcard-sym">📖</div>
+          <div class="hcard-eyebrow">학습 허브</div>
+          <div class="hcard-title">개념 배우기</div>
+          <div class="hcard-desc">도전행동이 무엇인지, 왜 생기는지, 어떤 절차로 접근해야 하는지 이론 기반으로 익힙니다. 고시 Q&A로 법적 불안도 함께 해소합니다.</div>
+          <div class="hcard-chips">
+            <span class="hcard-chip">PBS 3단계</span>
+            <span class="hcard-chip">행동의 기능 4가지</span>
+            <span class="hcard-chip">중재 4단계</span>
+            <span class="hcard-chip">고시 Q&A</span>
+            <span class="hcard-chip">지도방식 6단계</span>
+          </div>
+          <div class="hcard-cta">시작하기 →</div>
+        </div>
+
+        <!-- 서브 카드: 상황 연습 -->
+        <div class="hcard-sub1" onclick="showPage('sim')">
+          <div class="hcard-sym">🎮</div>
+          <div class="hcard-eyebrow">시나리오 시뮬레이터</div>
+          <div class="hcard-title">상황 연습하기</div>
+          <div class="hcard-desc">실제 교실 장면을 보고 행동 기능을 판단하고 대응을 선택합니다. 선택마다 전문가 피드백을 제공합니다.</div>
+          <div class="hcard-chips">
+            <span class="hcard-chip">7개 시나리오</span>
+            <span class="hcard-chip">3단계 분기</span>
+            <span class="hcard-chip">고시 근거 피드백</span>
+          </div>
+          <div class="hcard-cta">연습 시작 →</div>
+        </div>
+
+        <!-- 서브 카드: 레퍼런스 사전 -->
+        <div class="hcard-sub2" onclick="showPage('ref')">
+          <div class="hcard-sym">🔍</div>
+          <div class="hcard-eyebrow">레퍼런스 사전</div>
+          <div class="hcard-title">바로 찾기</div>
+          <div class="hcard-desc">행동명·상황으로 검색하면 PBS 대응·고시 근거·대화 스크립트를 즉시 확인. QABF 기능평가도 바로 사용 가능합니다.</div>
+          <div class="hcard-chips">
+            <span class="hcard-chip">행동별 카드</span>
+            <span class="hcard-chip">QABF 온라인</span>
+            <span class="hcard-chip">중재 서식</span>
+          </div>
+          <div class="hcard-cta">사전 열기 →</div>
+        </div>
+
+      </div><!-- /grid -->
+
+      <!-- 법적 근거 — 접이식 -->
+      <div class="home-law-wrap">
+        <button class="home-law-toggle" id="lawToggleBtn" onclick="toggleLaw()">
+          <span>⚖️</span>
+          <span>이 서비스의 법적 근거 — 교원의 학생생활지도에 관한 고시(2023)</span>
+          <span class="ltog-icon">▾</span>
+        </button>
+        <div class="home-law-body" id="homeLawBody">
+          <strong>교원의 학생생활지도에 관한 고시 (교육부고시 제2023-28호, 2023. 9. 1. 시행)</strong>에 따라 교사의 생활지도 권한(조언·상담·주의·훈육·훈계·보상)이 법적으로 명시되었습니다. 이 서비스의 모든 대응 방법에는 해당 고시 조항이 함께 표시됩니다. 긍정적 행동지원(PBS)과 고시의 법적 절차는 같은 방향을 가리킵니다.<br><br>
+          참고: 경기도교육청 장애학생 행동지원 교육연구회, 긍정적 행동지원 사례집(2025) · Emerson et al.(1988) 도전행동 정의
+        </div>
+      </div>
+
+    </div><!-- /inner -->
+
+    <!-- 크레딧 — 눈에 띄지 않게 -->
+    <div class="home-credit">만든이 2026 최창훈</div>
+
+  </div><!-- /cards-section -->
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     ② LEARN PAGE
+═══════════════════════════════════════════ -->
+<div id="page-learn" class="page">
+  <div class="section-header">
+    <div class="eyebrow learn-eyebrow">학습 허브</div>
+    <h2>개념 배우기</h2>
+    <p>현장에서 흔들리지 않으려면, 이론적 기반이 먼저입니다.</p>
+    <div class="section-divider learn-divider"></div>
+  </div>
+
+  <div class="section-body">
+    <!-- 탭 — 순서 번호 포함 -->
+    <div class="learn-tabs">
+      <button class="ltab active" onclick="switchLtab('pbs', this)">
+        PBS 기초 <span class="ltab-num">1</span>
+      </button>
+      <button class="ltab" onclick="switchLtab('func', this)">
+        행동의 기능 <span class="ltab-num">2</span>
+      </button>
+      <button class="ltab" onclick="switchLtab('flow', this)">
+        중재 4단계 <span class="ltab-num">3</span>
+      </button>
+      <button class="ltab" onclick="switchLtab('law', this)">
+        고시 Q&A <span class="ltab-num">6</span>
+      </button>
+      <button class="ltab" onclick="switchLtab('spectrum', this)">
+        지도방식 6단계 <span class="ltab-num">6</span>
+      </button>
+    </div>
+
+    <!-- ① PBS 기초 -->
+    <div id="ltab-pbs" class="ltab-content active">
+      <!-- 핵심 2개: 큰 카드 -->
+      <div class="concept-hero">
+        <div class="concept-card-hero">
+          <div class="cc-h-label">핵심 개념</div>
+          <h3>도전행동이란 무엇인가</h3>
+          <p>Emerson et al.(1988)의 정의: 강도·빈도·기간 세 가지 기준을 모두 충족해야 도전행동입니다. "내가 보기에 문제인 행동"은 도전행동이 아닙니다. 낮은 강도·짧은 기간의 행동은 도전행동으로 명명하지 않도록 주의해야 합니다.</p>
+          <span class="cc-tag">Emerson et al., 1988</span>
+        </div>
+        <div class="concept-card-hero">
+          <div class="cc-h-label">핵심 관점</div>
+          <h3>행동은 소통의 시도다</h3>
+          <p>도전행동은 "문제"가 아니라 의사소통의 한 방법입니다. 아이가 무언가를 필요로 하지만 적절한 방식을 아직 모르는 것입니다. 행동이 발생하는 맥락을 이해하는 것이 해결의 실마리입니다.</p>
+          <span class="cc-tag">PBS 핵심 철학</span>
+        </div>
+      </div>
+
+      <!-- 도전행동 3가지 기준 — 강조 박스 -->
+      <div style="background:var(--teal-light);border:1.5px solid #B2D8D8;border-radius:10px;padding:18px 20px;margin-bottom:14px;">
+        <div style="font-size: 13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">도전행동 판단 기준 3가지 — 모두 고려해야 합니다</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+          <div style="background:white;border-radius:8px;padding:12px 14px;">
+            <div style="font-size: 14px;font-weight:700;color:var(--teal-dark);margin-bottom:4px;">강도</div>
+            <div style="font-size: 14px;color:var(--text-sub);line-height:1.55;">본인·타인의 신체적 안전을 심각하게 해칠 수 있는가</div>
+          </div>
+          <div style="background:white;border-radius:8px;padding:12px 14px;">
+            <div style="font-size: 14px;font-weight:700;color:var(--teal-dark);margin-bottom:4px;">빈도</div>
+            <div style="font-size: 14px;color:var(--text-sub);line-height:1.55;">아주 드물게 발생하는가, 아니면 반복적으로 발생하는가</div>
+          </div>
+          <div style="background:white;border-radius:8px;padding:12px 14px;">
+            <div style="font-size: 14px;font-weight:700;color:var(--teal-dark);margin-bottom:4px;">기간</div>
+            <div style="font-size: 14px;color:var(--text-sub);line-height:1.55;">짧은 순간에 끝나는가, 아니면 지속적으로 이어지는가</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 보조 카드 3개 -->
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h3>PBS 3단계 예방 구조</h3>
+          <p><strong>1차 (보편):</strong> 학급 전체 — 명확한 규칙·일과 구조화<br><strong>2차 (선별):</strong> 위험 징후 학생 — 소집단 지원<br><strong>3차 (집중):</strong> 개별 집중 지원 — BIP 수립</p>
+          <span class="cc-tag">전체 학생의 80%는 1차로 해결</span>
+        </div>
+        <div class="concept-card">
+          <h3>교사의 법적 권한</h3>
+          <p>2023년 9월부터 시행된 고시에 따라 교사의 생활지도 권한(조언·상담·주의·훈육·훈계·보상)이 법적으로 명시되었습니다. 정당한 생활지도는 아동복지법 위반으로 보지 않습니다.</p>
+          <span class="cc-tag">고시 제2023-28호 → 고시 Q&A 탭에서 자세히</span>
+        </div>
+        <div class="concept-card">
+          <h3>교육 3주체의 책임</h3>
+          <p>학생은 생활지도를 따를 의무가 있고, 보호자는 교원의 정당한 생활지도를 존중해야 합니다. 교사만 혼자 감당하지 않아도 됩니다.</p>
+          <span class="cc-tag">고시 제3조</span>
+        </div>
+      </div>
+
+      <!-- 다음 탭 연결 -->
+      <button class="ltab-next" onclick="switchLtab('func', document.getElementById('page-learn').querySelectorAll('.ltab')[1])">
+        <div>
+          <span class="lnext-label">다음 단계</span>
+          <span class="lnext-title">행동의 기능 4가지 — 왜 하는지를 알아야 어떻게 해야 하는지가 보입니다</span>
+        </div>
+        <span class="lnext-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- ② 행동의 기능 -->
+    <div id="ltab-func" class="ltab-content">
+      <p style="font-size: 15px;color:var(--text-sub);margin-bottom:20px;line-height:1.7;">
+        같은 행동이라도 <strong>왜 하는지(기능)</strong>에 따라 대응 방법이 완전히 달라집니다. 기능을 모르고 대응하면 오히려 행동이 강화될 수 있습니다.
+      </p>
+      <div class="func-grid">
+        <div class="func-card f1">
+          <div class="fc-label">기능 1</div>
+          <h3>관심 획득 행동</h3>
+          <p>교사나 친구의 관심·반응을 얻기 위한 행동. 무시하면 잠시 줄었다가 더 강하게 나타날 수 있습니다.</p>
+          <div class="fc-example">💡 사례: 수업 중 관련 없는 질문 반복, 친구 괴롭히기, 교실 문 앞 미입장</div>
+        </div>
+        <div class="func-card f2">
+          <div class="fc-label">기능 2</div>
+          <h3>과제 회피 행동</h3>
+          <p>싫거나 어려운 과제·상황을 피하기 위한 행동. 과제를 없애주면 행동이 강화됩니다.</p>
+          <div class="fc-example">💡 사례: 과제 시 소리지르기·자리 이탈, 손 깨물기, 고개 젓기</div>
+        </div>
+        <div class="func-card f3">
+          <div class="fc-label">기능 3</div>
+          <h3>강화물 획득 행동</h3>
+          <p>원하는 물건·활동·특권을 얻기 위한 행동. 원하는 것을 주면 행동이 강화됩니다.</p>
+          <div class="fc-example">💡 사례: 요구 불만족 시 울고 소리지르기, 자리 이탈·떼쓰기</div>
+        </div>
+        <div class="func-card f4">
+          <div class="fc-label">기능 4</div>
+          <h3>감각 추구 행동</h3>
+          <p>특정 감각 자극을 얻거나 불쾌한 자극을 줄이기 위한 행동. 상황에 관계없이 반복됩니다.</p>
+          <div class="fc-example">💡 사례: 코 킁킁거리기, 속옷 물어뜯기, 몸 반복 흔들기</div>
+        </div>
+      </div>
+
+      <!-- QABF 이동 링크 -->
+      <div style="background:var(--teal-light);border-radius:10px;padding:16px 20px;margin-bottom:0;display:flex;align-items:center;justify-content:space-between;gap:14px;">
+        <div>
+          <div style="font-size: 14.5px;font-weight:700;color:var(--teal-dark);margin-bottom:3px;">🔬 QABF 행동기능설문지로 기능을 체계적으로 파악할 수 있습니다</div>
+          <div style="font-size: 14px;color:var(--teal);">25문항 응답 → 4가지 기능 점수 분석 → 중재 전략 자동 제시</div>
+        </div>
+        <button onclick="showPage('ref')" style="flex-shrink:0;padding:9px 16px;background:var(--teal);color:white;border:none;border-radius:7px;font-family:inherit;font-size: 14px;font-weight:700;cursor:pointer;white-space:nowrap;">QABF 사용하기 →</button>
+      </div>
+
+      <button class="ltab-next" onclick="switchLtab('flow', document.getElementById('page-learn').querySelectorAll('.ltab')[2])">
+        <div>
+          <span class="lnext-label">다음 단계</span>
+          <span class="lnext-title">중재 4단계 — 기능을 파악했으면 어떤 순서로 중재를 시작하는지 알아봅니다</span>
+        </div>
+        <span class="lnext-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- ③ 중재 4단계 -->
+    <div id="ltab-flow" class="ltab-content">
+      <p style="font-size: 15px;color:var(--text-sub);margin-bottom:20px;line-height:1.7;">
+        경기도교육청 사례집(2025) 기반의 4단계 흐름입니다. <strong>효과가 없을 때 2단계(기능평가)로 돌아가는 순환 구조</strong>가 핵심입니다.
+      </p>
+      <div class="flow-wrap">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-body">
+              <h3>문제행동 선정 및 초기 평가</h3>
+              <p>행동이 도전행동인지 판단합니다. 심한 정도·빈도·방해 정도를 5점 척도로 평가하고, 중재 여부를 결정합니다. 낮은 강도·짧은 기간의 행동은 도전행동이 아닐 수 있습니다.</p>
+              <a class="flow-tool" onclick="showPage('ref')">→ 서식: 초기면담지 (레퍼런스 사전에서 바로 사용)</a>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-body">
+              <h3>기능평가</h3>
+              <p>행동이 왜 일어나는지 파악합니다. 행동의 직전(선행사건)과 직후(후속결과)를 관찰하고, QABF 설문지로 관심 획득·과제 회피·강화물 획득·감각 추구 중 어떤 기능인지 확인합니다.</p>
+              <a class="flow-tool" onclick="showPage('ref')">→ QABF 행동기능설문지 바로 사용하기</a>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-body">
+              <h3>중재 방법 선택</h3>
+              <p>파악한 기능에 맞게 예방전략(선행사건 중재)과 반응전략(대체행동 지도, 후속결과 중재)을 함께 수립합니다. 행동지원계획(BIP)으로 문서화합니다.</p>
+              <a class="flow-tool" onclick="showPage('ref')">→ 서식: 행동지원계획 BIP, 강화제 체크리스트</a>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <div class="flow-body">
+              <h3>중재 결과 점검</h3>
+              <p>데이터를 수집하여 행동이 실제로 줄었는지 확인합니다. 효과가 없으면 기능 재평가 후 중재 방법을 수정합니다. 기록이 있어야 법적 보호도 받을 수 있습니다.</p>
+              <a class="flow-tool" onclick="showPage('ref')">→ 서식: 빈도 데이터 기록지, 실행 점검 체크리스트</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 피드백 루프 표시 -->
+        <div class="flow-feedback-banner">
+          <div class="ffb-icon">🔄</div>
+          <div>
+            <strong>효과가 없을 때 — 2단계로 돌아갑니다.</strong><br>
+            중재가 효과 없다면 기능 파악이 틀렸을 가능성이 높습니다. 1단계 판단을 재검토하거나, 2단계 기능평가를 다시 실시합니다. "한 번 정해진 중재는 계속 써야 한다"는 생각은 잘못입니다.
+          </div>
+        </div>
+      </div>
+
+      <button class="ltab-next" onclick="switchLtab('law', document.getElementById('page-learn').querySelectorAll('.ltab')[3])">
+        <div>
+          <span class="lnext-label">다음 단계</span>
+          <span class="lnext-title">고시 Q&A — "이렇게 해도 되나요?" 현장의 법적 불안을 해소합니다</span>
+        </div>
+        <span class="lnext-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- ④ 고시 Q&A -->
+    <div id="ltab-law" class="ltab-content">
+      <div class="qa-header">
+        <div class="qa-header-label">교사가 가장 불안해하는 질문 6가지 · 고시 조항과 함께 확인하세요</div>
+        <button class="qa-expand-all" onclick="expandAllQA()">전체 펼치기</button>
+      </div>
+      <div class="law-qa-list">
+
+        <div class="law-qa" onclick="toggleQA(this)">
+          <div class="law-qa-q">
+            <span class="qmark">Q</span>
+            <span class="qtext">수업을 방해하는 학생을 교실 밖으로 보낼 수 있나요?</span>
+            <span class="qarrow">▾</span>
+          </div>
+          <div class="law-qa-a">
+            네, 가능합니다. 고시는 4단계의 분리를 허용합니다.<br><br>
+            ① 교실 내 다른 좌석으로 이동<br>
+            ② 교실 내 지정된 위치로 분리<br>
+            ③ 교실 밖 지정된 장소로 분리 <em>(학칙에 사전 규정 필요)</em><br>
+            ④ 정규수업 외 시간에 특정 장소로 분리 <em>(학칙에 사전 규정 필요)</em><br><br>
+            분리 후에도 반복 방해가 지속되면, 학교장은 보호자에게 학생 인계를 요청하여 가정학습을 하게 할 수 있습니다.
+            <span class="law-ref">고시 제12조 ⑥</span>
+            <div class="law-caution">⚠️ 교실 밖 분리(③④)는 반드시 학칙에 장소·시간·학습지원 방법이 사전에 규정되어 있어야 합니다.</div>
+          </div>
+        </div>
+
+        <div class="law-qa" onclick="toggleQA(this)">
+          <div class="law-qa-q">
+            <span class="qmark">Q</span>
+            <span class="qtext">학생이 친구를 때릴 때 몸으로 막아도 되나요?</span>
+            <span class="qarrow">▾</span>
+          </div>
+          <div class="law-qa-a">
+            생명·신체에 위해를 끼칠 우려가 있는 긴급한 경우, 물리적으로 제지할 수 있습니다. 단, 제지 후 반드시 학교장에게 즉시 보고해야 하며, 학교장은 보호자에게 신속히 알려야 합니다.
+            <span class="law-ref">고시 제12조 ④⑤</span>
+            <div class="law-caution">⚠️ 물리적 제지는 '긴급한 경우'에 한하며, 신체에 고통을 가하는 방식은 어떠한 경우에도 허용되지 않습니다.</div>
+          </div>
+        </div>
+
+        <div class="law-qa" onclick="toggleQA(this)">
+          <div class="law-qa-q">
+            <span class="qmark">Q</span>
+            <span class="qtext">수업 중 휴대전화를 사용하는 학생, 어떻게 해야 하나요?</span>
+            <span class="qarrow">▾</span>
+          </div>
+          <div class="law-qa-a">
+            학생은 수업 중 원칙적으로 휴대전화를 사용할 수 없습니다. 주의를 주었음에도 2회 이상 지속 사용하는 경우, 수업 종료 시까지 물품을 분리 보관할 수 있습니다. 보관 시 학생 앞에서 확인 후 봉투에 넣어 보관하고, 수업 후 반환합니다.
+            <span class="law-ref">고시 제4조, 제12조 ⑨</span>
+          </div>
+        </div>
+
+        <div class="law-qa" onclick="toggleQA(this)">
+          <div class="law-qa-q">
+            <span class="qmark">Q</span>
+            <span class="qtext">학부모가 퇴근 후에 전화로 상담을 요구하면 응해야 하나요?</span>
+            <span class="qarrow">▾</span>
+          </div>
+          <div class="law-qa-a">
+            근무 시간 외의 상담, 사전에 목적·일시·방법이 합의되지 않은 상담은 거부할 수 있습니다. 상담 가능 시간은 학기 초에 학급 안내장 등으로 미리 공지해 두는 것이 좋습니다.
+            <span class="law-ref">고시 제10조 ⑥</span>
+          </div>
+        </div>
+
+        <div class="law-qa" onclick="toggleQA(this)">
+          <div class="law-qa-q">
+            <span class="qmark">Q</span>
+            <span class="qtext">생활지도를 계속 거부하는 학생, 어떻게 하나요?</span>
+            <span class="qarrow">▾</span>
+          </div>
+          <div class="law-qa-a">
+            주의 → 훈육 → 훈계의 단계적 절차를 밟은 후에도 지속적으로 거부하는 경우, 학교장에게 징계를 요청할 수 있습니다. 이 과정에서 각 단계의 지도 사실을 기록으로 남겨두는 것이 중요합니다.
+            <span class="law-ref">고시 제11조 ③④, 제14조</span>
+            <div class="law-caution">📝 기록이 있어야 교사가 책무를 다했음을 증명할 수 있습니다. 레퍼런스 사전의 서식을 활용하세요.</div>
+          </div>
+        </div>
+
+        <div class="law-qa" onclick="toggleQA(this)">
+          <div class="law-qa-q">
+            <span class="qmark">Q</span>
+            <span class="qtext">특수교육대상자(장애학생)에게도 동일하게 적용하나요?</span>
+            <span class="qarrow">▾</span>
+          </div>
+          <div class="law-qa-a">
+            고시의 생활지도 원칙은 특수교육대상자에게도 적용되지만, 장애 유형과 특성을 반드시 고려해야 합니다. 특수교사와 협력하여 개별적 접근을 하는 것이 원칙입니다. 다문화학생에 대한 인식·태도도 생활지도 범위에 포함됩니다.
+            <span class="law-ref">고시 제2조, 제8조</span>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="ltab-next" onclick="switchLtab('spectrum', document.getElementById('page-learn').querySelectorAll('.ltab')[4])">
+        <div>
+          <span class="lnext-label">다음 단계</span>
+          <span class="lnext-title">지도방식 6단계 — PBS와 고시가 어떻게 같은 방향을 가리키는지 봅니다</span>
+        </div>
+        <span class="lnext-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- ⑤ 지도방식 6단계 — 스펙트럼 -->
+    <div id="ltab-spectrum" class="ltab-content">
+      <p style="font-size: 15px;color:var(--text-sub);margin-bottom:20px;line-height:1.7;">
+        고시가 명시한 6가지 생활지도 방식입니다. 이 6가지는 <strong>고정된 위계가 아니라 상황에 맞게 선택하는 도구</strong>입니다. 단, 일반적으로 왼쪽(조언)에서 오른쪽(훈계) 방향으로 단계적 적용을 권장합니다.
+      </p>
+
+      <div class="spectrum-wrap">
+        <h3>생활지도 방식 6단계</h3>
+        <div class="spectrum-subtitle">← 먼저 시작 &nbsp;|&nbsp; 강도가 낮을수록, 빈도가 높을수록 &nbsp;|&nbsp; 단계적으로 →</div>
+        <div class="spectrum-track">
+          <div class="spec-item s1">
+            <div class="si-name">조언</div>
+            <div class="si-desc">말·글로 정보 제공·권고</div>
+          </div>
+          <div class="spec-item s2">
+            <div class="si-name">상담</div>
+            <div class="si-desc">원인 분석·대안 모색 소통</div>
+          </div>
+          <div class="spec-item s3">
+            <div class="si-name">주의</div>
+            <div class="si-desc">위험성·위반 가능성 경고</div>
+          </div>
+          <div class="spec-item s4">
+            <div class="si-name">훈육</div>
+            <div class="si-desc">지시·제지·분리·물품조사</div>
+          </div>
+          <div class="spec-item s5">
+            <div class="si-name">훈계</div>
+            <div class="si-desc">잘잘못 깨닫게 하기</div>
+          </div>
+          <div class="spec-item s6" style="background:#3B9E5A;">
+            <div class="si-name">보상</div>
+            <div class="si-desc">바람직한 행동 동기 부여</div>
+          </div>
+        </div>
+        <div class="spectrum-note">
+          <span class="sn-left">↑ 먼저, 자주</span>
+          <span style="color:var(--text-sub);">고시 제2조 정의 참고 &nbsp;|&nbsp; 보상은 PBS 핵심 — 항상 병행</span>
+          <span class="sn-right">강도 높음 ↑</span>
+        </div>
+      </div>
+
+      <!-- PBS ↔ 고시 연결 -->
+      <div class="pbs-law-bridge">
+        <div class="bridge-col pbs">
+          <div class="bc-title">PBS 접근</div>
+          <div class="bc-items">
+            예방 중심<br>
+            대체행동 지도<br>
+            긍정적 강화<br>
+            기능 기반 중재
+          </div>
+        </div>
+        <div class="bridge-arrow">⇄</div>
+        <div class="bridge-col law">
+          <div class="bc-title">고시 방식</div>
+          <div class="bc-items">
+            조언·상담<br>
+            주의·훈육<br>
+            보상<br>
+            훈계
+          </div>
+        </div>
+        <div class="bridge-msg">PBS의 긍정적 접근과 고시의 법적 절차는 같은 방향을 가리킵니다. 현장에서 둘 다 쓸 수 있습니다.</div>
+      </div>
+
+      <!-- 시뮬레이터 이동 유도 -->
+      <div style="margin-top:24px;background:var(--amber-light);border:1.5px solid #F0CCA8;border-radius:var(--radius);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;">
+        <div>
+          <div style="font-size: 14.5px;font-weight:700;color:#7A4A10;margin-bottom:3px;">개념을 다 익혔다면 — 실제 상황에서 연습해보세요</div>
+          <div style="font-size: 14px;color:#A06020;">7개 시나리오 · 각 3단계 분기 · 선택마다 PBS + 고시 피드백</div>
+        </div>
+        <button onclick="showPage('sim')" style="flex-shrink:0;padding:9px 16px;background:var(--amber);color:white;border:none;border-radius:7px;font-family:inherit;font-size: 14px;font-weight:700;cursor:pointer;white-space:nowrap;">상황 연습하기 →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     ③ SIMULATION PAGE
+═══════════════════════════════════════════ -->
+<div id="page-sim" class="page">
+  <div class="section-header">
+    <div class="eyebrow sim-eyebrow">시나리오 시뮬레이터</div>
+    <h2>상황 연습하기</h2>
+    <p>실제 교실 장면을 보고 기능을 판단하고 대응을 선택해 보세요. 선택마다 피드백이 제공됩니다.</p>
+    <div class="section-divider sim-divider"></div>
+  </div>
+
+  <div class="section-body">
+
+    <!-- 필터: 행동 기능 / 상황 유형 분리 -->
+    <div class="sim-filter-group">
+      <div class="sim-filter-label">행동 기능</div>
+      <div class="sim-filters">
+        <button class="sim-filter-btn active" onclick="filterSim('all', this)">전체</button>
+        <button class="sim-filter-btn" onclick="filterSim('관심', this)">관심 획득</button>
+        <button class="sim-filter-btn" onclick="filterSim('회피', this)">과제 회피</button>
+        <button class="sim-filter-btn" onclick="filterSim('강화', this)">강화물 획득</button>
+        <button class="sim-filter-btn" onclick="filterSim('감각', this)">감각 추구</button>
+      </div>
+      <div class="sim-filter-label" style="margin-top:10px;">상황 유형</div>
+      <div class="sim-filters">
+        <button class="sim-filter-btn" onclick="filterSim('학급', this)">학급 전체 PBS</button>
+        <button class="sim-filter-btn" onclick="filterSim('고시', this)">고시·보호자 대응</button>
+      </div>
+    </div>
+
+    <!-- 시나리오 카드 목록 -->
+    <div class="sim-recommend-label">⭐ 처음이라면 여기서 시작하세요</div>
+    <div class="scenario-list" id="scenarioList">
+
+      <div class="scenario-card" data-func="관심" onclick="openSim(0)">
+        <span class="sc-difficulty d1">입문</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-관심">관심 획득</span>
+          <span class="sc-badge type">수업 방해</span>
+        </div>
+        <h3>수업 중 끊임없이 손을 들고 관련 없는 질문을 반복합니다</h3>
+        <p class="sc-preview">2학년 수업 중 민준이가 계속 손을 들고 수업과 관련 없는 이야기를 꺼냅니다. 이미 세 번 주의를 줬습니다.</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <div class="scenario-card" data-func="관심" onclick="openSim(1)">
+        <span class="sc-difficulty d1">입문</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-관심">관심 획득</span>
+          <span class="sc-badge type">등교 거부</span>
+        </div>
+        <h3>등교 후 교실 문 앞에 서서 교실에 들어오지 않습니다</h3>
+        <p class="sc-preview">지나가는 사람마다 붙잡고 이야기하며 교실로 들어오지 않고 버팁니다. 1교시가 시작됐습니다.</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <div class="scenario-card" data-func="회피" onclick="openSim(2)">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-회피">과제 회피</span>
+          <span class="sc-badge type">자해 징후</span>
+        </div>
+        <h3>어려운 과제가 주어질 때마다 자기 손을 깨뭅니다</h3>
+        <p class="sc-preview">국어 시간 쓰기 과제가 나오자 수아가 자기 손등을 깨물고 있습니다. 손에 자국이 남았습니다.</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <div class="scenario-card" data-func="강화" onclick="openSim(3)">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-강화">강화물 획득</span>
+          <span class="sc-badge type">공격 행동</span>
+        </div>
+        <h3>원하는 것을 못 받으면 울며 물건을 던지고 바닥에 드러눕습니다</h3>
+        <p class="sc-preview">쉬는 시간에 원하는 색연필을 받지 못하자 지호가 울고 소리치며 바닥에 드러누웠습니다.</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <div class="scenario-card" data-func="감각" onclick="openSim(4)">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-감각">감각 추구</span>
+          <span class="sc-badge type">반복 행동</span>
+        </div>
+        <h3>수업 중 코를 킁킁거리고 몸을 반복적으로 흔듭니다</h3>
+        <p class="sc-preview">매 수업마다 서진이가 코를 킁킁거리고 몸을 앞뒤로 흔듭니다. 이것이 도전행동인지 판단이 서지 않습니다.</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <div class="scenario-card" data-func="고시" onclick="openSim(5)">
+        <span class="sc-difficulty d3">심화</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-고시">고시 대응</span>
+          <span class="sc-badge type">보호자 갈등</span>
+        </div>
+        <h3>학부모가 밤 11시에 전화해서 격양된 목소리로 항의합니다</h3>
+        <p class="sc-preview">퇴근 후 밤 11시, 학부모에게서 전화가 왔습니다. "왜 우리 애한테 그러셨어요?" 어떻게 대응해야 할까요?</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <div class="scenario-card" data-func="학급" onclick="openSim(6)">
+        <span class="sc-difficulty d1">입문</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-학급">학급 전체</span>
+          <span class="sc-badge type">PBS 1차 지원</span>
+        </div>
+        <h3>반 전체 분위기가 산만합니다. 어디서부터 시작해야 할까요?</h3>
+        <p class="sc-preview">새 학기가 시작됐는데 반 전체가 수업 집중이 안 됩니다. 학급 차원 PBS를 어떻게 시작하면 좋을까요?</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     시나리오 풀페이지 플레이어
+═══════════════════════════════════════════ -->
+<div id="sim-player">
+  <!-- 상단 바 -->
+  <div class="sp-topbar">
+    <button class="sp-back" onclick="closeSim()">← 목록으로</button>
+    <div class="sp-title" id="spTitle"></div>
+    <div class="sp-progress-wrap">
+      <div class="sp-progress-bar" id="spProgressBar"></div>
+    </div>
+    <div class="sp-progress-text" id="spProgressText"></div>
+  </div>
+
+  <!-- 본문 -->
+  <div class="sp-body">
+
+    <!-- 상황 박스 -->
+    <div class="sp-situation" id="spSituation">
+      <div class="sp-situation-label">📍 상황</div>
+      <div id="spSituationText"></div>
+    </div>
+
+    <!-- 스텝 인디케이터 -->
+    <div class="sp-steps" id="spSteps"></div>
+
+    <!-- 스텝 카드 -->
+    <div id="spStepCard"></div>
+
+    <!-- 완료 화면 -->
+    <div class="sp-done" id="spDone">
+      <div class="sp-done-icon">🎉</div>
+      <h2>시나리오 완료!</h2>
+      <p id="spDoneMsg"></p>
+      <div class="sp-done-summary" id="spDoneSummary"></div>
+      <div id="spDoneNext"></div>
+      <div class="sp-done-actions">
+        <button class="sp-done-btn primary" onclick="closeSim()">다른 시나리오 선택</button>
+        <button class="sp-done-btn secondary" onclick="showPage('ref'); closeSim();">레퍼런스 사전에서 더 보기 →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     ④ REFERENCE PAGE
+═══════════════════════════════════════════ -->
+<div id="page-ref" class="page">
+  <div class="section-header">
+    <div class="eyebrow ref-eyebrow">레퍼런스 사전</div>
+    <h2>바로 찾기</h2>
+    <p>지금 이 행동, 어떻게 하지? 행동명·키워드로 검색하면 카드가 바로 열립니다.</p>
+    <div class="section-divider ref-divider"></div>
+  </div>
+
+  <div class="section-body">
+
+    <!-- 긴급 접근 버튼 -->
+    <div class="ref-urgent-row">
+      <div class="ref-urgent-label">⚡ 지금 당장 필요한 것</div>
+      <button class="ref-urgent-btn" onclick="urgentOpen('수업 중 소리지르기')">소리지르기·방해</button>
+      <button class="ref-urgent-btn" onclick="urgentOpen('자리 이탈')">자리 이탈</button>
+      <button class="ref-urgent-btn" onclick="urgentOpen('친구 때리기')">때리기·공격</button>
+      <button class="ref-urgent-btn" onclick="urgentOpen('자해행동')">자해 행동</button>
+      <button class="ref-urgent-btn" onclick="urgentOpen('교사 지시 거부')">지시 거부</button>
+      <button class="ref-urgent-btn" onclick="urgentOpen('QABF')">기능 파악(QABF)</button>
+    </div>
+
+    <!-- 검색 -->
+    <div class="ref-search-wrap">
+      <span class="ref-search-icon">🔍</span>
+      <input class="ref-search" type="text"
+        placeholder="행동·키워드 검색 (때리기, 소리지르기, 쿨다운, 분리, 훈육...)"
+        oninput="searchRef(this.value)" id="refSearchInput">
+    </div>
+    <div class="ref-search-hint" id="refSearchHint">카드 제목·내용 전체를 검색합니다. 검색 시 첫 번째 결과가 자동으로 열립니다.</div>
+
+    <!-- 필터 -->
+    <div class="ref-filters">
+      <button class="ref-filter-btn active" onclick="filterRef('all', this)">전체</button>
+      <button class="ref-filter-btn" onclick="filterRef('관심', this)">관심 획득</button>
+      <button class="ref-filter-btn" onclick="filterRef('회피', this)">과제 회피</button>
+      <button class="ref-filter-btn" onclick="filterRef('강화', this)">강화물 획득</button>
+      <button class="ref-filter-btn" onclick="filterRef('감각', this)">감각 추구</button>
+      <button class="ref-filter-btn" onclick="filterRef('공격', this)">공격 행동</button>
+      <button class="ref-filter-btn" onclick="filterRef('자해', this)">자해 행동</button>
+      <button class="ref-filter-btn" onclick="filterRef('거부', this)">지시 거부</button>
+      <button class="ref-filter-btn" onclick="filterRef('도구', this)">📋 도구·서식</button>
+    </div>
+
+    <!-- ─ 행동 카드 섹션 ─ -->
+    <div class="ref-section-divider"><span>행동별 카드</span></div>
+    <div class="ref-grid" id="refGrid">
+
+      <!-- 카드 1: 수업 방해 -->
+      <div class="ref-card" data-func-color="관심"
+           data-tags="관심 회피 방해 수업 소리지르기 방해행동 주의 훈육 분리 스크립트 쿨다운">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">수업 중 소리지르기 · 방해행동</div>
+            <div class="rch-badges">
+              <span class="ref-badge 관심">관심 획득</span>
+              <span class="ref-badge 회피">과제 회피</span>
+              <span class="ref-badge 방해">수업 방해</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">PBS 대응</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 주의 단계</div>
+              <div class="rs-text">"○○아, 지금 선생님이 수업을 진행하고 있어. 다른 친구들이 집중하고 싶어 하거든. 잠깐 조용히 해줄 수 있어?"</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 분리 안내 (교실 내)</div>
+              <div class="rs-text">"○○아, 선생님이랑 자리를 잠깐 옮겨볼까. 저쪽 자리에서 조금 쉬다가 준비되면 돌아와."</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 분리 후 복귀 시</div>
+              <div class="rs-text">"돌아와 줘서 고마워. 무슨 일이 있었는지 나중에 선생님이랑 이야기해볼까?"</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">가능한 기능</div>
+              <p>관심 획득(교사·친구의 반응을 원함) 또는 과제 회피(어려운 과제에서 벗어나고 싶음) 가능성이 높습니다.</p>
+              <div class="ref-section-title">선행사건 확인</div>
+              <ul>
+                <li>소리지르기 직전에 무슨 일이 있었나요?</li>
+                <li>어떤 과목·과제에서 주로 발생하나요?</li>
+                <li>특정 자리나 친구 옆에서 더 많이 발생하나요?</li>
+              </ul>
+              <div class="ref-section-title">즉각 대응</div>
+              <ul>
+                <li>차분하고 낮은 목소리로 이름을 부르며 주의 (고시 제11조)</li>
+                <li>변화 없으면 교실 내 지정 위치로 이동 (분리 2단계)</li>
+                <li>수업 방해가 지속되면 교실 밖 분리 (분리 3단계 — 학칙 확인 필수)</li>
+              </ul>
+              <div class="ref-section-title">장기 중재</div>
+              <ul>
+                <li>관심 획득 기능이면: 적절한 관심 끌기 대체행동 가르치기 (예: 손 들기)</li>
+                <li>과제 회피 기능이면: 과제 난이도 조절, 과제 선택권 부여</li>
+                <li>시각적 일과표로 예측 가능성 높이기</li>
+              </ul>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="ref-law-box">
+              <div class="rlb-clause">고시 제11조 (주의)</div>
+              <p>학생의 행동이 교내 질서를 저해할 소지가 있는 경우 주의를 줄 수 있습니다.</p>
+              <div class="rlb-clause">고시 제12조 ⑥ (분리)</div>
+              <p>교육활동을 방해하여 다른 학생의 학습권 보호가 필요한 경우 4단계 분리 가능. 3·4단계는 학칙 사전 규정 필요.</p>
+              <div class="rlb-clause">고시 제11조 ④</div>
+              <p>주의를 주었음에도 학생이 무시하여 피해가 발생한 경우, 사전에 주의를 준 교원은 책무를 다한 것으로 봅니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 절대 하면 안 되는 것</div>
+              <ul>
+                <li>전체 학생 앞에서 공개적으로 망신주기</li>
+                <li>신체적 고통을 주는 방식의 제재</li>
+                <li>교사가 감정적으로 소리를 지르거나 위협적 언어 사용</li>
+                <li>"왜 이렇게 말을 안 들어!" 같은 반복적 훈계 — 관심 기능이면 강화됨</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카드 2: 자리 이탈 -->
+      <div class="ref-card" data-func-color="회피"
+           data-tags="회피 관심 자리이탈 돌아다니기 교실이탈 걷기 분리 등교">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">자리 이탈 · 돌아다니기</div>
+            <div class="rch-badges">
+              <span class="ref-badge 회피">과제 회피</span>
+              <span class="ref-badge 관심">관심 획득</span>
+              <span class="ref-badge 감각">감각 추구</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">PBS 대응</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 돌아오기 촉구</div>
+              <div class="rs-text">"○○아, 지금 수업 중이야. 자리로 돌아와 줄 수 있어? 선생님이 기다릴게."</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 복귀 후 칭찬</div>
+              <div class="rs-text">"고마워, ○○가 돌아와 줬네. 어려웠지? 조금만 같이 해보자."</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">가능한 기능</div>
+              <p>과제 회피(어려운 과제 회피), 감각 추구(움직임 욕구), 관심 획득 중 하나일 수 있습니다. 언제, 어떤 상황에서 발생하는지 먼저 파악하세요.</p>
+              <div class="ref-section-title">즉각 대응</div>
+              <ul>
+                <li>조용히 이름을 부르며 자리로 돌아오도록 언어적 촉구</li>
+                <li>돌아왔을 때 즉시 긍정적 반응 ("고마워, 돌아와 줬구나")</li>
+                <li>반복 시 교실 내 지정 위치로 분리 (고시 제12조 ⑥②)</li>
+              </ul>
+              <div class="ref-section-title">장기 중재 (사례집 기반)</div>
+              <ul>
+                <li>시각적 일과표 제공 — 다음 시간을 예측하게 하기</li>
+                <li>등교 시 역할 부여 — 교실에 들어와야 할 이유 만들기</li>
+                <li>과제 선택권 부여 — 회피 기능인 경우 과제 난이도 조절</li>
+                <li>움직임이 필요한 아이: 심부름 역할 부여, 스트레칭 시간 제공</li>
+              </ul>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="ref-law-box">
+              <div class="rlb-clause">고시 제12조 ③</div>
+              <p>금지된 행동을 하는 학생에게 즉시 중지하도록 말로 제지할 수 있습니다.</p>
+              <div class="rlb-clause">고시 제12조 ⑥ ①②</div>
+              <p>수업 방해 시 교실 내 다른 좌석 이동 또는 지정 위치로의 분리가 가능합니다. 이 단계는 학칙 규정 없이도 시행 가능합니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 절대 하면 안 되는 것</div>
+              <ul>
+                <li>강제로 자리로 밀거나 끌어당기기 (긴급 상황 외 물리적 제지 금지)</li>
+                <li>교실 밖으로 쫓아내기 — 회피 기능이면 오히려 강화됨</li>
+                <li>돌아다니는 동안 계속 소리치며 부르기 — 관심 기능이면 강화됨</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카드 3: 친구 때리기 / 공격행동 -->
+      <div class="ref-card" data-func-color="공격"
+           data-tags="관심 강화 공격 때리기 밀기 신체 제지 물리적제지 보고 교장">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">친구 때리기 · 신체적 공격행동</div>
+            <div class="rch-badges">
+              <span class="ref-badge 공격">공격 행동</span>
+              <span class="ref-badge 관심">관심 획득</span>
+              <span class="ref-badge 강화">강화물 획득</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">PBS 대응</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 즉각 제지</div>
+              <div class="rs-text">"멈춰. 친구가 아파. 선생님이랑 잠깐 나가보자."</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 냉각 후 대화</div>
+              <div class="rs-text">"아까 무슨 일이 있었는지 선생님한테 말해줄 수 있어? 때리면 친구가 어떤 기분인지 알아?"</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 대체행동 가르치기</div>
+              <div class="rs-text">"화날 때 때리는 대신, 선생님한테 와서 '화나요'라고 말해줄 수 있어? 그러면 선생님이 꼭 도와줄게."</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">가능한 기능</div>
+              <p>관심 획득(반응 유발) 또는 강화물 획득(원하는 물건·자리 쟁취) 가능성이 높습니다. 직전 상황을 반드시 파악하세요.</p>
+              <div class="ref-section-title">즉각 대응 (3단계)</div>
+              <ul>
+                <li><strong>1. 안전 확보:</strong> 피해 학생의 안전을 먼저 확인, 필요 시 두 학생을 분리</li>
+                <li><strong>2. 말로 제지:</strong> "멈춰. 친구를 때리면 안 돼" — 낮고 단호한 목소리</li>
+                <li><strong>3. 냉각 시간:</strong> 두 학생 모두 감정이 가라앉은 후 대화</li>
+              </ul>
+              <div class="ref-section-title">장기 중재</div>
+              <ul>
+                <li>적절한 갈등 해결 방법 직접 가르치기 (말로 요청하기, 도움 요청하기)</li>
+                <li>감정 조절 대체행동: 감정 온도계, 쿨다운 카드 활용</li>
+              </ul>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="ref-law-box">
+              <div class="rlb-clause">고시 제12조 ③ (말로 제지)</div>
+              <p>금지된 행동을 하는 학생에게 즉시 중지하도록 말로 제지할 수 있습니다.</p>
+              <div class="rlb-clause">고시 제12조 ④ (물리적 제지)</div>
+              <p>자신 또는 타인의 생명·신체에 위해를 끼칠 우려가 있는 긴급한 경우, 물리적으로 제지할 수 있습니다. 즉시 교장 보고 필수.</p>
+              <div class="rlb-clause">고시 제12조 ⑤ (보고 의무)</div>
+              <p>물리적 제지 시 학교장에게 지체 없이 보고, 학교장은 보호자에게 신속히 알려야 합니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 절대 하면 안 되는 것</div>
+              <ul>
+                <li>공개적으로 망신주거나 전체 앞에서 강하게 훈계하기</li>
+                <li>신체적 고통을 주는 방식의 제재 (어떠한 경우에도 금지)</li>
+                <li>두 학생을 감정이 높은 상태에서 즉시 대화시키기</li>
+                <li>때린 행동을 무시하거나 덮고 넘어가기</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카드 4: 자해행동 -->
+      <div class="ref-card" data-func-color="자해"
+           data-tags="자해 회피 감각 깨물기 머리박기 긁기 손깨물기 대체행동 피젯 감각도구 전문가 특수교사">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">자해행동 (손 깨물기 · 머리 박기 · 긁기)</div>
+            <div class="rch-badges">
+              <span class="ref-badge 자해">자해 행동</span>
+              <span class="ref-badge 회피">과제 회피</span>
+              <span class="ref-badge 감각">감각 추구</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">PBS 대응</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 즉각 안전 확인</div>
+              <div class="rs-text">"○○아, 선생님이 여기 있어. 괜찮아? 잠깐 손 좀 봐도 될까?"</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 대체행동 가르치기 (과제 회피 기능)</div>
+              <div class="rs-text">"힘들 때 손 깨무는 대신, 이 카드를 들어올려줄 수 있어? '쉬고 싶어요' 카드야. 들면 선생님이 바로 올게."</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 보호자 상담 요청</div>
+              <div class="rs-text">"○○이가 수업 중 손을 깨무는 행동이 반복되고 있어서 함께 이야기 나누고 싶습니다. 편한 시간에 상담 가능하신가요?"</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">먼저 구분하세요</div>
+              <p><strong>과제가 주어진 직후 발생하면</strong> → 과제 회피 기능 가능성<br><strong>상황에 관계없이 반복되면</strong> → 감각 추구 기능 가능성<br>기능에 따라 중재 방향이 완전히 달라집니다.</p>
+              <div class="ref-section-title">과제 회피 기능</div>
+              <ul>
+                <li>"쉬고 싶어요", "모르겠어요", "도와주세요" 대체 표현 카드</li>
+                <li>과제 난이도·양 조절 (선행사건 중재)</li>
+              </ul>
+              <div class="ref-section-title">감각 추구 기능</div>
+              <ul>
+                <li>대체 감각 도구 제공: 피젯토이, 씹을 수 있는 도구</li>
+                <li>특수교사·작업치료사와 협력</li>
+              </ul>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="ref-law-box">
+              <div class="rlb-clause">고시 제12조 ④ (물리적 제지)</div>
+              <p>자신의 생명·신체에 위해를 끼칠 우려가 있는 긴급한 경우 물리적으로 제지 가능. 즉시 교장 보고 필수.</p>
+              <div class="rlb-clause">고시 제9조 ③ (전문가 권고)</div>
+              <p>학생의 문제 개선을 위해 전문가의 검사·상담·치료를 보호자에게 권고할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 절대 하면 안 되는 것</div>
+              <ul>
+                <li>자해행동을 관심 끌기로 단정하고 무시하기</li>
+                <li>자해 대신 고통을 주는 다른 자극(얼음, 고무줄) 제안</li>
+                <li>전체 학생 앞에서 공개적으로 다루기</li>
+                <li>보호자 연락 없이 장기간 혼자 대응하기</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카드 5: 교사 지시 거부 -->
+      <div class="ref-card" data-func-color="거부"
+           data-tags="거부 회피 불순응 지시거부 반항 선택지 시간지연 자율성">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">교사 지시 거부 · 반항적 언어</div>
+            <div class="rch-badges">
+              <span class="ref-badge 거부">지시 거부</span>
+              <span class="ref-badge 회피">과제 회피</span>
+              <span class="ref-badge 관심">관심 획득</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">PBS 대응</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 선택지 제공</div>
+              <div class="rs-text">"○○아, 지금 수학 문제를 풀어야 해. 혼자 할래, 아니면 선생님이랑 같이 할래?"</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 시간 지연 + 저압박</div>
+              <div class="rs-text">"괜찮아, 천천히 해도 돼. 준비되면 선생님한테 말해줘."</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 거부 지속 시 (주의 단계)</div>
+              <div class="rs-text">"○○아, 지금 선생님 말을 따라주지 않으면 선생님이 다른 방법을 써야 할 수도 있어. 같이 해결해보자."</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">즉각 대응 팁</div>
+              <ul>
+                <li><strong>선택지 제공:</strong> "지금 할래, 아니면 5분 후에 할래?" — 통제감 제공</li>
+                <li><strong>시간 지연:</strong> "천천히 생각해봐, 선생님은 여기 있을게" — 압박 낮추기</li>
+                <li><strong>과제 세분화:</strong> "전부 다 하지 않아도 돼, 1번만 먼저 해볼까?"</li>
+              </ul>
+              <div class="ref-section-title">장기 중재</div>
+              <ul>
+                <li>지시는 짧고 명확하게, 한 번에 하나씩</li>
+                <li>선택권·자율성을 적절히 허용</li>
+                <li>지시를 따랐을 때 즉각적이고 구체적인 긍정 반응</li>
+              </ul>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="ref-law-box">
+              <div class="rlb-clause">고시 제3조 ② (학생의 책무)</div>
+              <p>학생은 학칙을 준수하고 학교의 장과 교원의 생활지도를 존중하며 따라야 합니다.</p>
+              <div class="rlb-clause">고시 제11조 → 제12조 → 제13조</div>
+              <p>지시 거부에 대해 주의 → 훈육 → 훈계의 단계적 절차를 적용할 수 있습니다. 지속 거부 시 학교장에게 징계 요청 가능(제14조).</p>
+              <div class="rlb-clause">고시 제11조 ④</div>
+              <p>주의를 주었음에도 학생이 무시하여 피해가 발생한 경우, 주의를 준 교원은 책무를 다한 것으로 봅니다. 기록이 중요합니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 절대 하면 안 되는 것</div>
+              <ul>
+                <li>전체 학생 앞에서 권위 대결로 만들기</li>
+                <li>"왜 이러는 거야!"라는 감정적 반응 — 관심 기능이면 강화됨</li>
+                <li>즉각 강압적 물리적 개입 — 긴급 안전 상황 외 금지</li>
+                <li>협박 ("계속 이러면 부모님 부른다")</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /ref-grid -->
+
+    <!-- ─ 도구·서식 섹션 ─ -->
+    <div class="ref-section-divider" style="margin-top:28px;"><span>도구 · 서식</span></div>
+    <div class="ref-grid" id="refToolGrid">
+
+      <!-- 카드 6: QABF -->
+      <div class="ref-card" data-func-color="도구"
+           data-tags="도구 서식 qabf 기능평가 설문 행동기능 관심 회피 강화물 감각">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">QABF 행동기능설문지 — 온라인 버전</div>
+            <div class="rch-badges">
+              <span class="ref-badge" style="background:#E8F0E8;color:#3B6E4A">기능평가 도구</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div style="padding:18px;">
+            <p style="font-size: 14.5px;color:var(--text-sub);line-height:1.7;margin-bottom:16px;">
+              25개 문항에 응답하면 행동의 기능(관심 획득·과제 회피·강화물 획득·감각 자극)을 파악하고 맞춤 중재 전략을 제시합니다. 경기도교육청 사례집 부록 4·5 기반.
+            </p>
+            <div id="qabf-container">
+              <div id="qabf-intro">
+                <div style="background:var(--teal-light);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size: 14px;color:var(--teal-dark);line-height:1.7;">
+                  <strong>사용 방법:</strong> 관찰 대상 학생의 행동에 대해 각 문항을 읽고 해당하는 빈도를 선택하세요.<br>
+                  0 = 전혀 없음 &nbsp;|&nbsp; 1 = 가끔 &nbsp;|&nbsp; 2 = 자주 &nbsp;|&nbsp; 3 = 항상
+                </div>
+                <button onclick="startQABF()" style="width:100%;padding:13px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size: 15px;font-weight:700;cursor:pointer;">QABF 시작하기 →</button>
+              </div>
+              <div id="qabf-form" style="display:none;">
+                <div id="qabf-progress-wrap" style="margin-bottom:16px;">
+                  <div style="display:flex;justify-content:space-between;font-size: 13.5px;color:var(--text-sub);margin-bottom:6px;">
+                    <span id="qabf-prog-label">1 / 25</span>
+                    <span id="qabf-prog-cat"></span>
+                  </div>
+                  <div style="background:var(--border);border-radius:999px;height:6px;overflow:hidden;">
+                    <div id="qabf-prog-bar" style="height:100%;background:var(--green);border-radius:999px;transition:width 0.3s;width:4%;"></div>
+                  </div>
+                </div>
+                <div id="qabf-question-wrap" style="background:var(--bg);border-radius:10px;padding:16px;margin-bottom:14px;">
+                  <div id="qabf-q-cat" style="font-size: 13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:8px;"></div>
+                  <div id="qabf-q-text" style="font-size: 16px;font-weight:500;line-height:1.5;color:var(--text);"></div>
+                </div>
+                <div id="qabf-choices" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;"></div>
+                <div id="qabf-nav" style="display:flex;gap:8px;">
+                  <button id="qabf-prev" onclick="qabfPrev()" style="flex:1;padding:10px;border:1.5px solid var(--border);background:white;border-radius:8px;font-family:inherit;font-size: 14px;cursor:pointer;color:var(--text-sub);">← 이전</button>
+                </div>
+              </div>
+              <div id="qabf-result" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카드 7: 서식 모음 -->
+      <div class="ref-card" data-func-color="도구"
+           data-tags="도구 서식 bip 초기면담 강화제 빈도기록 데이터 점검표 기록지">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">중재 서식 모음 (경기도교육청 사례집 기반)</div>
+            <div class="rch-badges">
+              <span class="ref-badge" style="background:#E8F0E8;color:#3B6E4A">서식 모음</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div style="padding:16px;">
+            <div class="form-list">
+              <div class="form-item">
+                <div class="fi-icon">📝</div>
+                <div class="fi-info">
+                  <div class="fi-name">초기면담지 (부록 1)</div>
+                  <div class="fi-desc">행동의 어려움 체크 및 지금까지의 중재 방법 기록</div>
+                </div>
+                <div class="fi-btn">준비 중</div>
+              </div>
+              <div class="form-item">
+                <div class="fi-icon">📊</div>
+                <div class="fi-info">
+                  <div class="fi-name">행동지원계획 BIP (부록 2)</div>
+                  <div class="fi-desc">기능평가 결과 및 구체적 행동중재 전략 작성</div>
+                </div>
+                <div class="fi-btn">준비 중</div>
+              </div>
+              <div class="form-item">
+                <div class="fi-icon">🎁</div>
+                <div class="fi-info">
+                  <div class="fi-name">강화제 체크리스트 (부록 3)</div>
+                  <div class="fi-desc">학생이 좋아하는 강화제를 1~5점으로 체크하는 도구</div>
+                </div>
+                <div class="fi-btn">준비 중</div>
+              </div>
+              <div class="form-item" onclick="document.querySelector('#refToolGrid .ref-card').querySelector('.ref-card-header').click()">
+                <div class="fi-icon">🔬</div>
+                <div class="fi-info">
+                  <div class="fi-name">QABF 행동기능설문지 (부록 4·5)</div>
+                  <div class="fi-desc">25문항 → 기능 자동 분석 → 중재 전략 제시</div>
+                </div>
+                <div class="fi-btn ready">사용 가능 ↑</div>
+              </div>
+              <div class="form-item">
+                <div class="fi-icon">📈</div>
+                <div class="fi-info">
+                  <div class="fi-name">도전적 행동 발생 빈도 기록지 (부록 6~8)</div>
+                  <div class="fi-desc">날짜별 빈도 입력 → 그래프 자동 생성</div>
+                </div>
+                <div class="fi-btn">준비 중</div>
+              </div>
+              <div class="form-item">
+                <div class="fi-icon">✅</div>
+                <div class="fi-info">
+                  <div class="fi-name">수업 중심 행동중재 실행 점검표 (부록 11)</div>
+                  <div class="fi-desc">20개 항목으로 내 중재가 제대로 실행되는지 점검</div>
+                </div>
+                <div class="fi-btn">준비 중</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /refToolGrid -->
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="site-footer">
+  <strong>생활지도 PLUS</strong> — 교사를 위한 도전행동 지도 가이드<br>
+  참고: 교원의 학생생활지도에 관한 고시(교육부고시 제2023-28호) · 경기도교육청 긍정적 행동지원 사례집(2025) · PBS(긍정적 행동지원) 이론
+</footer>
+
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+/* ─── 시나리오 데이터 ─── */
+const scenarios = [
+  {
+    title: "끊임없이 반복되는 관련 없는 질문",
+    func: "관심",
+    situation: "2학년 수학 시간. 민준이(8세)가 수업 중 계속 손을 들고 '선생님, 오늘 점심 뭐예요?', '선생님, 저 어제 넘어졌어요' 같은 수업과 관련 없는 말을 꺼냅니다. 이미 세 번 주의를 줬지만 5분마다 반복됩니다.",
+    steps: [
+      {
+        q: "이 행동이 도전행동인가요?",
+        label: "Step 1. 도전행동 판단",
+        choices: [
+          { text: "A. 네, 즉각 중재가 필요한 도전행동입니다", result: "caution" },
+          { text: "B. 아니오, 빈도와 방해 정도를 더 관찰해야 합니다", result: "correct" },
+          { text: "C. 모르겠습니다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "💡", text: "좋은 판단입니다. 도전행동은 강도·빈도·기간을 종합적으로 평가해야 합니다. 5분 간격 반복이라면 '중재가 필요한 방해행동'일 수 있으나, 신체 안전을 위협하는 수준은 아닙니다. 초기평가표로 심한 정도·빈도·방해 정도를 먼저 기록해 보세요.", law: "도전행동 정의: Emerson et al.(1988) — 강도·빈도·기간 세 가지 기준을 종합 판단", tip: "📋 경기도교육청 사례집 사례 1과 유사한 상황입니다. 초기면담지(부록 1)로 먼저 기록하세요." },
+          caution: { icon: "⚠️", text: "서두르지 않아도 됩니다. 모든 반복 행동이 도전행동은 아닙니다. 먼저 얼마나 자주, 얼마나 방해가 되는지 초기평가를 해보세요.", law: "", tip: "" }
+        }
+      },
+      {
+        q: "이 행동의 기능은 무엇일까요?",
+        label: "Step 2. 기능 파악",
+        choices: [
+          { text: "A. 관심 획득 — 교사의 반응을 원한다", result: "correct" },
+          { text: "B. 과제 회피 — 수학 수업이 싫다", result: "caution" },
+          { text: "C. 강화물 획득 — 원하는 것이 있다", result: "wrong" },
+          { text: "D. 감각 추구 — 특정 감각을 원한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "정확합니다. 수업과 관련 없는 개인 이야기를 꺼내는 패턴은 '관심 획득' 기능의 전형적 신호입니다. 교사가 반응할수록(혼내더라도) 행동이 강화될 수 있습니다.", law: "QABF 기능평가 결과 — 관심 획득 기능", tip: "💡 경기도교육청 사례집 사례 1에서도 동일 기능으로 평가되었습니다." },
+          caution: { icon: "🤔", text: "과제 회피 가능성도 있습니다. 수학 수업 중에만 발생하는지, 다른 시간에도 발생하는지 관찰해 보세요. 두 기능이 함께 있을 수 있습니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "이 상황에서 강화물이나 감각 자극을 얻으려는 신호는 보이지 않습니다. 질문 내용('점심 뭐예요', '어제 넘어졌어요')이 교사의 반응을 원한다는 신호에 더 가깝습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        q: "지금 당장 어떻게 대응하시겠습니까?",
+        label: "Step 3. 즉각 대응",
+        choices: [
+          { text: "A. '조용히 해!'라고 단호하게 말한다", result: "caution" },
+          { text: "B. 질문을 무시하고 수업을 계속 진행한다", result: "caution" },
+          { text: "C. 적절한 관심 끌기 방법(예: 손 들기)을 알려주고, 그 방법을 사용할 때 반응해 준다", result: "correct" },
+          { text: "D. 교실 밖으로 분리한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS 관점에서 가장 효과적인 대응입니다. 관심 획득 기능이라면, 대체행동(적절한 방법으로 관심 끌기)을 가르치고 그 방법에 반응해 주는 것이 핵심입니다. '손 들고 기다리면 선생님이 꼭 봐줄게'라고 약속하고 지켜주세요.", law: "고시 제13조 — 훈계: 바람직한 행동을 하도록 지도", tip: "💡 사례집 사례 1: '또래도우미 학생과 상호작용 기회를 주기적으로 제공'하는 방법도 효과적이었습니다." },
+          caution: { icon: "⚠️", text: "관심 획득 기능이라면, 단호하게 반응하거나 무시하는 것 모두 의도치 않게 행동을 강화하거나 아이를 더 불안하게 만들 수 있습니다. 대체행동을 가르치는 방향이 더 효과적입니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "교실 밖 분리는 이 시점에 과한 대응입니다. 수업 방해 정도와 절차(주의→훈육)를 확인하고, 학칙에 분리 규정이 있는지도 먼저 확인해야 합니다.", law: "고시 제12조 ⑥ — 분리는 학칙 규정 필요(③④단계)", tip: "" }
+        }
+      }
+    ]
+  },
+  // ── 시나리오 2: 등교 후 교실 미입장 (관심 획득) ──
+  {
+    title: "등교 후 교실 문 앞에서 들어오지 않기",
+    func: "관심",
+    situation: "등교 시간. 2학년 민아가 교실 문 앞에 서서 지나가는 선생님·친구마다 인사하고 말을 걸며 교실로 들어오지 않습니다. 1교시가 시작됐는데도 문 앞에 있습니다. 들어오라고 하면 잠깐 들어왔다가 다시 나갑니다.",
+    steps: [
+      {
+        label: "Step 1. 행동 기능 파악",
+        q: "민아가 교실 문 앞에서 들어오지 않는 이유로 가장 가능성 높은 기능은?",
+        choices: [
+          { text: "A. 관심 획득 — 지나가는 사람들의 반응과 주목을 원한다", result: "correct" },
+          { text: "B. 과제 회피 — 수업이 싫어서 교실에 들어가기 싫다", result: "caution" },
+          { text: "C. 감각 추구 — 복도의 특정 자극이 좋다", result: "caution" },
+          { text: "D. 강화물 획득 — 원하는 물건이 복도에 있다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "정확합니다. 지나가는 사람마다 인사하고 말을 거는 패턴, 들어오라고 할 때만 잠깐 반응하는 패턴은 관심 획득 기능의 전형입니다. 교사의 주의와 반응이 이 행동을 유지시키고 있습니다.", law: "기능평가(QABF) — 관심 획득 기능", tip: "📋 경기도교육청 사례집 사례 1: 등교 시 교실 문 앞 미입장 → 관심 획득 기능으로 평가." },
+          caution: { icon: "🤔", text: "가능성이 없지는 않습니다. 그러나 지나가는 사람 모두에게 인사·말걸기를 하는 행동 패턴은 관심 획득 기능에 더 가깝습니다. 수업 내용이 싫은지도 함께 확인해 보세요.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "복도에서 특정 물건을 얻으려는 행동과는 맥락이 다릅니다. 지나가는 모든 사람에게 반응하는 패턴을 주목하세요.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 즉각 대응",
+        q: "지금 1교시가 시작됐는데, 민아가 아직 문 앞에 있습니다. 어떻게 하시겠습니까?",
+        choices: [
+          { text: "A. 강하게 '빨리 들어와!'라고 말한다", result: "caution" },
+          { text: "B. 교실 안에서 민아에게 역할을 부여한다 (예: '출석부 가져다줄 수 있어?')", result: "correct" },
+          { text: "C. 무시하고 수업을 시작한다", result: "caution" },
+          { text: "D. 보호자에게 연락한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "훌륭한 대응입니다. 관심 획득 기능이라면, 교실 안으로 들어와야 할 이유(역할)를 만들어 주는 것이 효과적입니다. 들어왔을 때 즉시 긍정적 관심을 제공하면 행동이 강화됩니다.", law: "고시 제12조 ② — 특정 과업 부여로 행동 중재 가능", tip: "💡 사례집 사례 1: '문밖의 얼굴 스티커를 칠판에 붙이는 역할'을 부여하자 바로 교실에 들어오는 행동 개선." },
+          caution: { icon: "⚠️", text: "강하게 지시하거나 무시하는 방식 모두 관심 획득 기능일 때는 역효과가 날 수 있습니다. 강하게 말하면 관심을 주는 셈이고, 무시하면 더 강하게 관심을 끌려 할 수 있습니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "첫 번째 등교 거부 상황에서 바로 보호자 연락은 과한 대응입니다. 고시 제12조 ⑦에 따르면 보호자 인계는 분리 거부나 1일 2회 이상 분리 후에도 방해가 지속될 때 요청할 수 있습니다.", law: "고시 제12조 ⑦", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 장기 중재",
+        q: "이 행동이 매일 반복된다면, 장기적으로 어떤 중재 방법이 가장 효과적일까요?",
+        choices: [
+          { text: "A. 매일 교실 문 앞까지 가서 손을 잡고 데리고 들어온다", result: "caution" },
+          { text: "B. 등교 시 교실에서 맡을 역할(조회·출석 등)을 정해주고, 그 역할을 했을 때 칭찬한다", result: "correct" },
+          { text: "C. 교실에 들어오지 않으면 복도에서 혼자 수업을 듣게 한다", result: "wrong" },
+          { text: "D. 자리를 문 근처로 배치한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS의 핵심 전략입니다. 등교 후 교실에서 의미 있는 역할을 갖게 되면 아이는 교실에 들어올 동기가 생깁니다. 역할 수행 시 즉각적이고 구체적인 칭찬을 제공하세요. 사회적 강화(칭찬, 인정)가 이 아이에게 가장 강력한 강화제입니다.", law: "고시 제13조(보상) — 바람직한 행동 장려 목적으로 유·무형 동기 부여", tip: "💡 사례집 사례 1 중재 결과: 등교 시 역할 부여 후 교실 미입장 행동이 크게 감소." },
+          caution: { icon: "⚠️", text: "매일 데리고 들어가는 것은 일시적 해결책이며, 오히려 '선생님이 와줄 것'이라는 기대를 강화할 수 있습니다. 아이 스스로 들어올 이유를 만들어 주는 방향이 더 지속적입니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "복도에서 혼자 수업 듣기는 분리 조치에 해당하며, 학칙 규정이 필요합니다. 또한 관심 획득 기능이라면 오히려 복도에 더 오래 있게 되는 역효과가 생길 수 있습니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 3: 과제 시 자기 손 깨물기 (과제 회피) ──
+  {
+    title: "어려운 과제가 주어질 때마다 자기 손을 깨뭅니다",
+    func: "회피",
+    situation: "3학년 국어 시간. 쓰기 과제가 제시되자 수아가 자기 손등을 깨물기 시작합니다. 오늘만 세 번, 이번 주에는 매일 발생했습니다. 손에 자국이 남아 있습니다. 과제를 치워주면 행동이 멈춥니다.",
+    steps: [
+      {
+        label: "Step 1. 도전행동 여부 판단",
+        q: "수아의 손 깨물기, 도전행동으로 볼 수 있나요?",
+        choices: [
+          { text: "A. 아니오, 자해 수준이 아니므로 도전행동이 아닙니다", result: "caution" },
+          { text: "B. 네, 자신의 신체에 위해를 끼칠 수 있고 반복 발생하므로 중재가 필요합니다", result: "correct" },
+          { text: "C. 판단하기 어려우니 며칠 더 지켜봅니다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "정확합니다. 손에 자국이 남는 강도, 이번 주 매일 발생하는 빈도, 자신의 신체에 위해를 끼칠 수 있다는 점에서 중재가 필요한 도전행동입니다. 단, '도전행동'이라는 말보다 '중재가 필요한 행동'으로 접근하는 것이 중요합니다.", law: "Emerson(1988) — 본인의 신체적 안전을 해칠 가능성 + 반복 빈도 기준 충족", tip: "📋 초기면담지(부록 1)를 작성하고, 행동 유형 A(파괴적·위험 행동)로 분류하여 기록하세요." },
+          caution: { icon: "⚠️", text: "손에 자국이 남는다면 이미 신체에 위해를 끼치는 수준입니다. '자해 수준이 아니다'고 판단하기 전에 강도·빈도·기간을 체계적으로 평가해 보세요.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "이미 이번 주 매일 발생하고 있습니다. 더 지켜보기보다 지금 초기 평가를 시작하는 것이 적절합니다. 행동이 심화되기 전 개입이 훨씬 효과적입니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 기능 파악",
+        q: "과제를 치워주면 행동이 멈춘다는 관찰 결과, 이 행동의 기능은?",
+        choices: [
+          { text: "A. 관심 획득 — 교사의 관심을 원한다", result: "wrong" },
+          { text: "B. 과제 회피 — 어려운 과제에서 벗어나고 싶다", result: "correct" },
+          { text: "C. 감각 추구 — 깨무는 감각 자극 자체를 원한다", result: "caution" },
+          { text: "D. 강화물 획득 — 쉬는 시간을 얻고 싶다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "핵심 단서를 잘 파악했습니다. '과제를 치워주면 멈춘다'는 것은 행동이 과제 제거라는 결과로 강화되고 있다는 의미입니다. 과제 회피 기능입니다. 과제를 치워주는 것을 반복하면 '깨물면 과제가 없어진다'를 학습하게 됩니다.", law: "QABF — 과제 회피 기능 (사례집 사례 9, 13과 유사)", tip: "💡 사례집 사례 13: 자기 손가락 깨물기 → 과제 회피 기능 → 대체 의사표현 지도로 개선." },
+          wrong: { icon: "🔄", text: "관심 획득이라면 교사가 다가올 때 행동이 강화돼야 합니다. 과제를 치워줄 때 멈추는 패턴은 과제 회피 기능을 강하게 시사합니다.", law: "", tip: "" },
+          caution: { icon: "🤔", text: "감각 자극 가능성도 있습니다. 그러나 '과제가 주어질 때마다' 발생하고 '과제를 치우면 멈춘다'는 선행사건-후속결과 패턴이 더 명확하므로 과제 회피가 주요 기능일 가능성이 높습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 즉각 대응 및 중재",
+        q: "과제 회피 기능임을 파악했습니다. 가장 효과적인 중재 방향은?",
+        choices: [
+          { text: "A. 손을 깨물 때마다 즉시 과제를 치워준다 (행동 소거)", result: "wrong" },
+          { text: "B. '쉬고 싶어요' 카드나 말로 표현하는 대체행동을 가르치고, 그 방법을 사용할 때 과제를 잠시 쉬게 해준다", result: "correct" },
+          { text: "C. 절대로 과제를 쉬게 해주지 않는다", result: "caution" },
+          { text: "D. 과제 난이도를 대폭 낮춘다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS의 핵심 전략인 '대체행동 지도'입니다. 과제 회피라는 기능(욕구) 자체는 인정하되, 그것을 표현하는 방법을 더 적절한 방법으로 바꾸는 것입니다. '쉬고 싶어요', '모르겠어요', '도와주세요' 같은 표현을 가르치고, 그 말을 했을 때 즉시 반응해 주세요.", law: "고시 제9조(조언) — 학생의 문제 개선을 위해 전문가 상담 권고 가능", tip: "💡 사례집 사례 10: '그만하고 싶어요', '쉬고 싶어요' 어휘 목록을 책상에 붙여 활용 → 문제행동 감소." },
+          wrong: { icon: "🔄", text: "가장 피해야 할 대응입니다. 깨물 때 과제를 치워주면 '깨물기 → 과제 없어짐'의 연결을 반복 학습시켜 행동이 더 강해집니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "극단적 방법은 모두 위험합니다. 절대 쉬게 안 해주면 행동이 더 심해질 수 있고, 과제를 너무 쉽게 하면 회피를 가르치는 셈입니다. 적절한 과제 난이도 조절(선행사건 중재)과 대체 의사표현 지도를 함께 해야 합니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 4: 강화물 획득 → 드러눕기/물건 던지기 ──
+  {
+    title: "원하는 것을 못 받으면 울며 물건을 던지고 드러눕습니다",
+    func: "강화",
+    situation: "쉬는 시간. 1학년 지호가 원하는 색연필(빨간색)을 친구가 쓰고 있어 받지 못하자, 바닥에 드러누워 울고 소리를 지르며 필통을 던졌습니다. 평소에도 원하는 것을 못 받으면 비슷한 행동을 보입니다. 달래주거나 원하는 것을 주면 금방 멈춥니다.",
+    steps: [
+      {
+        label: "Step 1. 기능 파악",
+        q: "지호의 이 행동, 어떤 기능일 가능성이 가장 높나요?",
+        choices: [
+          { text: "A. 관심 획득 — 선생님이나 친구들의 주목을 받고 싶다", result: "caution" },
+          { text: "B. 강화물 획득 — 원하는 물건(색연필)을 얻고 싶다", result: "correct" },
+          { text: "C. 과제 회피 — 수업이 싫다", result: "wrong" },
+          { text: "D. 감각 추구 — 울고 소리지르는 감각이 좋다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "정확합니다. 원하는 물건이 주어지면 행동이 멈추는 패턴은 강화물 획득 기능의 핵심 신호입니다. 이 기능을 이해하면, 원하는 것을 줘서 달래는 것이 왜 행동을 강화시키는지 이해할 수 있습니다.", law: "QABF — 강화물 획득 기능 (사례집 Ⅲ장 사례 14~16과 유사)", tip: "💡 사례집 사례 15: 원하는 바를 이루기 위한 자리 이탈 및 떼쓰기 → 강화물 획득 기능." },
+          caution: { icon: "🤔", text: "관심 획득 기능이 함께 있을 수 있습니다. 그러나 '원하는 것을 받으면 멈춘다'는 패턴이 명확하므로 강화물 획득이 주된 기능입니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "이 상황은 쉬는 시간에 발생했고, 원하는 물건과 직접 연결되어 있습니다. 과제 회피나 감각 추구 기능과는 맞지 않습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 즉각 대응",
+        q: "지호가 지금 바닥에 드러누워 울고 필통을 던지고 있습니다. 가장 먼저 해야 할 것은?",
+        choices: [
+          { text: "A. 색연필을 빠르게 주어서 행동을 멈춘다", result: "wrong" },
+          { text: "B. 차분하고 낮은 목소리로 '지호야, 선생님 옆에 와봐'라고 말하며 안전한 공간으로 이동을 유도한다", result: "correct" },
+          { text: "C. '왜 이러는 거야!'라고 강하게 훈계한다", result: "caution" },
+          { text: "D. 던진 필통이 위험하므로 즉시 몸으로 제지한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "감정이 격해진 상태에서는 훈계보다 먼저 안정이 필요합니다. 차분하고 낮은 목소리로 이름을 부르며 안전한 공간으로 이동을 유도하세요. 다른 아이들의 안전도 확인합니다. 행동이 가라앉으면 그때 대화를 시작합니다.", law: "고시 제12조 ③ — 금지된 행동 즉시 중지하도록 말로 제지 가능", tip: "💡 이 단계에서 가장 중요한 것은 교사의 감정 조절입니다. 교사가 흥분하면 아이도 더 격해집니다." },
+          wrong: { icon: "🔄", text: "가장 피해야 할 대응입니다. 색연필을 주면 '드러눕고 던지면 원하는 것을 얻는다'를 학습하게 됩니다. 단기적으로 행동이 멈추더라도 장기적으로 행동이 더 강해집니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "감정이 격해진 상태에서의 훈계나 즉각적 물리적 제지는 행동을 더 악화시킬 수 있습니다. 필통이 날아가는 정도라면 주변 학생들을 안전하게 거리를 두게 하고, 말로 제지를 먼저 시도하세요.", law: "고시 제12조 ④ — 물리적 제지는 생명·신체에 위해를 끼칠 우려가 있는 긴급한 경우에 한정", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 장기 중재",
+        q: "이 행동이 반복된다면, 가장 중요한 장기 중재 목표는?",
+        choices: [
+          { text: "A. 원하는 것을 참는 연습만 반복시킨다", result: "caution" },
+          { text: "B. '원해요', '빌려줄 수 있어요?' 같은 적절한 요청 방법을 가르치고, 그 방법을 사용할 때 기회를 준다", result: "correct" },
+          { text: "C. 원하는 물건은 절대 주지 않는 원칙을 세운다", result: "caution" },
+          { text: "D. 보호자에게 집에서 참을성 교육을 부탁한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "핵심 전략입니다. 강화물 획득 욕구 자체는 자연스러운 것입니다. '떼쓰기' 대신 '적절한 요청'으로 같은 목표(원하는 것 얻기)를 이룰 수 있다는 것을 가르치세요. 적절하게 요청했을 때 가능한 범위에서 반드시 반응해 주는 것이 중요합니다.", law: "고시 제13조(보상) — 바람직한 행동에 동기 부여", tip: "💡 사례집 사례 16: 소리 지르기 → 적절한 의사 표현 대체행동 지도 → 강화제로 동기 부여." },
+          caution: { icon: "⚠️", text: "어느 한 가지만으로는 부족합니다. 참기만 강요하거나, 절대 주지 않거나, 가정에만 맡기는 방식은 효과가 제한적입니다. 적절한 요청 방법을 가르치고, 그 방법이 작동한다는 경험을 반복 제공하는 것이 핵심입니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 5: 감각 추구 행동 ──
+  {
+    title: "수업 중 코를 킁킁거리고 몸을 반복적으로 흔듭니다",
+    func: "감각",
+    situation: "4학년 서진이가 매 수업마다 코를 킁킁거리는 소리를 내고 앞뒤로 몸을 흔드는 행동을 합니다. 특정 과제나 상황에 관계없이 항상 발생합니다. 신체적 이상은 없는 것으로 확인됐습니다. 교사가 제지하면 잠시 멈추었다가 곧 다시 합니다.",
+    steps: [
+      {
+        label: "Step 1. 도전행동인가?",
+        q: "서진이의 코 킁킁거리기와 몸 흔들기, 이것이 도전행동인지 어떻게 판단할 수 있을까요?",
+        choices: [
+          { text: "A. 수업을 방해하므로 명백한 도전행동입니다", result: "caution" },
+          { text: "B. 자신이나 타인의 신체적 안전을 위협하지 않고 빈도·강도 기준을 검토해야 합니다", result: "correct" },
+          { text: "C. 장애 행동이므로 도전행동으로 간주합니다", result: "wrong" },
+          { text: "D. 아무 문제가 없습니다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "신중한 판단입니다. 도전행동 여부는 강도(신체 안전 위협 수준인가), 빈도, 기간, 방해 정도를 종합해야 합니다. 소음이 수업에 방해가 되는지, 다른 학생의 학습권을 침해하는 수준인지를 기준으로 판단하세요. 감각 추구 행동은 무조건 '도전행동'이 아닐 수 있습니다.", law: "브런치 글(유진 박성민): 도전행동 정의 — 빈도가 적은 행동을 과잉 일반화해서는 안 된다", tip: "💡 사례집 사례 17·18: 감각 추구 행동은 행동 자체보다 맥락과 기능을 먼저 파악하는 것이 중요합니다." },
+          caution: { icon: "⚠️", text: "수업 방해 여부는 중요한 기준이지만, 그것만으로 도전행동을 규정하면 과잉 낙인이 될 수 있습니다. 강도·빈도·기간·방해 정도를 종합적으로 평가하세요.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "장애 여부와 도전행동 여부는 별개입니다. 장애 학생이라도 모든 행동이 도전행동은 아니며, 비장애 학생도 도전행동을 보일 수 있습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 기능 파악",
+        q: "특정 상황에 관계없이 항상 발생하는 이 행동의 기능은?",
+        choices: [
+          { text: "A. 관심 획득 — 친구들이 쳐다보는 것을 즐긴다", result: "caution" },
+          { text: "B. 과제 회피 — 어려운 과제를 피하려 한다", result: "wrong" },
+          { text: "C. 감각 추구 — 몸 흔들기·소리내기 자체가 제공하는 감각을 원한다", result: "correct" },
+          { text: "D. 강화물 획득 — 쉬는 시간을 얻고 싶다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "정확합니다. 특정 상황이나 과제에 관계없이 지속적으로 발생하는 반복 행동은 감각 추구(자기 자극)의 핵심 특징입니다. 이 행동은 아이에게 특정 감각 자극을 제공하거나 불쾌한 감각을 조절하는 기능을 합니다.", law: "QABF — 감각 자극 기능 (사례집 Ⅳ장 사례 17·18 유사)", tip: "💡 사례집 사례 17: 코 킁킁거리기 → 감각 추구 기능 → 대체 감각 자극 제공으로 중재." },
+          caution: { icon: "🤔", text: "관심 획득이 함께 있을 수 있지만, '특정 상황에 관계없이 항상'이라는 특징이 감각 추구 기능을 더 강하게 시사합니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "과제 상황과 무관하게 항상 발생한다는 점에서 과제 회피나 강화물 획득 기능과는 맞지 않습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 중재 전략",
+        q: "감각 추구 기능으로 파악됐습니다. 가장 적절한 중재 방향은?",
+        choices: [
+          { text: "A. 행동이 발생할 때마다 즉시 제지한다", result: "caution" },
+          { text: "B. 해당 감각을 충족할 수 있는 대체 도구(피젯토이, 씹을 수 있는 도구 등)를 제공하고, 허용 가능한 방식으로 감각 욕구를 충족할 수 있도록 돕는다", result: "correct" },
+          { text: "C. 행동을 완전히 없애는 것을 목표로 한다", result: "wrong" },
+          { text: "D. 보호자에게 집에서 고치도록 요청한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "감각 추구 기능에서 가장 효과적인 전략입니다. 감각 욕구 자체를 없앨 수는 없으므로, 더 적절한 방식으로 같은 감각을 충족할 수 있게 해줍니다. 특수교사나 작업치료사와 협력하여 적합한 도구를 선택하세요.", law: "고시 제9조 ③ — 전문가 검사·상담·치료를 보호자에게 권고 가능", tip: "💡 사례집 사례 18: 속옷 물어뜯기 → 옷에 테이프 붙이기(선행사건 중재) + 핀 꽂기·퍼즐 과제(대체 감각) 제공 → 개선." },
+          caution: { icon: "⚠️", text: "반복 제지만으로는 효과가 제한적입니다. 감각 욕구가 충족되지 않으면 다른 행동으로 나타날 수 있습니다. 대체 감각 제공을 함께 해야 합니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "감각 추구 행동을 완전히 없애는 것은 현실적으로 어렵습니다. 목표는 '사라지게 하기'보다 '수업에 지장이 없는 수준으로 관리하기'입니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 6: 학부모 항의 전화 (고시) ──
+  {
+    title: "밤 11시에 학부모가 격양된 목소리로 전화합니다",
+    func: "고시",
+    situation: "퇴근 후 밤 11시. 오늘 수업 중 학생 분리 조치를 했던 지호 어머니에게서 전화가 왔습니다. '왜 우리 애를 복도에 세워놨어요? 저한테 먼저 연락을 했어야 하는 거 아닌가요? 이건 아동학대예요!' 목소리가 매우 격앙되어 있습니다.",
+    steps: [
+      {
+        label: "Step 1. 지금 통화를 이어가야 하나요?",
+        q: "밤 11시, 격앙된 학부모 전화. 지금 이 상황에서 어떻게 해야 할까요?",
+        choices: [
+          { text: "A. 지금 바로 상황을 자세히 설명하며 해명한다", result: "caution" },
+          { text: "B. '지금은 근무 외 시간이고 내일 학교에서 차분히 이야기 나누자'고 안내한 후 통화를 마무리한다", result: "correct" },
+          { text: "C. 전화를 받지 말았어야 했다", result: "caution" },
+          { text: "D. 교장 선생님께 즉시 전화한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "법적으로 정당한 대응입니다. 고시는 근무 외 시간 상담을 거부할 수 있음을 명시하고 있습니다. 격앙된 상태의 전화에서 해명을 시도하면 오히려 오해가 커질 수 있습니다. '내일 학교에서 차분히 말씀 나누겠습니다'는 매우 적절한 응대입니다.", law: "고시 제10조 ⑥ — 근무 시간 외 상담, 사전 합의 없는 상담은 거부 가능", tip: "💡 통화를 마무리한 후 통화 내용을 간략히 메모해 두세요. 이후 분쟁 시 기록이 중요합니다." },
+          caution: { icon: "⚠️", text: "격앙된 상태에서 해명은 효과가 없고 오히려 역효과가 날 수 있습니다. 받기 전에 메시지로 '내일 연락드리겠습니다'를 보내는 것도 방법이지만, 이미 받았다면 차분히 내일 약속을 잡는 것이 최선입니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 오늘 분리 조치가 적법했나요?",
+        q: "오늘 지호를 복도(교실 밖)로 분리했습니다. 이 조치가 적법하려면 어떤 조건이 필요했나요?",
+        choices: [
+          { text: "A. 교장 선생님의 허락을 받았어야 한다", result: "caution" },
+          { text: "B. 학칙에 교실 밖 분리의 장소·시간·학습지원 방법이 사전에 규정되어 있어야 한다", result: "correct" },
+          { text: "C. 보호자에게 먼저 연락한 후에만 할 수 있다", result: "wrong" },
+          { text: "D. 교실 밖 분리는 어떠한 경우에도 허용되지 않는다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "핵심을 정확히 알고 있습니다. 교실 밖 분리(3단계)는 학칙에 사전 규정이 있어야 합니다. 규정이 있었다면 학부모 사전 연락 없이도 적법한 조치입니다. 단, 분리 사실을 보호자에게 '신속히' 알려야 하는 의무가 있습니다.", law: "고시 제12조 ⑥③ — 교실 밖 분리는 학칙 규정 필요 / 고시 제12조 ⑤ — 분리 후 보호자 신속 통보", tip: "📋 분리 실시 기록지를 작성하고, 오늘 분리 사실을 내일 보호자에게 공식적으로 안내하세요." },
+          wrong: { icon: "🔄", text: "보호자 사전 연락은 교실 밖 분리의 조건이 아닙니다. 분리는 교육활동 방해가 발생한 현장에서 즉각 조치 가능하며, 사후에 보호자에게 신속히 알리면 됩니다.", law: "", tip: "" },
+          caution: { icon: "🤔", text: "교장 허락이 사전 조건은 아닙니다. 다만 물리적 제지가 이루어진 경우에는 교장에게 지체 없이 보고해야 합니다.", law: "고시 제12조 ⑤", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 내일 상담 준비",
+        q: "내일 학부모 상담 전, 어떻게 준비하면 좋을까요?",
+        choices: [
+          { text: "A. 상담 전 교장 선생님께 상황을 보고하고, 오늘 분리 과정의 기록을 정리해 둔다", result: "correct" },
+          { text: "B. 학부모가 화났으니 내가 잘못했다고 먼저 사과한다", result: "wrong" },
+          { text: "C. 학부모의 주장을 반박할 자료를 준비한다", result: "caution" },
+          { text: "D. 상담 없이 메시지로 설명한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "가장 적절한 준비입니다. 상담 전 관리자 보고는 교사를 보호하고, 학교 차원의 대응을 가능하게 합니다. 기록(언제, 어떤 행동이 있었고, 어떤 절차로 분리했는지)을 정리해 두면 상담에서 구체적으로 설명할 수 있습니다.", law: "고시 제10조 ④⑤ — 상담 일시·방법은 사전에 협의, 학교장이 정하는 바에 따라 진행", tip: "📋 분리 기록지 + 오늘 지호 행동 관찰 메모를 준비하세요. '기록'이 교사를 보호합니다." },
+          wrong: { icon: "🔄", text: "정당한 생활지도에 대해 선제적 사과는 불필요하며, 오히려 부당한 압력에 굴복하는 신호가 될 수 있습니다. 사실을 차분히 설명하는 것이 맞습니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "반박 준비보다는 '사실 설명'을 목표로 하세요. 상담의 목적은 승패가 아니라 학생의 교육을 위한 협력 관계 형성입니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 7: 학급 전체 PBS ──
+  {
+    title: "반 전체 분위기가 산만합니다. 어디서부터 시작할까요?",
+    func: "학급",
+    situation: "3월 새 학기. 2학년 담임을 맡게 됐습니다. 수업 중 학생들이 자꾸 돌아다니고, 소리를 지르고, 친구와 싸웁니다. 특정 학생의 문제가 아니라 반 전체 분위기가 산만합니다. 어디서부터 시작해야 할지 막막합니다.",
+    steps: [
+      {
+        label: "Step 1. 접근 방향 설정",
+        q: "반 전체가 산만할 때, 가장 먼저 해야 할 접근은?",
+        choices: [
+          { text: "A. 가장 산만한 학생 3~4명을 파악해서 개별 중재를 시작한다", result: "caution" },
+          { text: "B. 학급 전체를 대상으로 명확한 규칙·기대행동을 정하고 일관되게 가르친다 (PBS 1차 지원)", result: "correct" },
+          { text: "C. 학부모들에게 가정에서 지도해 달라고 요청한다", result: "caution" },
+          { text: "D. 학교 상담교사에게 전체 상담을 의뢰한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS 1차 지원의 핵심입니다. 반 전체가 산만하다면, 개별 중재 전에 먼저 학급 전체에 명확한 기대행동을 가르치는 것이 선행되어야 합니다. 전체 학생의 80%는 이 수준에서 해결됩니다.", law: "고시 제3조 ③ — 교원은 생활지도를 통해 학내 질서를 유지하도록 노력해야 한다", tip: "💡 사례집 사례 19: 학급 차원 PBS — 학생들이 직접 규칙 만들기에 참여하면 실천율이 높아집니다." },
+          caution: { icon: "⚠️", text: "개별 중재나 가정 요청만으로는 반 전체 분위기를 바꾸기 어렵습니다. 먼저 학급 시스템(규칙·구조·강화)을 갖추고, 그 후에도 어려운 학생은 개별 지원으로 이어가세요.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "특정 문제 학생이 있는 경우에는 상담 의뢰가 필요하지만, 반 전체 분위기 문제는 학급 운영 체계 수립이 우선입니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 규칙 만들기",
+        q: "학급 기대행동(규칙)을 만들 때 가장 중요한 원칙은?",
+        choices: [
+          { text: "A. 교사가 중요하다고 생각하는 규칙을 20개 이상 자세히 만든다", result: "wrong" },
+          { text: "B. 학생들이 참여해서 만든 3~5개의 긍정적 행동 규칙을 정하고, 각각 구체적으로 가르친다", result: "correct" },
+          { text: "C. 규칙보다 벌칙을 먼저 명확히 한다", result: "wrong" },
+          { text: "D. 학교 생활규칙을 그대로 사용한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS 기반 학급 규칙의 핵심 원칙입니다. 학생이 참여해서 만들면 주인의식이 생기고, 적은 수의 명확한 규칙이 많은 규칙보다 훨씬 효과적입니다. '~하지 말자'가 아니라 '~하자'는 긍정적 표현을 사용하세요.", law: "고시 제3조 ② — 학생은 학칙을 준수하고 교원의 생활지도를 따라야 한다", tip: "💡 사례집 사례 19: 학생들이 직접 규칙을 정하고 '학급 화폐'로 강화하는 학급 차원 PBS 운영 사례." },
+          wrong: { icon: "🔄", text: "많은 규칙은 기억하기 어렵고 지키기도 어렵습니다. 벌칙 중심의 규칙은 PBS의 방향과 반대입니다. 긍정적이고 명확한 기대행동을 적게, 구체적으로 정하세요.", law: "", tip: "" },
+          caution: { icon: "🤔", text: "학교 생활규칙이 기반이 되어야 하지만, 우리 반만의 구체적인 기대행동을 추가로 정하는 것이 효과적입니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 강화 시스템",
+        q: "규칙을 잘 지키는 행동에 보상하는 강화 시스템, 어떻게 운영하면 좋을까요?",
+        choices: [
+          { text: "A. 강화제(보상)에만 의존하면 아이들이 보상 없이는 행동하지 않게 되므로 아예 사용하지 않는다", result: "wrong" },
+          { text: "B. 즉각적이고 구체적인 칭찬을 기본으로 하고, 학생들이 원하는 것을 반영한 보상 체계를 점진적으로 줄여나간다", result: "correct" },
+          { text: "C. 학급 전체가 목표를 달성하면 큰 파티를 연다", result: "caution" },
+          { text: "D. 잘못한 학생의 보상을 빼앗는 반응대가만 사용한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS 강화 원리의 핵심입니다. 즉각적이고 구체적인 칭찬(사회적 강화)이 가장 기본이며, 외적 보상은 처음에는 빈번하게 주다가 행동이 자리 잡히면 점진적으로 줄여나갑니다. 학생들이 원하는 강화제를 파악하는 것이 출발점입니다.", law: "고시 제13조(보상) — 바람직한 행동을 장려할 목적으로 유·무형의 방법으로 동기 부여", tip: "💡 사례집 사례 19: 학급 화폐 시스템 — 학생이 스스로 기록하고 관리하는 자기점검 방식으로 운영하여 효과적." },
+          wrong: { icon: "🔄", text: "강화(보상)를 전혀 사용하지 않거나, 빼앗기만 하는 방식은 PBS의 방향과 맞지 않습니다. 긍정적 강화가 행동 변화의 핵심 도구입니다.", law: "", tip: "" },
+          caution: { icon: "🤔", text: "큰 파티 같은 집단 강화도 활용할 수 있지만, 즉각적인 소규모 강화와 함께 사용하는 것이 더 효과적입니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  }
+];
+
+let currentScenario = null;
+let currentStep = 0;
+let stepAnswered = [];
+
+/* ─── 페이지 라우팅 ─── */
+const pages = ['home','learn','sim','ref'];
+const navColors = { home: 'rgba(255,255,255,0.4)', learn: '#2A7B7B', sim: '#C97B3A', ref: '#3B6E4A' };
+const navPositions = {
+  home:  { left: '116px', width: '32px' },
+  learn: { left: '156px', width: '80px' },
+  sim:   { left: '244px', width: '66px' },
+  ref:   { left: '318px', width: '90px' }
+};
+
+function showPage(id) {
+  pages.forEach(p => {
+    document.getElementById('page-' + p).classList.toggle('active', p === id);
+    const btn = document.getElementById('nav-' + p);
+    if (btn) btn.classList.toggle('active', p === id);
+  });
+
+  const ind = document.getElementById('navIndicator');
+  if (navPositions[id]) {
+    ind.style.background = navColors[id];
+    ind.style.left  = navPositions[id].left;
+    ind.style.width = navPositions[id].width;
+  } else {
+    ind.style.width = '0';
+  }
+
+  window.scrollTo(0, 0);
+  // state에 페이지 id 저장 — popstate 복원에 사용
+  if (history.pushState) history.pushState({ page: id }, '', '#' + id);
+}
+
+/* ─── 뒤로가기 / 앞으로가기 처리 ─── */
+window.addEventListener('popstate', function(e) {
+  // 시뮬레이터 플레이어가 열려 있으면 먼저 닫기
+  const player = document.getElementById('sim-player');
+  if (player && player.classList.contains('open')) {
+    closeSim();
+    // 현재 페이지 히스토리 엔트리 유지
+    history.pushState({ page: 'sim' }, '', '#sim');
+    return;
+  }
+
+  // state에 페이지 정보가 있으면 복원
+  const targetPage = e.state?.page || location.hash.replace('#', '') || 'home';
+  if (pages.includes(targetPage)) {
+    // pushState 없이 UI만 전환 (히스토리 스택에 추가 안 함)
+    pages.forEach(p => {
+      document.getElementById('page-' + p).classList.toggle('active', p === targetPage);
+      const btn = document.getElementById('nav-' + p);
+      if (btn) btn.classList.toggle('active', p === targetPage);
+    });
+    const ind = document.getElementById('navIndicator');
+    if (navPositions[targetPage]) {
+      ind.style.background = navColors[targetPage];
+      ind.style.left  = navPositions[targetPage].left;
+      ind.style.width = navPositions[targetPage].width;
+    } else {
+      ind.style.width = '0';
+    }
+    window.scrollTo(0, 0);
+  }
+});
+
+/* ─── 홈 상황 선택 인터랙션 ─── */
+const sitRecommend = {
+  learn: {
+    label: '📖 먼저 이것부터 읽어보세요',
+    items: [
+      { name: '도전행동이란?', desc: 'PBS 기초 · 강도·빈도·기간 기준 이해', color: '#2A7B7B', page: 'learn' },
+      { name: '행동의 기능 4가지', desc: '관심·회피·강화물·감각 — 왜 하는지가 핵심', color: '#2A7B7B', page: 'learn' },
+      { name: '고시 핵심 Q&A', desc: '"이렇게 해도 되나요?" 법적 불안 해소', color: '#2A7B7B', page: 'learn' },
+    ]
+  },
+  sim: {
+    label: '🎮 상황별 시나리오 연습',
+    items: [
+      { name: '수업 중 끊임없는 질문 반복', desc: '관심 획득 행동 · 3단계 판단 연습', color: '#C97B3A', page: 'sim' },
+      { name: '과제 시 손 깨물기', desc: '과제 회피 기능 · 대체행동 중재', color: '#C97B3A', page: 'sim' },
+      { name: '학부모 밤 11시 항의 전화', desc: '고시 대응 · 근무 외 상담 거부권', color: '#C97B3A', page: 'sim' },
+    ]
+  },
+  ref: {
+    label: '🔍 지금 바로 찾기',
+    items: [
+      { name: '행동별 카드 검색', desc: '때리기·자리이탈·소리지르기 등 즉시 검색', color: '#3B6E4A', page: 'ref' },
+      { name: '대화 스크립트', desc: '지금 당장 쓸 수 있는 말 예시 확인', color: '#3B6E4A', page: 'ref' },
+      { name: '고시 조항 빠른 참조', desc: '분리·제지·상담거부 등 법적 근거 확인', color: '#3B6E4A', page: 'ref' },
+    ]
+  },
+  qabf: {
+    label: '🔬 QABF 행동기능설문지',
+    items: [
+      { name: 'QABF 온라인 평가 시작', desc: '25문항 → 기능 자동 분석 → 중재 전략 제시', color: '#6B4ECC', page: 'ref' },
+      { name: '행동의 기능 이론 먼저 보기', desc: '관심·회피·강화물·감각 기능 개념 이해', color: '#2A7B7B', page: 'learn' },
+    ]
+  }
+};
+
+function selectSit(type, btn) {
+  document.querySelectorAll('.sit-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const rec = sitRecommend[type];
+  document.getElementById('recLabel').textContent = rec.label;
+  document.getElementById('recItems').innerHTML = rec.items.map(item => `
+    <button class="rec-item" onclick="showPage('${item.page}')">
+      <div class="rec-dot" style="background:${item.color};"></div>
+      <div class="rec-item-text">
+        <div class="rec-item-name">${item.name}</div>
+        <div class="rec-item-desc">${item.desc}</div>
+      </div>
+      <div class="rec-item-arrow">→</div>
+    </button>
+  `).join('');
+
+  const rec_el = document.getElementById('homeRecommend');
+  rec_el.classList.add('show');
+}
+
+/* ─── 법적 근거 토글 ─── */
+function toggleLaw() {
+  const btn = document.getElementById('lawToggleBtn');
+  const body = document.getElementById('homeLawBody');
+  btn.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+/* ─── 탭 전환 (학습) ─── */
+function switchLtab(id, btn) {
+  const learn = document.getElementById('page-learn');
+  learn.querySelectorAll('.ltab-content').forEach(c => c.classList.remove('active'));
+  learn.querySelectorAll('.ltab').forEach(b => b.classList.remove('active'));
+  document.getElementById('ltab-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  // 탭 영역 상단으로 부드럽게 스크롤
+  document.querySelector('.learn-tabs').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* ─── Q&A 토글 ─── */
+function toggleQA(el) {
+  el.classList.toggle('open');
+}
+
+/* ─── Q&A 전체 펼치기 ─── */
+function expandAllQA() {
+  const list = document.querySelector('#ltab-law .law-qa-list');
+  const allOpen = [...list.querySelectorAll('.law-qa')].every(q => q.classList.contains('open'));
+  list.querySelectorAll('.law-qa').forEach(q => {
+    if (allOpen) q.classList.remove('open');
+    else q.classList.add('open');
+  });
+  const btn = document.querySelector('.qa-expand-all');
+  btn.textContent = allOpen ? '전체 펼치기' : '전체 접기';
+}
+
+/* ─── 시나리오 필터 ─── */
+function filterSim(func, btn) {
+  document.querySelectorAll('.sim-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.scenario-card').forEach(c => {
+    const match = func === 'all' || c.dataset.func === func;
+    c.style.display = match ? '' : 'none';
+  });
+}
+
+/* ─── 시뮬레이터 상태 ─── */
+let currentScenario = null;
+let currentStep = 0;
+let stepAnswered = [];
+let stepResults = []; // 각 단계 선택 결과 기록
+
+/* ─── 시나리오 필터 ─── */
+function filterSim(func, btn) {
+  // 모든 필터 버튼 비활성화
+  document.querySelectorAll('.sim-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.scenario-card').forEach(c => {
+    const match = func === 'all' || c.dataset.func === func;
+    c.style.display = match ? '' : 'none';
+  });
+  // 추천 라벨 숨기기
+  const lbl = document.querySelector('.sim-recommend-label');
+  if (lbl) lbl.style.display = func === 'all' ? '' : 'none';
+}
+
+/* ─── 플레이어 열기 ─── */
+function openSim(idx) {
+  currentScenario = scenarios[idx];
+  currentScenario._idx = idx;
+  currentStep = 0;
+  stepAnswered = new Array(currentScenario.steps.length).fill(false);
+  stepResults = new Array(currentScenario.steps.length).fill(null);
+
+  // 타이틀·상황 세팅
+  document.getElementById('spTitle').textContent = currentScenario.title;
+  document.getElementById('spSituationText').textContent = currentScenario.situation;
+
+  // 스텝 인디케이터 렌더
+  renderSpSteps(0);
+  // 진행 바
+  updateSpProgress(0);
+  // 스텝 카드 렌더
+  renderSpStep(0);
+  // 완료 화면 숨기기
+  document.getElementById('spDone').classList.remove('show');
+  document.getElementById('spStepCard').style.display = '';
+
+  // 플레이어 오픈
+  const player = document.getElementById('sim-player');
+  player.classList.add('open');
+  player.scrollTo(0, 0);
+  document.body.style.overflow = 'hidden';
+}
+
+/* ─── 스텝 인디케이터 ─── */
+function renderSpSteps(activeIdx) {
+  const steps = currentScenario.steps;
+  const container = document.getElementById('spSteps');
+  let html = '';
+  steps.forEach((s, i) => {
+    const isDone   = i < activeIdx;
+    const isActive = i === activeIdx;
+    const numClass = isDone ? 'done' : isActive ? 'active' : '';
+    const lblClass = isDone ? 'done'  : isActive ? 'active' : '';
+    html += `<div class="sp-step-item">
+      <div class="sp-step-num ${numClass}">${isDone ? '✓' : i + 1}</div>
+      <span class="sp-step-label ${lblClass}">${s.label}</span>
+    </div>`;
+    if (i < steps.length - 1) {
+      html += `<div class="sp-step-line ${isDone ? 'done' : ''}"></div>`;
+    }
+  });
+  container.innerHTML = html;
+}
+
+/* ─── 진행 바 업데이트 ─── */
+function updateSpProgress(stepIdx) {
+  const total = currentScenario.steps.length;
+  const pct = Math.round((stepIdx / total) * 100);
+  document.getElementById('spProgressBar').style.width = pct + '%';
+  document.getElementById('spProgressText').textContent = `${stepIdx}/${total}`;
+}
+
+/* ─── 스텝 카드 렌더 ─── */
+function renderSpStep(idx) {
+  const s = currentScenario.steps[idx];
+  const isLast = idx === currentScenario.steps.length - 1;
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+
+  const html = `
+    <div class="sp-step-card" id="spCard-${idx}">
+      <div class="sp-step-header">
+        <span class="sp-step-badge" id="spBadge-${idx}">${s.label}</span>
+      </div>
+      <div class="sp-step-q">${s.q}</div>
+      <div class="sp-choices" id="spChoices-${idx}">
+        ${s.choices.map((c, i) => `
+          <button class="sp-choice" onclick="answerSpSim(${idx}, ${i}, '${c.result}', this)">
+            <span class="choice-letter">${letters[i]}</span>
+            <span>${c.text.replace(/^[A-D]\.\s*/, '')}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="sp-feedback" id="spFeedback-${idx}"></div>
+      <button class="sp-next-btn" id="spNextBtn-${idx}"
+        onclick="${isLast ? `showSpDone()` : `goSpStep(${idx + 1})`}">
+        ${isLast ? '결과 보기 →' : '다음 단계 →'}
+      </button>
+    </div>
+  `;
+  document.getElementById('spStepCard').innerHTML = html;
+}
+
+/* ─── 선택 처리 ─── */
+function answerSpSim(stepIdx, choiceIdx, result, btn) {
+  if (stepAnswered[stepIdx]) return;
+  stepAnswered[stepIdx] = true;
+  stepResults[stepIdx] = result;
+
+  const step = currentScenario.steps[stepIdx];
+  const fb = step.feedback[result];
+
+  // 선택지 스타일
+  document.querySelectorAll(`#spChoices-${stepIdx} .sp-choice`).forEach(b => {
+    b.disabled = true;
+    b.style.opacity = '0.55';
+    b.style.cursor = 'default';
+  });
+  btn.style.opacity = '1';
+  btn.classList.add('sel-' + result);
+
+  // 뱃지 갱신
+  const badge = document.getElementById(`spBadge-${stepIdx}`);
+  if (badge) badge.classList.add('done-badge');
+
+  // 피드백 렌더
+  const fbEl = document.getElementById(`spFeedback-${stepIdx}`);
+  fbEl.className = `sp-feedback show ${result}`;
+  fbEl.innerHTML = `
+    <div class="sp-fb-main ${result}">
+      <span class="sp-fb-icon">${fb.icon}</span>
+      <span>${fb.text}</span>
+    </div>
+    ${fb.law ? `<div class="sp-fb-law"><strong>⚖️ 고시 근거:</strong> ${fb.law}</div>` : ''}
+    ${fb.tip ? `<div class="sp-fb-tip">${fb.tip}</div>` : ''}
+  `;
+
+  // 다음 버튼 표시
+  const nextBtn = document.getElementById(`spNextBtn-${stepIdx}`);
+  nextBtn.classList.add('visible');
+
+  // 피드백으로 자동 스크롤
+  setTimeout(() => {
+    fbEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 120);
+
+  // 진행 바 갱신
+  const answered = stepResults.filter(r => r !== null).length;
+  updateSpProgress(answered);
+}
+
+/* ─── 다음 스텝으로 ─── */
+function goSpStep(idx) {
+  currentStep = idx;
+  renderSpSteps(idx);
+  renderSpStep(idx);
+  // 플레이어 상단으로 스크롤
+  document.getElementById('sim-player').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── 완료 화면 ─── */
+function showSpDone() {
+  document.getElementById('spStepCard').style.display = 'none';
+  updateSpProgress(currentScenario.steps.length);
+  document.getElementById('spProgressText').textContent =
+    `${currentScenario.steps.length}/${currentScenario.steps.length}`;
+
+  // 결과 요약 생성
+  const resultLabels = { correct: '✅ 적절한 대응', caution: '⚠️ 주의 필요', wrong: '🔄 재고 필요' };
+  const summaryRows = currentScenario.steps.map((s, i) => {
+    const r = stepResults[i] || 'caution';
+    return `<div class="sp-done-row">
+      <span class="dr-label">${s.label.replace('Step ', '')}</span>
+      <span class="dr-val">${resultLabels[r]}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('spDoneSummary').innerHTML =
+    `<h3>이번 연습 결과</h3>${summaryRows}`;
+
+  // 완료 메시지
+  const correctCount = stepResults.filter(r => r === 'correct').length;
+  const total = currentScenario.steps.length;
+  const msgs = {
+    3: '세 단계 모두 최적 대응을 선택했습니다. 현장에서도 자신 있게 적용해 보세요!',
+    2: '절반 이상 적절한 대응을 선택했습니다. 피드백을 다시 읽고 다음 시나리오에 도전해 보세요.',
+    1: '한 단계는 잘 하셨습니다. 각 단계의 피드백을 다시 읽어보시면 더 명확해질 거예요.',
+    0: '어려운 상황이었습니다. 피드백을 천천히 읽고 유사한 시나리오를 다시 연습해 보세요.',
+  };
+  document.getElementById('spDoneMsg').textContent =
+    msgs[correctCount] || msgs[0];
+
+  // 다음 추천 시나리오
+  const nextIdx = (currentScenario._idx + 1) % scenarios.length;
+  const next = scenarios[nextIdx];
+  document.getElementById('spDoneNext').innerHTML = `
+    <button class="sp-done-next" onclick="openSim(${nextIdx})">
+      <div style="flex:1">
+        <span class="sdn-label">다음 추천 시나리오</span>
+        <span class="sdn-title">${next.title}</span>
+      </div>
+      <span style="color:var(--amber);font-size: 18px;">→</span>
+    </button>
+  `;
+
+  // 렌더 + 스크롤
+  const doneEl = document.getElementById('spDone');
+  doneEl.classList.add('show');
+  document.getElementById('sim-player').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── 플레이어 닫기 ─── */
+function closeSim() {
+  document.getElementById('sim-player').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ─── 레퍼런스 사전 ─── */
+function toggleRefCard(headerEl) {
+  const card = headerEl.closest('.ref-card');
+  // 다른 카드는 닫지 않음 — 여러 카드 동시에 볼 수 있게
+  card.classList.toggle('open');
+}
+
+/* 탭 전환 — 열린 카드 내 탭 */
+function switchRefTab(btn, tab) {
+  const body = btn.closest('.ref-card-body');
+  body.querySelectorAll('.rct-btn').forEach(b => b.classList.remove('active'));
+  body.querySelectorAll('.ref-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  body.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+}
+
+/* 필터 — 행동 카드 + 도구 카드 모두 적용 */
+function filterRef(tag, btn) {
+  document.querySelectorAll('.ref-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('refSearchInput').value = '';
+  document.getElementById('refSearchHint').textContent =
+    '카드 제목·내용 전체를 검색합니다. 검색 시 첫 번째 결과가 자동으로 열립니다.';
+
+  const allCards = document.querySelectorAll('.ref-card');
+  let firstVisible = null;
+  allCards.forEach(c => {
+    const tags = (c.dataset.tags || '').toLowerCase();
+    const funcColor = (c.dataset.funcColor || '').toLowerCase();
+    const title = (c.querySelector('.rch-title')?.textContent || '').toLowerCase();
+    const match = tag === 'all'
+      || tags.includes(tag.toLowerCase())
+      || funcColor === tag.toLowerCase();
+    c.style.display = match ? '' : 'none';
+    if (match && !firstVisible) firstVisible = c;
+  });
+
+  // 섹션 구분선 표시 여부
+  const toolSection = document.getElementById('refToolGrid');
+  if (toolSection) {
+    const toolDiv = toolSection.previousElementSibling;
+    const toolVisible = tag === 'all' || tag === '도구' || tag === '서식';
+    if (toolDiv) toolDiv.style.display = toolVisible ? '' : 'none';
+    toolSection.style.display = toolVisible ? '' : 'none';
+  }
+
+  // 필터 결과가 1개면 자동으로 펼치기
+  if (firstVisible && !firstVisible.classList.contains('open')) {
+    firstVisible.classList.add('open');
+  }
+}
+
+/* 검색 — 카드 본문 텍스트 전체 탐색 + 하이라이트 */
+function searchRef(val) {
+  const q = val.trim().toLowerCase();
+  const hint = document.getElementById('refSearchHint');
+
+  // 검색어 없으면 초기화
+  if (!q) {
+    document.querySelectorAll('.ref-card').forEach(c => {
+      c.style.display = '';
+      // 하이라이트 제거
+      c.querySelectorAll('.ref-highlight').forEach(el => {
+        el.outerHTML = el.textContent;
+      });
+    });
+    // 섹션 복구
+    const toolSection = document.getElementById('refToolGrid');
+    if (toolSection) {
+      const toolDiv = toolSection.previousElementSibling;
+      if (toolDiv) toolDiv.style.display = '';
+      toolSection.style.display = '';
+    }
+    hint.textContent = '카드 제목·내용 전체를 검색합니다. 검색 시 첫 번째 결과가 자동으로 열립니다.';
+    document.querySelectorAll('.ref-filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.ref-filter-btn').classList.add('active');
+    return;
+  }
+
+  // 필터 버튼 비활성화
+  document.querySelectorAll('.ref-filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.ref-filter-btn').classList.add('active');
+
+  let count = 0;
+  let firstMatch = null;
+  document.querySelectorAll('.ref-card').forEach(c => {
+    // 검색 대상: tags + 제목 + 카드 본문 텍스트 모두
+    const searchText = [
+      c.dataset.tags || '',
+      c.querySelector('.rch-title')?.textContent || '',
+      c.querySelector('.ref-card-body')?.textContent || ''
+    ].join(' ').toLowerCase();
+
+    if (searchText.includes(q)) {
+      c.style.display = '';
+      count++;
+      if (!firstMatch) firstMatch = c;
+    } else {
+      c.style.display = 'none';
+    }
+  });
+
+  // 섹션 구분선 처리
+  const toolSection = document.getElementById('refToolGrid');
+  if (toolSection) {
+    const toolDivider = toolSection.previousElementSibling;
+    const toolVisible = [...toolSection.querySelectorAll('.ref-card')].some(c => c.style.display !== 'none');
+    if (toolDivider) toolDivider.style.display = toolVisible ? '' : 'none';
+    toolSection.style.display = toolVisible ? '' : 'none';
+  }
+
+  hint.textContent = count > 0
+    ? `"${val}" 검색 결과 ${count}개`
+    : `"${val}"에 해당하는 카드가 없습니다.`;
+
+  // 첫 번째 결과 자동 펼치기
+  if (firstMatch && !firstMatch.classList.contains('open')) {
+    firstMatch.classList.add('open');
+    firstMatch.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+/* 긴급 접근 — 카드 제목으로 빠른 열기 */
+function urgentOpen(keyword) {
+  // 검색창에 키워드 입력 후 searchRef 실행
+  const input = document.getElementById('refSearchInput');
+  input.value = keyword;
+  searchRef(keyword);
+  // 검색창으로 스크롤
+  input.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* ─── QABF 온라인 버전 ─── */
+const qabfQuestions = [
+  // 관심 획득 (0~4)
+  { cat: '관심 획득', text: '다른 사람이 주의를 기울이지 않을 때 이 행동을 합니까?', func: 0 },
+  { cat: '관심 획득', text: '다른 사람이 있을 때 이 행동을 더 자주 합니까?', func: 0 },
+  { cat: '관심 획득', text: '이 행동을 할 때 주목받는 것처럼 보입니까?', func: 0 },
+  { cat: '관심 획득', text: '혼자 있을 때는 이 행동을 거의 하지 않습니까?', func: 0 },
+  { cat: '관심 획득', text: '다른 사람의 관심을 얻기 위해 이 행동을 하는 것처럼 보입니까?', func: 0 },
+  // 회피 (5~9)
+  { cat: '과제 회피', text: '과제나 활동이 요구될 때 이 행동을 합니까?', func: 1 },
+  { cat: '과제 회피', text: '이 행동을 하면 요구되는 과제나 활동에서 벗어납니까?', func: 1 },
+  { cat: '과제 회피', text: '어렵거나 원하지 않는 활동이 제시될 때 이 행동을 합니까?', func: 1 },
+  { cat: '과제 회피', text: '이 행동은 과제가 없을 때는 거의 나타나지 않습니까?', func: 1 },
+  { cat: '과제 회피', text: '이 행동으로 인해 불쾌한 상황에서 벗어나는 것처럼 보입니까?', func: 1 },
+  // 강화물 획득 (10~14)
+  { cat: '강화물 획득', text: '원하는 물건이나 활동을 얻기 위해 이 행동을 합니까?', func: 2 },
+  { cat: '강화물 획득', text: '이 행동으로 원하는 것(음식, 장난감 등)을 얻습니까?', func: 2 },
+  { cat: '강화물 획득', text: '원하는 것이 눈에 보일 때 이 행동이 더 자주 나타납니까?', func: 2 },
+  { cat: '강화물 획득', text: '원하는 물건이나 활동을 얻으면 이 행동이 멈춥니까?', func: 2 },
+  { cat: '강화물 획득', text: '이 행동은 원하는 것이 없을 때는 거의 나타나지 않습니까?', func: 2 },
+  // 감각 자극 (15~19)
+  { cat: '감각 자극', text: '혼자 있을 때도 이 행동을 합니까?', func: 3 },
+  { cat: '감각 자극', text: '이 행동 자체가 즐거움을 주는 것처럼 보입니까?', func: 3 },
+  { cat: '감각 자극', text: '상황에 관계없이 반복적으로 이 행동을 합니까?', func: 3 },
+  { cat: '감각 자극', text: '이 행동을 통해 특정 감각 자극을 얻는 것처럼 보입니까?', func: 3 },
+  { cat: '감각 자극', text: '이 행동은 자극이 부족한 상황에서 더 자주 나타납니까?', func: 3 },
+  // 추가 5문항 (혼합 확인)
+  { cat: '과제 회피', text: '이 행동은 낯설거나 어려운 상황에서 더 자주 나타납니까?', func: 1 },
+  { cat: '관심 획득', text: '교사나 또래가 다른 사람에게 관심을 줄 때 이 행동이 더 자주 발생합니까?', func: 0 },
+  { cat: '강화물 획득', text: '원하는 것을 미리 보여준 후 제거하면 이 행동이 나타납니까?', func: 2 },
+  { cat: '감각 자극', text: '이 행동은 특정 신체 부위에 반복적으로 일어납니까?', func: 3 },
+  { cat: '과제 회피', text: '특정 교과나 활동 시간에 이 행동이 집중적으로 발생합니까?', func: 1 }
+];
+const qabfFuncNames = ['관심 획득', '과제 회피', '강화물 획득', '감각 자극'];
+const qabfFuncColors = ['#E05A5A', '#E0963C', '#3C7FE0', '#8B5BE0'];
+const qabfFuncEmoji = ['👀', '🏃', '🎁', '✨'];
+const qabfInterventions = [
+  { title: '관심 획득 기능 중재 전략', items: ['적절한 관심 끌기 대체행동 가르치기 (손 들기, 차례 기다리기)', '예측 가능한 관심 제공 시간 만들기 (수업 중 정기적으로 눈 맞추기)', '문제행동에는 최소한의 반응, 적절한 행동에는 즉각 관심 제공', '또래와의 상호작용 기회 늘리기', '교사 관심 없이도 독립적으로 활동할 수 있는 과제 제공'] },
+  { title: '과제 회피 기능 중재 전략', items: ['"쉬고 싶어요", "모르겠어요" 대체 의사표현 카드 가르치기', '과제 난이도·양 조절 (선행사건 중재)', '과제 선택권 제공 (어떤 것부터 할지 선택하게)', '과제를 소단계로 나누어 제시', '시각적 일과표로 예측 가능성 높이기'] },
+  { title: '강화물 획득 기능 중재 전략', items: ['적절한 요청 방법 가르치기 ("빌려줄 수 있어요?", "원해요")', '원하는 것을 얻을 수 있는 규칙·방법 명확히 안내', '적절한 요청 시 가능한 범위 내 반드시 반응', '원하는 것을 참는 연습은 점진적으로', '강화물 접근 전 바람직한 행동 요구 (행동 계약)'] },
+  { title: '감각 자극 기능 중재 전략', items: ['대체 감각 도구 제공 (피젯토이, 씹는 도구, 촉감 자극)', '등교 후 감각 활동으로 욕구 사전 충족', '특수교사·작업치료사와 협력', '행동이 허용되는 시간·장소 구분하여 안내', '감각 자극을 완전히 없애기보다 허용 가능한 방식으로 관리'] }
+];
+
+let qabfAnswers = new Array(25).fill(-1);
+let qabfCurrentQ = 0;
+
+function startQABF() {
+  document.getElementById('qabf-intro').style.display = 'none';
+  document.getElementById('qabf-form').style.display = 'block';
+  qabfAnswers = new Array(25).fill(-1);
+  qabfCurrentQ = 0;
+  renderQABFQuestion();
+}
+
+function renderQABFQuestion() {
+  const q = qabfQuestions[qabfCurrentQ];
+  const n = qabfCurrentQ + 1;
+  document.getElementById('qabf-prog-label').textContent = `${n} / 25`;
+  document.getElementById('qabf-prog-cat').textContent = q.cat;
+  document.getElementById('qabf-prog-bar').style.width = (n / 25 * 100) + '%';
+  document.getElementById('qabf-q-cat').textContent = q.cat;
+  document.getElementById('qabf-q-text').textContent = q.text;
+
+  const labels = ['0\n전혀 없음', '1\n가끔', '2\n자주', '3\n항상'];
+  const choicesEl = document.getElementById('qabf-choices');
+  choicesEl.innerHTML = labels.map((l, i) => `
+    <button onclick="qabfSelect(${i})" class="qabf-choice-btn" data-v="${i}"
+      style="padding:12px 6px;border:2px solid ${qabfAnswers[qabfCurrentQ]===i?'var(--green)':'var(--border)'};
+      border-radius:8px;background:${qabfAnswers[qabfCurrentQ]===i?'var(--green-light)':'white'};
+      font-family:inherit;font-size: 13.5px;cursor:pointer;line-height:1.4;
+      color:${qabfAnswers[qabfCurrentQ]===i?'var(--green)':'var(--text-sub)'};font-weight:${qabfAnswers[qabfCurrentQ]===i?'700':'400'};
+      white-space:pre-line;transition:all 0.15s;">
+      ${l}
+    </button>
+  `).join('');
+
+  document.getElementById('qabf-prev').style.opacity = qabfCurrentQ === 0 ? '0.4' : '1';
+  document.getElementById('qabf-prev').disabled = qabfCurrentQ === 0;
+}
+
+function qabfSelect(val) {
+  qabfAnswers[qabfCurrentQ] = val;
+  if (qabfCurrentQ < 24) {
+    qabfCurrentQ++;
+    renderQABFQuestion();
+  } else {
+    showQABFResult();
+  }
+}
+
+function qabfPrev() {
+  if (qabfCurrentQ > 0) { qabfCurrentQ--; renderQABFQuestion(); }
+}
+
+function showQABFResult() {
+  const scores = [0, 0, 0, 0];
+  qabfQuestions.forEach((q, i) => { if (qabfAnswers[i] >= 0) scores[q.func] += qabfAnswers[i]; });
+  const maxScore = 15; // 5문항 × 3점
+  const sorted = scores.map((s, i) => ({ func: i, score: s })).sort((a, b) => b.score - a.score);
+  const primary = sorted[0];
+
+  document.getElementById('qabf-form').style.display = 'none';
+  const resultEl = document.getElementById('qabf-result');
+  resultEl.style.display = 'block';
+  resultEl.innerHTML = `
+    <div style="margin-bottom:16px;">
+      <div style="font-size: 14px;font-weight:700;color:var(--text-sub);margin-bottom:12px;letter-spacing:0.5px;">QABF 결과</div>
+      ${sorted.map((item, rank) => `
+        <div style="margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;font-size: 14px;margin-bottom:4px;">
+            <span style="font-weight:${rank===0?'700':'400'};color:${rank===0?qabfFuncColors[item.func]:'var(--text-sub)'};">
+              ${qabfFuncEmoji[item.func]} ${qabfFuncNames[item.func]}
+            </span>
+            <span style="font-weight:700;color:${rank===0?qabfFuncColors[item.func]:'var(--text-sub)'};">${item.score}점 / ${maxScore}점</span>
+          </div>
+          <div style="background:var(--border);border-radius:999px;height:8px;overflow:hidden;">
+            <div style="height:100%;border-radius:999px;background:${qabfFuncColors[item.func]};width:${Math.round(item.score/maxScore*100)}%;opacity:${rank===0?1:0.4};transition:width 0.5s;"></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="background:${qabfFuncColors[primary.func]}18;border:1.5px solid ${qabfFuncColors[primary.func]}44;border-radius:10px;padding:16px;margin-bottom:14px;">
+      <div style="font-size: 13.5px;font-weight:700;color:${qabfFuncColors[primary.func]};margin-bottom:6px;">주요 기능: ${qabfFuncEmoji[primary.func]} ${qabfFuncNames[primary.func]}</div>
+      <div style="font-size: 14px;font-weight:700;margin-bottom:8px;">${qabfInterventions[primary.func].title}</div>
+      <ul style="padding-left:16px;">
+        ${qabfInterventions[primary.func].items.map(it => `<li style="font-size: 14px;color:var(--text);line-height:1.7;">${it}</li>`).join('')}
+      </ul>
+    </div>
+    <button onclick="resetQABF()" style="width:100%;padding:11px;border:1.5px solid var(--border);background:white;border-radius:8px;font-family:inherit;font-size: 14px;cursor:pointer;color:var(--text-sub);">↺ 다시 평가하기</button>
+  `;
+}
+
+function resetQABF() {
+  document.getElementById('qabf-result').style.display = 'none';
+  document.getElementById('qabf-intro').style.display = 'block';
+  qabfAnswers = new Array(25).fill(-1);
+  qabfCurrentQ = 0;
+}
+
+/* ─── 초기 라우팅 ─── */
+(function() {
+  const hash = location.hash.replace('#', '');
+  const initPage = pages.includes(hash) ? hash : 'home';
+
+  // replaceState로 현재 엔트리에 state 심기 (스택 추가 없이)
+  history.replaceState({ page: initPage }, '', '#' + initPage);
+
+  // UI 직접 초기화 (showPage는 pushState를 추가하므로 여기서는 직접 처리)
+  pages.forEach(p => {
+    document.getElementById('page-' + p).classList.toggle('active', p === initPage);
+    const btn = document.getElementById('nav-' + p);
+    if (btn) btn.classList.toggle('active', p === initPage);
+  });
+  const ind = document.getElementById('navIndicator');
+  if (ind && navPositions[initPage]) {
+    ind.style.background = navColors[initPage];
+    ind.style.left  = navPositions[initPage].left;
+    ind.style.width = navPositions[initPage].width;
+  }
+})();
+</script>
+</body>
+</html>
