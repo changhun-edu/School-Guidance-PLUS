@@ -17,7 +17,6 @@
   --teal-mid:     #235E5E;      /* 메인 카드 — 히어로보다 한 단계 밝게 */
   --teal-accent:  #7ECFCF;      /* 히어로 위 강조 텍스트·아이콘 */
   --teal-light:   #E4F0F0;
-  --teal-hero-bg: #163F3F;      /* 히어로 배경 — teal-dark보다 약간 더 깊게 */
 
   --amber:        #C97B3A;
   --amber-light:  #FBF0E6;
@@ -130,32 +129,32 @@ body {
 .page.active { display: block; }
 
 /* ═══════════════════════════════════════════
-   ① HOME PAGE — 색상 개선
+   ① HOME PAGE — 개선
 ═══════════════════════════════════════════ */
 
 #page-home {
   min-height: calc(100vh - 52px);
-  background: var(--teal-hero-bg);
+  background: var(--teal-dark);
   display: flex;
   flex-direction: column;
 }
 
 /* ── 히어로 ── */
 .home-hero {
-  padding: 56px 24px 52px;
+  padding: 52px 24px 44px;
   text-align: center;
   position: relative;
   flex-shrink: 0;
-  /* 히어로 → 카드 섹션 전환: 아래로 갈수록 밝아지는 그라디언트 */
-  background: linear-gradient(
-    to bottom,
-    var(--teal-hero-bg) 0%,
-    var(--teal-dark)    70%,
-    #1F5858             100%
-  );
+  background: var(--teal-dark);
 }
-/* 수평 구분선 제거 — 그라디언트로 대체 */
-.home-hero::after { display: none; }
+.home-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--teal-accent);
+  opacity: 0.6;
+}
 
 .home-hero .h-eyebrow {
   display: inline-block;
@@ -177,7 +176,7 @@ body {
   font-weight: 700;
   line-height: 1.35;
   color: white;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .home-hero h1 em {
   font-style: normal;
@@ -196,40 +195,54 @@ body {
 
 .home-hero .h-sub {
   font-size: 16px;
-  color: rgba(255,255,255,0.6);
-  line-height: 1.75;
+  color: rgba(255,255,255,0.82);   /* 가독성 강화: 0.6 → 0.82 */
+  line-height: 1.7;
   max-width: 440px;
-  margin: 0 auto 36px;
+  margin: 0 auto 32px;
 }
 
-/* 상황 선택 버튼 */
+/* 상황 선택 버튼 — 동작 힌트 포함 */
 .home-situation {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  max-width: 600px;
+  max-width: 640px;
   margin: 0 auto;
 }
 .sit-btn {
-  padding: 10px 20px;
-  border-radius: 999px;
-  border: 1.5px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.07);
-  color: rgba(255,255,255,0.82);
+  padding: 13px 22px;
+  border-radius: 10px;           /* 999px 알약형 → 사각형에 가깝게 */
+  border: 1.5px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.88);
   font-family: 'Noto Sans KR', sans-serif;
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-  line-height: 1.4;
+  transition: all 0.18s;
+  line-height: 1.45;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sit-btn .sit-arrow {
+  font-size: 16px;
+  color: rgba(255,255,255,0.4);
+  flex-shrink: 0;
+  transition: all 0.18s;
+  margin-left: auto;
 }
 .sit-btn:hover {
   background: rgba(255,255,255,0.16);
-  border-color: rgba(255,255,255,0.45);
+  border-color: rgba(255,255,255,0.5);
   color: white;
-  transform: translateY(-1px);
+  transform: translateX(2px);
+}
+.sit-btn:hover .sit-arrow {
+  color: var(--teal-accent);
+  transform: translateX(3px);
 }
 .sit-btn.active {
   background: white;
@@ -237,81 +250,38 @@ body {
   border-color: white;
   font-weight: 700;
 }
+.sit-btn.active .sit-arrow { color: var(--teal); }
 
-/* 추천 섹션 */
-.home-recommend {
-  max-width: 600px;
-  margin: 28px auto 0;
-  background: rgba(255,255,255,0.09);
-  border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 12px;
-  padding: 20px 22px;
-  display: none;
-  animation: fadeUp 0.25s ease;
-}
-.home-recommend.show { display: block; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.rec-label {
-  font-size: 13px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--teal-accent);
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.rec-items { display: flex; flex-direction: column; gap: 8px; }
-.rec-item {
+/* 스크롤 유도 화살표 */
+.home-scroll-hint {
+  margin-top: 28px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
-  background: rgba(255,255,255,0.09);
-  border-radius: 8px;
-  padding: 12px 16px;
+  gap: 5px;
+  color: rgba(255,255,255,0.35);
+  font-size: 13px;
   cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.18s;
-  text-align: left;
-  width: 100%;
-  font-family: 'Noto Sans KR', sans-serif;
+  transition: color 0.2s;
+  animation: bounceDown 2.4s ease-in-out infinite;
+  user-select: none;
 }
-.rec-item:hover {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(255,255,255,0.28);
+.home-scroll-hint:hover { color: rgba(255,255,255,0.65); }
+@keyframes bounceDown {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%           { transform: translateY(5px); }
 }
-.rec-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.rec-item-text { flex: 1; }
-.rec-item-name { font-size: 15px; font-weight: 700; color: white; margin-bottom: 2px; }
-.rec-item-desc { font-size: 13.5px; color: rgba(255,255,255,0.55); }
-.rec-item-arrow { font-size: 13.5px; color: rgba(255,255,255,0.38); flex-shrink: 0; }
 
-/* ── 카드 섹션 — 히어로와 자연스럽게 연결 ── */
+/* ── 카드 섹션 ── */
 .home-cards-section {
-  /* 상단은 히어로 끝 색과 동일하게 시작, 아래로 --bg로 전환 */
-  background: linear-gradient(
-    to bottom,
-    #1F5858  0px,
-    #1F5858  1px,
-    var(--bg) 72px
-  );
+  background: var(--bg);
   flex: 1;
   padding: 0 24px 0;
 }
 .home-cards-inner {
   max-width: 960px;
   margin: 0 auto;
-  padding-top: 40px;
-}
-.home-cards-title {
-  font-size: 13.5px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--text-sub);
-  font-weight: 700;
-  margin-bottom: 20px;
-  text-align: center;
+  padding-top: 36px;
 }
 
 /* 비대칭 그리드 */
@@ -325,10 +295,10 @@ body {
   .home-cards-grid { grid-template-columns: 1fr; }
 }
 
-/* 메인 카드 — teal-mid로 히어로와 차별화 */
+/* 메인 카드 */
 .hcard-main {
   grid-row: 1 / 3;
-  background: var(--teal-mid);           /* #235E5E — 히어로(#163F3F)보다 밝음 */
+  background: var(--teal-mid);
   border-radius: 16px;
   padding: 32px 28px;
   cursor: pointer;
@@ -338,7 +308,6 @@ body {
   position: relative;
   overflow: hidden;
   min-height: 260px;
-  /* 좌측 컬러 엣지 — 시그니처 */
   border-left: 4px solid var(--teal-accent);
 }
 .hcard-main::before {
@@ -355,17 +324,30 @@ body {
   background: #2A6E6E;
 }
 
-.hcard-sym {
+/* 숫자 아이콘 — 이모지 대체 */
+.hcard-num {
   width: 44px; height: 44px;
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif KR', serif;
   font-size: 20px;
+  font-weight: 700;
   margin-bottom: 20px;
   flex-shrink: 0;
+  letter-spacing: -1px;
 }
-.hcard-main .hcard-sym  { background: rgba(255,255,255,0.12); }
-.hcard-sub1 .hcard-sym  { background: rgba(201,123,58,0.12); }
-.hcard-sub2 .hcard-sym  { background: rgba(59,110,74,0.10); }
+.hcard-main .hcard-num {
+  background: rgba(255,255,255,0.12);
+  color: var(--teal-accent);
+}
+.hcard-sub1 .hcard-num {
+  background: rgba(201,123,58,0.12);
+  color: var(--amber);
+}
+.hcard-sub2 .hcard-num {
+  background: rgba(59,110,74,0.10);
+  color: var(--green);
+}
 
 .hcard-eyebrow {
   font-size: 13px;
@@ -385,17 +367,18 @@ body {
 }
 .hcard-main .hcard-title { font-size: 22px; color: white; }
 .hcard-sub1 .hcard-title,
-.hcard-sub2 .hcard-title { font-size: 17px; color: var(--text); }
+.hcard-sub2 .hcard-title { font-size: 18px; color: var(--text); }
 
 .hcard-desc {
   line-height: 1.65;
   flex: 1;
   margin-bottom: 20px;
 }
-.hcard-main .hcard-desc { font-size: 15px; color: rgba(255,255,255,0.72); }
+.hcard-main .hcard-desc { font-size: 15px; color: rgba(255,255,255,0.75); }
 .hcard-sub1 .hcard-desc,
 .hcard-sub2 .hcard-desc { font-size: 14px; color: var(--text-sub); }
 
+/* 칩: 메인 카드 핵심 2개만, 서브 카드 제거 */
 .hcard-chips {
   display: flex;
   flex-wrap: wrap;
@@ -404,23 +387,13 @@ body {
 }
 .hcard-chip {
   font-size: 13px;
-  padding: 3px 10px;
+  padding: 4px 11px;
   border-radius: 999px;
   font-weight: 500;
 }
 .hcard-main .hcard-chip {
   background: rgba(255,255,255,0.13);
   color: rgba(255,255,255,0.82);
-}
-.hcard-sub1 .hcard-chip {
-  background: var(--amber-light);
-  color: #8B4A10;
-  border: 1px solid #F0CCA8;
-}
-.hcard-sub2 .hcard-chip {
-  background: var(--green-light);
-  color: #2A5035;
-  border: 1px solid #B0CEB8;
 }
 
 .hcard-cta {
@@ -430,10 +403,42 @@ body {
   font-size: 14px;
   font-weight: 700;
   margin-top: auto;
+  padding: 9px 16px;
+  border-radius: 7px;
+  border: 1.5px solid;
+  transition: all 0.18s;
+  align-self: flex-start;
 }
-.hcard-main .hcard-cta  { color: var(--teal-accent); }
-.hcard-sub1 .hcard-cta  { color: var(--amber); }
-.hcard-sub2 .hcard-cta  { color: var(--green); }
+.hcard-main .hcard-cta {
+  color: var(--teal-accent);
+  border-color: rgba(126,207,207,0.4);
+  background: rgba(126,207,207,0.08);
+}
+.hcard-main:hover .hcard-cta {
+  background: var(--teal-accent);
+  color: var(--teal-dark);
+  border-color: var(--teal-accent);
+}
+.hcard-sub1 .hcard-cta {
+  color: var(--amber);
+  border-color: rgba(201,123,58,0.35);
+  background: rgba(201,123,58,0.06);
+}
+.hcard-sub1:hover .hcard-cta {
+  background: var(--amber);
+  color: white;
+  border-color: var(--amber);
+}
+.hcard-sub2 .hcard-cta {
+  color: var(--green);
+  border-color: rgba(59,110,74,0.35);
+  background: rgba(59,110,74,0.06);
+}
+.hcard-sub2:hover .hcard-cta {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
 
 /* 서브 카드 */
 .hcard-sub1, .hcard-sub2 {
@@ -457,45 +462,49 @@ body {
   transform: translateY(-2px);
 }
 
-/* ── 법적 근거 토글 ── */
+/* ── 법적 근거 — footnote 형태로 항상 노출 ── */
 .home-law-wrap {
   max-width: 960px;
-  margin: 28px auto 0;
-  padding-bottom: 40px;
+  margin: 24px auto 0;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
 }
-.home-law-toggle {
+.home-law-footnote {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--text-sub);
-  padding: 0;
-  margin-bottom: 10px;
+  line-height: 1.6;
 }
-.home-law-toggle:hover { color: var(--teal); }
-.home-law-toggle .ltog-icon { font-size: 15px; transition: transform 0.2s; }
-.home-law-toggle.open .ltog-icon { transform: rotate(180deg); }
+.home-law-footnote .law-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+.home-law-footnote a {
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+.home-law-footnote a:hover { text-decoration: underline; }
 
+/* 토글 부분 유지 (클릭 시 상세 내용) */
 .home-law-body {
   display: none;
   background: var(--teal-light);
   border: 1px solid #B2D8D8;
   border-radius: var(--radius);
-  padding: 16px 20px;
-  font-size: 14px;
+  padding: 14px 18px;
+  font-size: 13.5px;
   color: var(--teal-dark);
   line-height: 1.7;
+  margin-top: 10px;
 }
 .home-law-body.open { display: block; }
 
 /* ── 크레딧 ── */
 .home-credit {
   text-align: right;
-  padding: 0 24px 28px;
+  padding: 8px 0 24px;
   font-size: 13px;
   color: var(--border);
   letter-spacing: 0.3px;
@@ -1924,104 +1933,105 @@ body {
 
 
 <!-- ═══════════════════════════════════════════
-     ① HOME PAGE — 재설계
+     ① HOME PAGE
 ═══════════════════════════════════════════ -->
 <div id="page-home" class="page active">
 
-  <!-- 히어로: 상황 공감 + 즉시 안내 -->
+  <!-- 히어로 -->
   <div class="home-hero">
     <div class="h-eyebrow">교사를 위한 도전행동 지도 가이드</div>
     <h1>오늘 교실에서<br><em>어떤 일이 있었나요?</em></h1>
-    <p class="h-sub">상황을 선택하면 지금 필요한 것을 바로 안내합니다.</p>
+    <p class="h-sub">아래 상황을 선택하면 지금 필요한 섹션으로 바로 이동합니다.</p>
 
-    <!-- 상황 선택 버튼 -->
+    <!-- 상황 선택 버튼 — 클릭 시 바로 이동 + 힌트 화살표 -->
     <div class="home-situation">
-      <button class="sit-btn" onclick="selectSit('learn', this)">📖 도전행동이 뭔지<br>아직 잘 모릅니다</button>
-      <button class="sit-btn" onclick="selectSit('sim', this)">🎮 비슷한 상황을<br>미리 연습해보고 싶습니다</button>
-      <button class="sit-btn" onclick="selectSit('ref', this)">🔍 지금 당장<br>이 행동 어떻게 하지?</button>
-      <button class="sit-btn" onclick="selectSit('qabf', this)">🔬 왜 이런 행동을<br>하는지 파악하고 싶습니다</button>
+      <button class="sit-btn" onclick="showPage('learn')">
+        <span>도전행동이 뭔지 아직 잘 모릅니다</span>
+        <span class="sit-arrow">→</span>
+      </button>
+      <button class="sit-btn" onclick="showPage('sim')">
+        <span>비슷한 상황을 미리 연습해보고 싶습니다</span>
+        <span class="sit-arrow">→</span>
+      </button>
+      <button class="sit-btn" onclick="showPage('ref')">
+        <span>지금 당장 이 행동 어떻게 하지?</span>
+        <span class="sit-arrow">→</span>
+      </button>
+      <button class="sit-btn" onclick="showPage('ref')">
+        <span>왜 이런 행동을 하는지 파악하고 싶습니다</span>
+        <span class="sit-arrow">→</span>
+      </button>
     </div>
 
-    <!-- 선택 후 추천 -->
-    <div class="home-recommend" id="homeRecommend">
-      <div class="rec-label" id="recLabel">추천</div>
-      <div class="rec-items" id="recItems"></div>
+    <!-- 스크롤 유도 -->
+    <div class="home-scroll-hint" onclick="document.querySelector('.home-cards-section').scrollIntoView({behavior:'smooth'})">
+      <span>또는 아래에서 섹션을 선택하세요</span>
+      <span>↓</span>
     </div>
   </div>
 
-  <!-- 섹션 카드 — 비대칭 레이아웃 -->
+  <!-- 카드 섹션 -->
   <div class="home-cards-section">
     <div class="home-cards-inner">
-      <div class="home-cards-title">모든 섹션</div>
       <div class="home-cards-grid">
 
         <!-- 메인 카드: 개념 배우기 -->
         <div class="hcard-main" onclick="showPage('learn')">
-          <div class="hcard-sym">📖</div>
+          <div class="hcard-num">01</div>
           <div class="hcard-eyebrow">학습 허브</div>
           <div class="hcard-title">개념 배우기</div>
-          <div class="hcard-desc">도전행동이 무엇인지, 왜 생기는지, 어떤 절차로 접근해야 하는지 이론 기반으로 익힙니다. 고시 Q&A로 법적 불안도 함께 해소합니다.</div>
+          <div class="hcard-desc">도전행동이 무엇인지, 왜 생기는지, 어떻게 접근해야 하는지. 고시 Q&A로 법적 불안도 함께 해소합니다.</div>
           <div class="hcard-chips">
-            <span class="hcard-chip">PBS 3단계</span>
+            <span class="hcard-chip">PBS + 고시</span>
             <span class="hcard-chip">행동의 기능 4가지</span>
-            <span class="hcard-chip">중재 4단계</span>
-            <span class="hcard-chip">고시 Q&A</span>
-            <span class="hcard-chip">지도방식 6단계</span>
           </div>
-          <div class="hcard-cta">시작하기 →</div>
+          <div class="hcard-cta">개념 배우기 →</div>
         </div>
 
         <!-- 서브 카드: 상황 연습 -->
         <div class="hcard-sub1" onclick="showPage('sim')">
-          <div class="hcard-sym">🎮</div>
+          <div class="hcard-num">02</div>
           <div class="hcard-eyebrow">시나리오 시뮬레이터</div>
           <div class="hcard-title">상황 연습하기</div>
-          <div class="hcard-desc">실제 교실 장면을 보고 행동 기능을 판단하고 대응을 선택합니다. 선택마다 전문가 피드백을 제공합니다.</div>
-          <div class="hcard-chips">
-            <span class="hcard-chip">7개 시나리오</span>
-            <span class="hcard-chip">3단계 분기</span>
-            <span class="hcard-chip">고시 근거 피드백</span>
-          </div>
+          <div class="hcard-desc">실제 교실 장면을 보고 대응을 선택합니다. 선택마다 PBS 피드백과 고시 근거를 확인합니다.</div>
           <div class="hcard-cta">연습 시작 →</div>
         </div>
 
         <!-- 서브 카드: 레퍼런스 사전 -->
         <div class="hcard-sub2" onclick="showPage('ref')">
-          <div class="hcard-sym">🔍</div>
+          <div class="hcard-num">03</div>
           <div class="hcard-eyebrow">레퍼런스 사전</div>
           <div class="hcard-title">바로 찾기</div>
-          <div class="hcard-desc">행동명·상황으로 검색하면 PBS 대응·고시 근거·대화 스크립트를 즉시 확인. QABF 기능평가도 바로 사용 가능합니다.</div>
-          <div class="hcard-chips">
-            <span class="hcard-chip">행동별 카드</span>
-            <span class="hcard-chip">QABF 온라인</span>
-            <span class="hcard-chip">중재 서식</span>
-          </div>
+          <div class="hcard-desc">행동명으로 검색하면 대화 스크립트·고시 근거·중재 전략을 즉시 확인. QABF 기능평가도 사용 가능합니다.</div>
           <div class="hcard-cta">사전 열기 →</div>
         </div>
 
       </div><!-- /grid -->
 
-      <!-- 법적 근거 — 접이식 -->
+      <!-- 법적 근거 — footnote 형태로 항상 노출 -->
       <div class="home-law-wrap">
-        <button class="home-law-toggle" id="lawToggleBtn" onclick="toggleLaw()">
-          <span>⚖️</span>
-          <span>이 서비스의 법적 근거 — 교원의 학생생활지도에 관한 고시(2023)</span>
-          <span class="ltog-icon">▾</span>
-        </button>
+        <div class="home-law-footnote">
+          <span class="law-icon">⚖️</span>
+          <span>
+            이 서비스는 <strong>교원의 학생생활지도에 관한 고시(교육부고시 제2023-28호, 2023. 9. 1. 시행)</strong>와
+            경기도교육청 긍정적 행동지원 사례집(2025)을 기반으로 합니다.
+            <a onclick="toggleLaw()">자세히 보기 ▾</a>
+          </span>
+        </div>
         <div class="home-law-body" id="homeLawBody">
-          <strong>교원의 학생생활지도에 관한 고시 (교육부고시 제2023-28호, 2023. 9. 1. 시행)</strong>에 따라 교사의 생활지도 권한(조언·상담·주의·훈육·훈계·보상)이 법적으로 명시되었습니다. 이 서비스의 모든 대응 방법에는 해당 고시 조항이 함께 표시됩니다. 긍정적 행동지원(PBS)과 고시의 법적 절차는 같은 방향을 가리킵니다.<br><br>
-          참고: 경기도교육청 장애학생 행동지원 교육연구회, 긍정적 행동지원 사례집(2025) · Emerson et al.(1988) 도전행동 정의
+          교사의 생활지도 권한(조언·상담·주의·훈육·훈계·보상)이 법적으로 명시되었습니다.
+          이 서비스의 모든 대응 방법에는 해당 고시 조항이 함께 표시됩니다.
+          긍정적 행동지원(PBS)과 고시의 법적 절차는 같은 방향을 가리킵니다.<br><br>
+          참고: Emerson et al.(1988) 도전행동 정의 · 경기도교육청 장애학생 행동지원 교육연구회
         </div>
       </div>
 
+      <!-- 크레딧 -->
+      <div class="home-credit">만든이 2026 최창훈</div>
+
     </div><!-- /inner -->
-
-    <!-- 크레딧 — 눈에 띄지 않게 -->
-    <div class="home-credit">만든이 2026 최창훈</div>
-
   </div><!-- /cards-section -->
 </div>
-
 
 <!-- ═══════════════════════════════════════════
      ② LEARN PAGE
@@ -3517,13 +3527,7 @@ let stepAnswered = [];
 
 /* ─── 페이지 라우팅 ─── */
 const pages = ['home','learn','sim','ref'];
-const navColors = { home: 'rgba(255,255,255,0.4)', learn: '#2A7B7B', sim: '#C97B3A', ref: '#3B6E4A' };
-const navPositions = {
-  home:  { left: '116px', width: '32px' },
-  learn: { left: '156px', width: '80px' },
-  sim:   { left: '244px', width: '66px' },
-  ref:   { left: '318px', width: '90px' }
-};
+const navColors = { home: 'rgba(255,255,255,0.5)', learn: '#2A7B7B', sim: '#C97B3A', ref: '#3B6E4A' };
 
 function showPage(id) {
   pages.forEach(p => {
@@ -3532,17 +3536,21 @@ function showPage(id) {
     if (btn) btn.classList.toggle('active', p === id);
   });
 
+  // nav-indicator: 해당 버튼의 실제 위치를 동적으로 계산
   const ind = document.getElementById('navIndicator');
-  if (navPositions[id]) {
-    ind.style.background = navColors[id];
-    ind.style.left  = navPositions[id].left;
-    ind.style.width = navPositions[id].width;
-  } else {
+  const activeBtn = document.getElementById('nav-' + id);
+  const navInner  = document.querySelector('.nav-inner');
+  if (ind && activeBtn && navInner) {
+    const btnRect   = activeBtn.getBoundingClientRect();
+    const innerRect = navInner.getBoundingClientRect();
+    ind.style.background = navColors[id] || 'rgba(255,255,255,0.4)';
+    ind.style.left  = (btnRect.left - innerRect.left) + 'px';
+    ind.style.width = btnRect.width + 'px';
+  } else if (ind) {
     ind.style.width = '0';
   }
 
   window.scrollTo(0, 0);
-  // state에 페이지 id 저장 — popstate 복원에 사용
   if (history.pushState) history.pushState({ page: id }, '', '#' + id);
 }
 
@@ -3566,12 +3574,16 @@ window.addEventListener('popstate', function(e) {
       const btn = document.getElementById('nav-' + p);
       if (btn) btn.classList.toggle('active', p === targetPage);
     });
-    const ind = document.getElementById('navIndicator');
-    if (navPositions[targetPage]) {
-      ind.style.background = navColors[targetPage];
-      ind.style.left  = navPositions[targetPage].left;
-      ind.style.width = navPositions[targetPage].width;
-    } else {
+    const ind      = document.getElementById('navIndicator');
+    const activeBtn = document.getElementById('nav-' + targetPage);
+    const navInner  = document.querySelector('.nav-inner');
+    if (ind && activeBtn && navInner) {
+      const btnRect   = activeBtn.getBoundingClientRect();
+      const innerRect = navInner.getBoundingClientRect();
+      ind.style.background = navColors[targetPage] || 'rgba(255,255,255,0.4)';
+      ind.style.left  = (btnRect.left - innerRect.left) + 'px';
+      ind.style.width = btnRect.width + 'px';
+    } else if (ind) {
       ind.style.width = '0';
     }
     window.scrollTo(0, 0);
@@ -3579,66 +3591,9 @@ window.addEventListener('popstate', function(e) {
 });
 
 /* ─── 홈 상황 선택 인터랙션 ─── */
-const sitRecommend = {
-  learn: {
-    label: '📖 먼저 이것부터 읽어보세요',
-    items: [
-      { name: '도전행동이란?', desc: 'PBS 기초 · 강도·빈도·기간 기준 이해', color: '#2A7B7B', page: 'learn' },
-      { name: '행동의 기능 4가지', desc: '관심·회피·강화물·감각 — 왜 하는지가 핵심', color: '#2A7B7B', page: 'learn' },
-      { name: '고시 핵심 Q&A', desc: '"이렇게 해도 되나요?" 법적 불안 해소', color: '#2A7B7B', page: 'learn' },
-    ]
-  },
-  sim: {
-    label: '🎮 상황별 시나리오 연습',
-    items: [
-      { name: '수업 중 끊임없는 질문 반복', desc: '관심 획득 행동 · 3단계 판단 연습', color: '#C97B3A', page: 'sim' },
-      { name: '과제 시 손 깨물기', desc: '과제 회피 기능 · 대체행동 중재', color: '#C97B3A', page: 'sim' },
-      { name: '학부모 밤 11시 항의 전화', desc: '고시 대응 · 근무 외 상담 거부권', color: '#C97B3A', page: 'sim' },
-    ]
-  },
-  ref: {
-    label: '🔍 지금 바로 찾기',
-    items: [
-      { name: '행동별 카드 검색', desc: '때리기·자리이탈·소리지르기 등 즉시 검색', color: '#3B6E4A', page: 'ref' },
-      { name: '대화 스크립트', desc: '지금 당장 쓸 수 있는 말 예시 확인', color: '#3B6E4A', page: 'ref' },
-      { name: '고시 조항 빠른 참조', desc: '분리·제지·상담거부 등 법적 근거 확인', color: '#3B6E4A', page: 'ref' },
-    ]
-  },
-  qabf: {
-    label: '🔬 QABF 행동기능설문지',
-    items: [
-      { name: 'QABF 온라인 평가 시작', desc: '25문항 → 기능 자동 분석 → 중재 전략 제시', color: '#6B4ECC', page: 'ref' },
-      { name: '행동의 기능 이론 먼저 보기', desc: '관심·회피·강화물·감각 기능 개념 이해', color: '#2A7B7B', page: 'learn' },
-    ]
-  }
-};
-
-function selectSit(type, btn) {
-  document.querySelectorAll('.sit-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  const rec = sitRecommend[type];
-  document.getElementById('recLabel').textContent = rec.label;
-  document.getElementById('recItems').innerHTML = rec.items.map(item => `
-    <button class="rec-item" onclick="showPage('${item.page}')">
-      <div class="rec-dot" style="background:${item.color};"></div>
-      <div class="rec-item-text">
-        <div class="rec-item-name">${item.name}</div>
-        <div class="rec-item-desc">${item.desc}</div>
-      </div>
-      <div class="rec-item-arrow">→</div>
-    </button>
-  `).join('');
-
-  const rec_el = document.getElementById('homeRecommend');
-  rec_el.classList.add('show');
-}
-
 /* ─── 법적 근거 토글 ─── */
 function toggleLaw() {
-  const btn = document.getElementById('lawToggleBtn');
   const body = document.getElementById('homeLawBody');
-  btn.classList.toggle('open');
   body.classList.toggle('open');
 }
 
@@ -4177,21 +4132,27 @@ function resetQABF() {
   const hash = location.hash.replace('#', '');
   const initPage = pages.includes(hash) ? hash : 'home';
 
-  // replaceState로 현재 엔트리에 state 심기 (스택 추가 없이)
   history.replaceState({ page: initPage }, '', '#' + initPage);
 
-  // UI 직접 초기화 (showPage는 pushState를 추가하므로 여기서는 직접 처리)
   pages.forEach(p => {
     document.getElementById('page-' + p).classList.toggle('active', p === initPage);
     const btn = document.getElementById('nav-' + p);
     if (btn) btn.classList.toggle('active', p === initPage);
   });
-  const ind = document.getElementById('navIndicator');
-  if (ind && navPositions[initPage]) {
-    ind.style.background = navColors[initPage];
-    ind.style.left  = navPositions[initPage].left;
-    ind.style.width = navPositions[initPage].width;
-  }
+
+  // 인디케이터: DOM 렌더 완료 후 버튼 위치 계산
+  requestAnimationFrame(() => {
+    const ind       = document.getElementById('navIndicator');
+    const activeBtn = document.getElementById('nav-' + initPage);
+    const navInner  = document.querySelector('.nav-inner');
+    if (ind && activeBtn && navInner) {
+      const btnRect   = activeBtn.getBoundingClientRect();
+      const innerRect = navInner.getBoundingClientRect();
+      ind.style.background = navColors[initPage] || 'rgba(255,255,255,0.4)';
+      ind.style.left  = (btnRect.left - innerRect.left) + 'px';
+      ind.style.width = btnRect.width + 'px';
+    }
+  });
 })();
 </script>
 </body>
