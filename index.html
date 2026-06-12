@@ -3521,10 +3521,6 @@ const scenarios = [
   }
 ];
 
-let currentScenario = null;
-let currentStep = 0;
-let stepAnswered = [];
-
 /* ─── 페이지 라우팅 ─── */
 const pages = ['home','learn','sim','ref'];
 const navColors = { home: 'rgba(255,255,255,0.5)', learn: '#2A7B7B', sim: '#C97B3A', ref: '#3B6E4A' };
@@ -3623,16 +3619,6 @@ function expandAllQA() {
   });
   const btn = document.querySelector('.qa-expand-all');
   btn.textContent = allOpen ? '전체 펼치기' : '전체 접기';
-}
-
-/* ─── 시나리오 필터 ─── */
-function filterSim(func, btn) {
-  document.querySelectorAll('.sim-filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.scenario-card').forEach(c => {
-    const match = func === 'all' || c.dataset.func === func;
-    c.style.display = match ? '' : 'none';
-  });
 }
 
 /* ─── 시뮬레이터 상태 ─── */
