@@ -125,15 +125,30 @@ body {
 /* ═══════════════════════════════════════════
    PAGE VIEWS — 해시 라우팅
 ═══════════════════════════════════════════ */
-.page { display: none; }
-.page.active { display: block; }
+/* 페이지: 뷰포트 고정 — 탭 전환 시 항상 최상단부터 보임 */
+.page {
+  display: none;
+  position: fixed;
+  inset: 52px 0 0 0;   /* nav(52px) 바로 아래 ~ 화면 끝 */
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg);
+  z-index: 1;
+}
+.page.active {
+  display: block;
+  animation: pageEnter 0.2s ease;
+}
+@keyframes pageEnter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
 /* ═══════════════════════════════════════════
    ① HOME PAGE — 개선
 ═══════════════════════════════════════════ */
 
 #page-home {
-  min-height: calc(100vh - 52px);
   background: var(--teal-dark);
   display: flex;
   flex-direction: column;
@@ -3554,16 +3569,9 @@ function showPage(id) {
     ind.style.width = '0';
   }
 
-  // DOM 업데이트 완료 후 해당 페이지 최상단으로 스크롤
-  // display:none → block 전환 후 레이아웃이 재계산되어야 정확한 위치가 나옴
-  requestAnimationFrame(() => {
-    const targetPage = document.getElementById('page-' + id);
-    if (targetPage) {
-      const navHeight = document.getElementById('global-nav')?.offsetHeight || 52;
-      const top = targetPage.getBoundingClientRect().top + window.pageYOffset - navHeight;
-      window.scrollTo({ top: top, behavior: 'instant' });
-    }
-  });
+  // fixed 페이지 내부 스크롤을 최상단으로 초기화
+  const targetPage = document.getElementById('page-' + id);
+  if (targetPage) targetPage.scrollTop = 0;
 
   if (history.pushState) history.pushState({ page: id }, '', '#' + id);
 }
@@ -3602,10 +3610,7 @@ window.addEventListener('popstate', function(e) {
     }
     requestAnimationFrame(() => {
       const tp = document.getElementById('page-' + targetPage);
-      if (tp) {
-        const navH = document.getElementById('global-nav')?.offsetHeight || 52;
-        window.scrollTo({ top: tp.getBoundingClientRect().top + window.pageYOffset - navH, behavior: 'instant' });
-      }
+      if (tp) tp.scrollTop = 0;
     });
   }
 });
@@ -3624,8 +3629,6 @@ function switchLtab(id, btn) {
   learn.querySelectorAll('.ltab').forEach(b => b.classList.remove('active'));
   document.getElementById('ltab-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
-  // 탭 영역 상단으로 부드럽게 스크롤
-  document.querySelector('.learn-tabs').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 /* ─── Q&A 토글 ─── */
@@ -4162,6 +4165,9 @@ function resetQABF() {
       ind.style.left  = (btnRect.left - innerRect.left) + 'px';
       ind.style.width = btnRect.width + 'px';
     }
+    // fixed 페이지 scrollTop 초기화
+    const tp = document.getElementById('page-' + initPage);
+    if (tp) tp.scrollTop = 0;
   });
 })();
 </script>
