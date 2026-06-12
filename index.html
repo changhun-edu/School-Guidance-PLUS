@@ -1216,12 +1216,18 @@ body {
   top: 0;
   z-index: 10;
   background: var(--amber);
+  height: 52px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+/* topbar 내부 — sp-body(680px)와 동일한 너비로 정렬 */
+.sp-topbar-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 0 20px;
-  height: 52px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 .sp-back {
   background: rgba(255,255,255,0.2);
@@ -2540,12 +2546,14 @@ body {
 <div id="sim-player">
   <!-- 상단 바 -->
   <div class="sp-topbar">
-    <button class="sp-back" onclick="closeSim()">← 목록으로</button>
-    <div class="sp-title" id="spTitle"></div>
-    <div class="sp-progress-wrap">
-      <div class="sp-progress-bar" id="spProgressBar"></div>
+    <div class="sp-topbar-inner">
+      <button class="sp-back" onclick="closeSim()">← 목록으로</button>
+      <div class="sp-title" id="spTitle"></div>
+      <div class="sp-progress-wrap">
+        <div class="sp-progress-bar" id="spProgressBar"></div>
+      </div>
+      <div class="sp-progress-text" id="spProgressText"></div>
     </div>
-    <div class="sp-progress-text" id="spProgressText"></div>
   </div>
 
   <!-- 본문 -->
@@ -3546,7 +3554,17 @@ function showPage(id) {
     ind.style.width = '0';
   }
 
-  window.scrollTo(0, 0);
+  // DOM 업데이트 완료 후 해당 페이지 최상단으로 스크롤
+  // display:none → block 전환 후 레이아웃이 재계산되어야 정확한 위치가 나옴
+  requestAnimationFrame(() => {
+    const targetPage = document.getElementById('page-' + id);
+    if (targetPage) {
+      const navHeight = document.getElementById('global-nav')?.offsetHeight || 52;
+      const top = targetPage.getBoundingClientRect().top + window.pageYOffset - navHeight;
+      window.scrollTo({ top: top, behavior: 'instant' });
+    }
+  });
+
   if (history.pushState) history.pushState({ page: id }, '', '#' + id);
 }
 
@@ -3582,7 +3600,13 @@ window.addEventListener('popstate', function(e) {
     } else if (ind) {
       ind.style.width = '0';
     }
-    window.scrollTo(0, 0);
+    requestAnimationFrame(() => {
+      const tp = document.getElementById('page-' + targetPage);
+      if (tp) {
+        const navH = document.getElementById('global-nav')?.offsetHeight || 52;
+        window.scrollTo({ top: tp.getBoundingClientRect().top + window.pageYOffset - navH, behavior: 'instant' });
+      }
+    });
   }
 });
 
