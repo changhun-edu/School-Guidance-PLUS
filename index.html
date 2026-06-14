@@ -2084,70 +2084,162 @@ body {
 
     <!-- ① PBS 기초 -->
     <div id="ltab-pbs" class="ltab-content active">
-      <!-- 핵심 2개: 큰 카드 -->
-      <div class="concept-hero">
-        <div class="concept-card-hero">
-          <div class="cc-h-label">핵심 개념</div>
-          <h3>도전행동이란 무엇인가</h3>
-          <p>Emerson et al.(1988)의 정의: 강도·빈도·기간 세 가지 기준을 모두 충족해야 도전행동입니다. "내가 보기에 문제인 행동"은 도전행동이 아닙니다. 낮은 강도·짧은 기간의 행동은 도전행동으로 명명하지 않도록 주의해야 합니다.</p>
-          <span class="cc-tag">Emerson et al., 1988</span>
+
+      <!-- Step 0: 판단 질문으로 시작 -->
+      <div style="background:var(--teal-dark);border-radius:12px;padding:22px 24px;margin-bottom:18px;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal-accent);margin-bottom:10px;">먼저 이 질문부터</div>
+        <div style="font-family:'Noto Serif KR',serif;font-size:19px;font-weight:700;color:white;margin-bottom:8px;line-height:1.4;">지금 보이는 이 행동,<br>도전행동일까요, 아닐까요?</div>
+        <div style="font-size:14.5px;color:rgba(255,255,255,0.75);line-height:1.65;">모든 문제행동이 도전행동은 아닙니다. 도전행동으로 명명하기 전에 세 가지 기준을 확인하세요. 기준을 모르면 과잉 낙인이 생깁니다.</div>
+      </div>
+
+      <!-- 판단 기준 3가지 — ○/△/✗ 예시 포함 -->
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;">
+        <div style="background:var(--teal-light);padding:14px 18px;border-bottom:1px solid #B2D8D8;">
+          <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);">도전행동 판단 기준 3가지 — 모두 해당해야 도전행동입니다</div>
         </div>
+        <!-- 강도 -->
+        <div style="padding:16px 18px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:var(--teal-dark);color:white;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;flex-shrink:0;">강</div>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:var(--text);">강도 — 신체적 위험이 있는가</div>
+              <div style="font-size:13.5px;color:var(--text-sub);">본인 또는 타인의 신체적 안전을 심각하게 해칠 수 있는 행동인가</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:#E8F5E9;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#2E7D32;margin-bottom:4px;">✓ 해당</div>
+              <div style="font-size:13px;color:#2E7D32;line-height:1.5;">자기 손등을 깨물어 상처가 남는다. 친구 머리를 물건으로 친다.</div>
+            </div>
+            <div style="background:#FFF8E1;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#F57F17;margin-bottom:4px;">△ 경계</div>
+              <div style="font-size:13px;color:#F57F17;line-height:1.5;">책상을 세게 친다. 교실에서 큰 소리로 운다.</div>
+            </div>
+            <div style="background:#FDE8E8;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#C62828;margin-bottom:4px;">✗ 해당 안 됨</div>
+              <div style="font-size:13px;color:#C62828;line-height:1.5;">수업 중 계속 말한다. 자리에서 일어나 돌아다닌다.</div>
+            </div>
+          </div>
+        </div>
+        <!-- 빈도 -->
+        <div style="padding:16px 18px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:var(--teal-dark);color:white;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;flex-shrink:0;">빈</div>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:var(--text);">빈도 — 반복적으로 발생하는가</div>
+              <div style="font-size:13.5px;color:var(--text-sub);">드물게 한 번 일어난 것인지, 패턴처럼 반복되는 것인지</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:#E8F5E9;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#2E7D32;margin-bottom:4px;">✓ 해당</div>
+              <div style="font-size:13px;color:#2E7D32;line-height:1.5;">매일 수학 시간마다 반복된다. 2주째 같은 행동이 계속된다.</div>
+            </div>
+            <div style="background:#FFF8E1;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#F57F17;margin-bottom:4px;">△ 경계</div>
+              <div style="font-size:13px;color:#F57F17;line-height:1.5;">이번 주에 3~4번 발생했다. 특정 상황에서만 나타난다.</div>
+            </div>
+            <div style="background:#FDE8E8;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#C62828;margin-bottom:4px;">✗ 해당 안 됨</div>
+              <div style="font-size:13px;color:#C62828;line-height:1.5;">오늘 처음 있었던 일이다. 지난달 한 번 있었다.</div>
+            </div>
+          </div>
+        </div>
+        <!-- 기간 -->
+        <div style="padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:var(--teal-dark);color:white;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;flex-shrink:0;">기</div>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:var(--text);">기간 — 지속되어 온 행동인가</div>
+              <div style="font-size:13.5px;color:var(--text-sub);">최근에 갑자기 생긴 것인지, 오래된 패턴인지</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:#E8F5E9;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#2E7D32;margin-bottom:4px;">✓ 해당</div>
+              <div style="font-size:13px;color:#2E7D32;line-height:1.5;">입학 이후부터 계속되어 왔다. 수개월째 지속되고 있다.</div>
+            </div>
+            <div style="background:#FFF8E1;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#F57F17;margin-bottom:4px;">△ 경계</div>
+              <div style="font-size:13px;color:#F57F17;line-height:1.5;">이번 학기 들어 나타났다. 환경 변화 후 새로 생겼다.</div>
+            </div>
+            <div style="background:#FDE8E8;border-radius:8px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#C62828;margin-bottom:4px;">✗ 해당 안 됨</div>
+              <div style="font-size:13px;color:#C62828;line-height:1.5;">지난 1~2주 사이에 갑자기 생긴 것 같다.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 도전행동이 아닌 것 — 과잉 낙인 방지 -->
+      <div style="background:#FFF8F0;border:1.5px solid #F0CCA8;border-radius:12px;padding:16px 18px;margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">⚠️ 이건 도전행동이 아닙니다 — 과잉 낙인 주의</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;background:white;border-radius:8px;padding:10px 12px;">
+            <span style="font-size:16px;flex-shrink:0;">🙅</span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">오늘 처음 일어난 일</div>
+              <div style="font-size:13.5px;color:var(--text-sub);">아이가 기분이 안 좋은 날일 수도 있습니다. 2주 이상 반복되는지 먼저 확인하세요.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:white;border-radius:8px;padding:10px 12px;">
+            <span style="font-size:16px;flex-shrink:0;">🙅</span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">선생님 눈에만 유독 거슬리는 행동</div>
+              <div style="font-size:13.5px;color:var(--text-sub);">"내가 보기에 문제인 행동"은 도전행동이 아닙니다. 객관적 기준(강도·빈도·기간)으로 판단하세요.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:white;border-radius:8px;padding:10px 12px;">
+            <span style="font-size:16px;flex-shrink:0;">🙅</span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">환경 변화 후 짧게 나타난 반응</div>
+              <div style="font-size:13.5px;color:var(--text-sub);">담임 교체, 전학, 가정 변화 등 스트레스 반응은 도전행동이 아닐 수 있습니다. 원인 제거 후 사라지면 도전행동이 아닙니다.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:white;border-radius:8px;padding:10px 12px;">
+            <span style="font-size:16px;flex-shrink:0;">🙅</span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">또래 발달 수준에서 흔한 행동</div>
+              <div style="font-size:13.5px;color:var(--text-sub);">1학년이 자리에서 일어나는 것, 2학년이 싸우는 것은 발달 과정일 수 있습니다. 또래 기준과 비교하세요.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 핵심 관점 + PBS 3단계 -->
+      <div class="concept-hero" style="margin-bottom:14px;">
         <div class="concept-card-hero">
           <div class="cc-h-label">핵심 관점</div>
           <h3>행동은 소통의 시도다</h3>
-          <p>도전행동은 "문제"가 아니라 의사소통의 한 방법입니다. 아이가 무언가를 필요로 하지만 적절한 방식을 아직 모르는 것입니다. 행동이 발생하는 맥락을 이해하는 것이 해결의 실마리입니다.</p>
-          <span class="cc-tag">PBS 핵심 철학</span>
+          <p>도전행동은 "문제"가 아니라 아이가 할 수 있는 유일한 의사소통 방법입니다. 다음 탭에서 배울 기능 4가지(관심·회피·강화·감각)가 바로 그 "무엇을 말하려 하는가"의 답입니다.</p>
+          <span class="cc-tag">→ 행동의 기능 탭에서 이어집니다</span>
         </div>
-      </div>
-
-      <!-- 도전행동 3가지 기준 — 강조 박스 -->
-      <div style="background:var(--teal-light);border:1.5px solid #B2D8D8;border-radius:10px;padding:18px 20px;margin-bottom:14px;">
-        <div style="font-size: 13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">도전행동 판단 기준 3가지 — 모두 고려해야 합니다</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-          <div style="background:white;border-radius:8px;padding:12px 14px;">
-            <div style="font-size: 14px;font-weight:700;color:var(--teal-dark);margin-bottom:4px;">강도</div>
-            <div style="font-size: 14px;color:var(--text-sub);line-height:1.55;">본인·타인의 신체적 안전을 심각하게 해칠 수 있는가</div>
-          </div>
-          <div style="background:white;border-radius:8px;padding:12px 14px;">
-            <div style="font-size: 14px;font-weight:700;color:var(--teal-dark);margin-bottom:4px;">빈도</div>
-            <div style="font-size: 14px;color:var(--text-sub);line-height:1.55;">아주 드물게 발생하는가, 아니면 반복적으로 발생하는가</div>
-          </div>
-          <div style="background:white;border-radius:8px;padding:12px 14px;">
-            <div style="font-size: 14px;font-weight:700;color:var(--teal-dark);margin-bottom:4px;">기간</div>
-            <div style="font-size: 14px;color:var(--text-sub);line-height:1.55;">짧은 순간에 끝나는가, 아니면 지속적으로 이어지는가</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 보조 카드 3개 -->
-      <div class="concept-grid">
-        <div class="concept-card">
-          <h3>PBS 3단계 예방 구조</h3>
-          <p><strong>1차 (보편):</strong> 학급 전체 — 명확한 규칙·일과 구조화<br><strong>2차 (선별):</strong> 위험 징후 학생 — 소집단 지원<br><strong>3차 (집중):</strong> 개별 집중 지원 — BIP 수립</p>
+        <div class="concept-card-hero">
+          <div class="cc-h-label">PBS 예방 구조</div>
+          <h3>PBS 3단계</h3>
+          <p><strong style="color:var(--teal-accent);">1차(보편):</strong> 학급 전체 — 규칙·일과 구조화<br><strong style="color:var(--teal-accent);">2차(선별):</strong> 위험 징후 학생 — 소집단 지원<br><strong style="color:var(--teal-accent);">3차(집중):</strong> 개별 집중 지원 — BIP 수립</p>
           <span class="cc-tag">전체 학생의 80%는 1차로 해결</span>
         </div>
-        <div class="concept-card">
-          <h3>교사의 법적 권한</h3>
-          <p>2023년 9월부터 시행된 고시에 따라 교사의 생활지도 권한(조언·상담·주의·훈육·훈계·보상)이 법적으로 명시되었습니다. 정당한 생활지도는 아동복지법 위반으로 보지 않습니다.</p>
-          <span class="cc-tag">고시 제2023-28호 → 고시 Q&A 탭에서 자세히</span>
+      </div>
+
+      <!-- 시나리오 연습 연결 -->
+      <div style="background:var(--amber-light);border:1.5px solid #F0CCA8;border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:14px;">
+        <div>
+          <div style="font-size:14.5px;font-weight:700;color:#7A4A10;margin-bottom:3px;">📝 지금 배운 판단 기준을 실제로 써보세요</div>
+          <div style="font-size:13.5px;color:#A06020;">시나리오를 보고 "이게 도전행동인가?"를 직접 판단해볼 수 있습니다</div>
         </div>
-        <div class="concept-card">
-          <h3>교육 3주체의 책임</h3>
-          <p>학생은 생활지도를 따를 의무가 있고, 보호자는 교원의 정당한 생활지도를 존중해야 합니다. 교사만 혼자 감당하지 않아도 됩니다.</p>
-          <span class="cc-tag">고시 제3조</span>
-        </div>
+        <button onclick="showPage('sim')" style="flex-shrink:0;padding:9px 16px;background:var(--amber);color:white;border:none;border-radius:7px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;">시나리오 연습 →</button>
       </div>
 
       <!-- 다음 탭 연결 -->
       <button class="ltab-next" onclick="switchLtab('func', document.getElementById('page-learn').querySelectorAll('.ltab')[1])">
         <div>
           <span class="lnext-label">다음 단계</span>
-          <span class="lnext-title">행동의 기능 4가지 — 왜 하는지를 알아야 어떻게 해야 하는지가 보입니다</span>
+          <span class="lnext-title">행동의 기능 4가지 — 도전행동이 "무엇을 말하려 하는지" 알아봅니다</span>
         </div>
         <span class="lnext-arrow">→</span>
       </button>
     </div>
-
     <!-- ② 행동의 기능 -->
     <div id="ltab-func" class="ltab-content">
       <p style="font-size: 15px;color:var(--text-sub);margin-bottom:20px;line-height:1.7;">
