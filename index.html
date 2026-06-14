@@ -2058,27 +2058,35 @@ body {
   <div class="section-header">
     <div class="eyebrow learn-eyebrow">학습 허브</div>
     <h2>개념 배우기</h2>
-    <p>현장에서 흔들리지 않으려면, 이론적 기반이 먼저입니다.</p>
+    <p>현장에서 바로 적용할 수 있는 개념과 도구</p>
     <div class="section-divider learn-divider"></div>
   </div>
 
   <div class="section-body">
-    <!-- 탭 — 순서 번호 포함 -->
+    <!-- 탭 — 학습 흐름 안내 -->
+    <!-- 흐름 안내 -->
+    <div style="background:var(--teal-light);border:1px solid #B2D8D8;border-radius:8px;padding:11px 15px;margin-bottom:12px;font-size:13.5px;color:var(--teal-dark);line-height:1.6;">
+      📖 <strong>처음이라면 순서대로 읽으세요.</strong> 1→2→3 탭이 핵심 흐름입니다. 탭 하단의 "다음 단계 →" 버튼을 따라가면 됩니다. 고시·지도방식은 필요할 때 참고하세요.
+    </div>
     <div class="learn-tabs">
+      <!-- 핵심 흐름 3개 -->
       <button class="ltab active" onclick="switchLtab('pbs', this)">
-        PBS 기초 <span class="ltab-num">1</span>
+        <span class="ltab-num">1</span> PBS 기초
       </button>
       <button class="ltab" onclick="switchLtab('func', this)">
-        행동의 기능 <span class="ltab-num">2</span>
+        <span class="ltab-num">2</span> 행동의 기능
       </button>
       <button class="ltab" onclick="switchLtab('flow', this)">
-        중재 4단계 <span class="ltab-num">3</span>
+        <span class="ltab-num">3</span> 중재 4단계
       </button>
-      <button class="ltab" onclick="switchLtab('law', this)">
-        고시 Q&A <span class="ltab-num">6</span>
+      <!-- 구분선 -->
+      <div style="width:1px;background:var(--border);margin:6px 4px;flex-shrink:0;"></div>
+      <!-- 참고 탭 2개 -->
+      <button class="ltab" onclick="switchLtab('law', this)" style="font-size:13px;opacity:0.85;">
+        고시 Q&amp;A
       </button>
-      <button class="ltab" onclick="switchLtab('spectrum', this)">
-        지도방식 6단계 <span class="ltab-num">6</span>
+      <button class="ltab" onclick="switchLtab('spectrum', this)" style="font-size:13px;opacity:0.85;">
+        지도방식 6단계
       </button>
     </div>
 
@@ -2092,6 +2100,14 @@ body {
         <div style="font-size:14.5px;color:rgba(255,255,255,0.75);line-height:1.65;">모든 문제행동이 도전행동은 아닙니다. 도전행동으로 명명하기 전에 세 가지 기준을 확인하세요. 기준을 모르면 과잉 낙인이 생깁니다.</div>
       </div>
 
+      <!-- 판단 기준 + 아닌 것 — 접이식 -->
+      <button onclick="pbsToggleDetail(this)"
+        style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;color:var(--teal-dark);text-align:left;transition:all 0.18s;"
+        onmouseover="this.style.background='var(--teal-light)'" onmouseout="this.style.background='var(--surface)'">
+        <span>📋 판단 기준 3가지 + 도전행동이 아닌 것 — 자세히 보기</span>
+        <span style="font-size:12px;color:var(--text-sub);transition:transform 0.2s;" id="pbs-detail-arrow">▾</span>
+      </button>
+      <div id="pbs-detail" style="display:none;margin-bottom:14px;">
       <!-- 판단 기준 3가지 — ○/△/✗ 예시 포함 -->
       <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;">
         <div style="background:var(--teal-light);padding:14px 18px;border-bottom:1px solid #B2D8D8;">
@@ -2205,6 +2221,9 @@ body {
           </div>
         </div>
       </div>
+
+      </div>
+
 
       <!-- 핵심 관점 + PBS 3단계 -->
       <div class="concept-hero" style="margin-bottom:14px;">
@@ -2885,6 +2904,37 @@ body {
         </div>
         <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:13.5px;color:var(--text-sub);line-height:1.6;">
           결론: PBS 중재를 하면서 동시에 고시의 절차를 밟고 있는 것입니다. 따로 배울 필요 없이 <strong>PBS를 제대로 하면 고시 절차도 지켜집니다.</strong>
+        </div>
+      </div>
+
+      <!-- 학습 완료 요약 -->
+      <div style="background:var(--teal-dark);border-radius:12px;padding:22px 24px;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal-accent);margin-bottom:10px;">📚 개념 배우기 완료</div>
+        <div style="font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;color:white;margin-bottom:14px;line-height:1.4;">지금 이 5가지를 알게 됐습니다</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="background:var(--teal-accent);color:var(--teal-dark);font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px;">1</span>
+            <span style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.55;">도전행동인지 아닌지 — 강도·빈도·기간 3가지 기준으로 판단할 수 있습니다</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="background:var(--teal-accent);color:var(--teal-dark);font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px;">2</span>
+            <span style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.55;">왜 하는지(기능) — 관심·회피·강화물·감각 4가지 중 어떤 기능인지 파악할 수 있습니다</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="background:var(--teal-accent);color:var(--teal-dark);font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px;">3</span>
+            <span style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.55;">무엇을 해야 하는지 — 중재 4단계(판단→기능평가→중재→점검) 흐름을 알고 있습니다</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="background:rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px;">참고</span>
+            <span style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.55;">법적으로 어디까지 할 수 있는지 — 고시 Q&A 탭에서 언제든 확인할 수 있습니다</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="background:rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px;">참고</span>
+            <span style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.55;">어떤 방식으로 말할지 — 지도방식 6단계가 선택 기준이 됩니다</span>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:12px 14px;font-size:13.5px;color:rgba(255,255,255,0.75);line-height:1.6;">
+          💡 지금 바로 비슷한 상황을 시뮬레이터로 연습하거나, 레퍼런스 사전에서 오늘의 행동을 바로 검색할 수 있습니다.
         </div>
       </div>
 
@@ -4166,6 +4216,18 @@ window.addEventListener('popstate', function(e) {
     });
   }
 });
+
+/* ─── PBS 기초 — 판단 기준 접이식 ─── */
+function pbsToggleDetail(btn) {
+  const detail = document.getElementById('pbs-detail');
+  const arrow  = document.getElementById('pbs-detail-arrow');
+  if (!detail) return;
+  const isOpen = detail.style.display !== 'none';
+  detail.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  btn.style.background  = isOpen ? 'var(--surface)' : 'var(--teal-light)';
+  btn.style.borderColor = isOpen ? 'var(--border)'  : '#B2D8D8';
+}
 
 /* ─── 홈 상황 선택 인터랙션 ─── */
 /* ─── 법적 근거 토글 ─── */
