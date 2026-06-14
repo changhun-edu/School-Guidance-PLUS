@@ -3563,56 +3563,146 @@ body {
         </div>
         <div class="ref-card-body">
           <div style="padding:16px;">
-            <div class="form-list">
-              <div class="form-item">
-                <div class="fi-icon">📝</div>
-                <div class="fi-info">
-                  <div class="fi-name">초기면담지 (부록 1)</div>
-                  <div class="fi-desc">행동의 어려움 체크 및 지금까지의 중재 방법 기록</div>
-                </div>
-                <div class="fi-btn">준비 중</div>
+
+            <!-- ① 초기면담지 -->
+            <div class="form-item" onclick="toggleFormTool('tool-interview')" style="cursor:pointer;">
+              <div class="fi-icon">📝</div>
+              <div class="fi-info">
+                <div class="fi-name">초기면담지 (부록 1)</div>
+                <div class="fi-desc">행동 기술 + 강도·빈도·기간 평가 → 도전행동 여부 자동 판단</div>
               </div>
-              <div class="form-item">
-                <div class="fi-icon">📊</div>
-                <div class="fi-info">
-                  <div class="fi-name">행동지원계획 BIP (부록 2)</div>
-                  <div class="fi-desc">기능평가 결과 및 구체적 행동중재 전략 작성</div>
-                </div>
-                <div class="fi-btn">준비 중</div>
+              <div class="fi-btn ready">사용하기 ↓</div>
+            </div>
+            <div id="tool-interview" style="display:none;background:var(--bg);border-radius:10px;padding:18px;margin-bottom:8px;margin-top:-4px;">
+              <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:14px;">📝 초기면담지 — 도전행동 판단 도구</div>
+
+              <div style="margin-bottom:14px;">
+                <label style="font-size:14px;font-weight:700;color:var(--text);display:block;margin-bottom:6px;">학생 이름 (선택)</label>
+                <input id="iv-name" type="text" placeholder="예: ○○○ (익명 처리 가능)" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:14px;outline:none;">
               </div>
-              <div class="form-item">
-                <div class="fi-icon">🎁</div>
-                <div class="fi-info">
-                  <div class="fi-name">강화제 체크리스트 (부록 3)</div>
-                  <div class="fi-desc">학생이 좋아하는 강화제를 1~5점으로 체크하는 도구</div>
-                </div>
-                <div class="fi-btn">준비 중</div>
+
+              <div style="margin-bottom:14px;">
+                <label style="font-size:14px;font-weight:700;color:var(--text);display:block;margin-bottom:6px;">어떤 행동이 어려운가요?</label>
+                <textarea id="iv-behavior" placeholder="예: 수업 중 갑자기 소리를 지르고 자리에서 일어납니다." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:14px;outline:none;resize:vertical;min-height:72px;"></textarea>
               </div>
-              <div class="form-item" onclick="document.querySelector('#refToolGrid .ref-card').querySelector('.ref-card-header').click()">
-                <div class="fi-icon">🔬</div>
-                <div class="fi-info">
-                  <div class="fi-name">QABF 행동기능설문지 (부록 4·5)</div>
-                  <div class="fi-desc">25문항 → 기능 자동 분석 → 중재 전략 제시</div>
+
+              <div style="margin-bottom:6px;font-size:14px;font-weight:700;color:var(--text);">판단 기준 평가</div>
+              <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                    <span style="font-size:13.5px;font-weight:600;color:var(--text);">강도 — 신체적 위험이 있는가</span>
+                    <span id="iv-s1-val" style="font-size:13.5px;font-weight:700;color:var(--teal);">3점</span>
+                  </div>
+                  <input id="iv-s1" type="range" min="1" max="5" value="3" oninput="ivUpdate()" style="width:100%;accent-color:var(--teal);">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-sub);"><span>1 위험 없음</span><span>5 매우 위험</span></div>
                 </div>
-                <div class="fi-btn ready">사용 가능 ↑</div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                    <span style="font-size:13.5px;font-weight:600;color:var(--text);">빈도 — 얼마나 자주 일어나는가</span>
+                    <span id="iv-s2-val" style="font-size:13.5px;font-weight:700;color:var(--teal);">3점</span>
+                  </div>
+                  <input id="iv-s2" type="range" min="1" max="5" value="3" oninput="ivUpdate()" style="width:100%;accent-color:var(--teal);">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-sub);"><span>1 드물게</span><span>5 매일 반복</span></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                    <span style="font-size:13.5px;font-weight:600;color:var(--text);">기간 — 얼마나 오래 지속되어 왔는가</span>
+                    <span id="iv-s3-val" style="font-size:13.5px;font-weight:700;color:var(--teal);">3점</span>
+                  </div>
+                  <input id="iv-s3" type="range" min="1" max="5" value="3" oninput="ivUpdate()" style="width:100%;accent-color:var(--teal);">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-sub);"><span>1 이번 주</span><span>5 수개월 이상</span></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                    <span style="font-size:13.5px;font-weight:600;color:var(--text);">방해 정도 — 수업·학교생활을 얼마나 방해하는가</span>
+                    <span id="iv-s4-val" style="font-size:13.5px;font-weight:700;color:var(--teal);">3점</span>
+                  </div>
+                  <input id="iv-s4" type="range" min="1" max="5" value="3" oninput="ivUpdate()" style="width:100%;accent-color:var(--teal);">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-sub);"><span>1 거의 없음</span><span>5 심각한 방해</span></div>
+                </div>
               </div>
-              <div class="form-item">
-                <div class="fi-icon">📈</div>
-                <div class="fi-info">
-                  <div class="fi-name">도전적 행동 발생 빈도 기록지 (부록 6~8)</div>
-                  <div class="fi-desc">날짜별 빈도 입력 → 그래프 자동 생성</div>
-                </div>
-                <div class="fi-btn">준비 중</div>
+
+              <!-- 판단 결과 -->
+              <div id="iv-result" style="border-radius:10px;padding:14px 16px;margin-bottom:12px;"></div>
+
+              <div style="margin-bottom:14px;">
+                <label style="font-size:14px;font-weight:700;color:var(--text);display:block;margin-bottom:6px;">지금까지 사용한 중재 방법</label>
+                <textarea id="iv-past" placeholder="예: 주의를 3회 주었음. 분리 시도했으나 거부함." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:14px;outline:none;resize:vertical;min-height:60px;"></textarea>
               </div>
-              <div class="form-item">
-                <div class="fi-icon">✅</div>
-                <div class="fi-info">
-                  <div class="fi-name">수업 중심 행동중재 실행 점검표 (부록 11)</div>
-                  <div class="fi-desc">20개 항목으로 내 중재가 제대로 실행되는지 점검</div>
-                </div>
-                <div class="fi-btn">준비 중</div>
+
+              <div style="display:flex;gap:8px;">
+                <button onclick="ivPrint()" style="flex:1;padding:10px;background:var(--teal);color:white;border:none;border-radius:7px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">🖨 인쇄하기</button>
+                <button onclick="ivReset()" style="padding:10px 16px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:14px;cursor:pointer;">초기화</button>
               </div>
             </div>
+
+            <!-- ② 강화제 체크리스트 -->
+            <div class="form-item" onclick="toggleFormTool('tool-reinforce')" style="cursor:pointer;">
+              <div class="fi-icon">🎁</div>
+              <div class="fi-info">
+                <div class="fi-name">강화제 체크리스트 (부록 3)</div>
+                <div class="fi-desc">학생이 좋아하는 것에 점수 → 효과적인 강화제 Top 5 자동 선정</div>
+              </div>
+              <div class="fi-btn ready">사용하기 ↓</div>
+            </div>
+            <div id="tool-reinforce" style="display:none;background:var(--bg);border-radius:10px;padding:18px;margin-bottom:8px;margin-top:-4px;">
+              <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:6px;">🎁 강화제 체크리스트</div>
+              <div style="font-size:13.5px;color:var(--text-sub);margin-bottom:14px;line-height:1.6;">학생을 관찰하거나 직접 물어보며 각 항목에 점수를 매기세요. 1=별로 안 좋아함 / 5=매우 좋아함</div>
+              <div id="rf-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;"></div>
+              <div id="rf-result" style="display:none;background:var(--green-light);border:1.5px solid #B0CEB8;border-radius:10px;padding:14px 16px;margin-bottom:12px;"></div>
+              <div style="display:flex;gap:8px;">
+                <button onclick="rfCalc()" style="flex:1;padding:10px;background:var(--green);color:white;border:none;border-radius:7px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">강화제 Top 5 선정</button>
+                <button onclick="rfReset()" style="padding:10px 16px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:14px;cursor:pointer;">초기화</button>
+              </div>
+            </div>
+
+            <!-- ③ 실행 점검표 -->
+            <div class="form-item" onclick="toggleFormTool('tool-checklist')" style="cursor:pointer;">
+              <div class="fi-icon">✅</div>
+              <div class="fi-info">
+                <div class="fi-name">행동중재 실행 점검표 (부록 11)</div>
+                <div class="fi-desc">20개 항목으로 내 중재가 제대로 실행되는지 점검 → 보완점 자동 표시</div>
+              </div>
+              <div class="fi-btn ready">사용하기 ↓</div>
+            </div>
+            <div id="tool-checklist" style="display:none;background:var(--bg);border-radius:10px;padding:18px;margin-bottom:8px;margin-top:-4px;">
+              <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:6px;">✅ 행동중재 실행 점검표</div>
+              <div style="font-size:13.5px;color:var(--text-sub);margin-bottom:14px;line-height:1.6;">중재를 시작한 후 2~4주 시점에 점검하세요. 각 항목을 실행했으면 체크합니다.</div>
+              <div id="cl-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
+              <div id="cl-result" style="border-radius:10px;padding:14px 16px;margin-bottom:12px;"></div>
+              <button onclick="clReset()" style="width:100%;padding:10px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:14px;cursor:pointer;">체크 초기화</button>
+            </div>
+
+            <!-- QABF 연결 -->
+            <div class="form-item" onclick="document.querySelector('#refToolGrid .ref-card').querySelector('.ref-card-header').click()">
+              <div class="fi-icon">🔬</div>
+              <div class="fi-info">
+                <div class="fi-name">QABF 행동기능설문지 (부록 4·5)</div>
+                <div class="fi-desc">25문항 → 기능 자동 분석 → 중재 전략 제시</div>
+              </div>
+              <div class="fi-btn ready">사용 가능 ↑</div>
+            </div>
+
+            <!-- BIP — 외부 링크 -->
+            <div class="form-item" style="opacity:0.7;">
+              <div class="fi-icon">📊</div>
+              <div class="fi-info">
+                <div class="fi-name">행동지원계획 BIP (부록 2)</div>
+                <div class="fi-desc">경기도교육청 사례집 부록 양식을 직접 사용하세요</div>
+              </div>
+              <a href="https://www.goe.go.kr" target="_blank" rel="noopener" style="font-size:13px;color:var(--teal);font-weight:700;white-space:nowrap;text-decoration:none;" onclick="event.stopPropagation()">경기도교육청 →</a>
+            </div>
+
+            <!-- 빈도 기록지 — 외부 링크 -->
+            <div class="form-item" style="opacity:0.7;">
+              <div class="fi-icon">📈</div>
+              <div class="fi-info">
+                <div class="fi-name">행동 발생 빈도 기록지 (부록 6~8)</div>
+                <div class="fi-desc">경기도교육청 사례집 부록 양식을 직접 사용하세요</div>
+              </div>
+              <a href="https://www.goe.go.kr" target="_blank" rel="noopener" style="font-size:13px;color:var(--teal);font-weight:700;white-space:nowrap;text-decoration:none;" onclick="event.stopPropagation()">경기도교육청 →</a>
+            </div>
+
           </div>
         </div>
       </div>
@@ -4331,7 +4421,246 @@ function closeSim() {
   document.body.style.overflow = '';
 }
 
-/* ─── 레퍼런스 사전 ─── */
+/* ─── 서식 토글 ─── */
+function toggleFormTool(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isOpen = el.style.display !== 'none';
+  // 모두 닫기
+  ['tool-interview','tool-reinforce','tool-checklist'].forEach(tid => {
+    const t = document.getElementById(tid);
+    if (t) t.style.display = 'none';
+  });
+  if (!isOpen) {
+    el.style.display = 'block';
+    // 처음 열리는 경우 초기화
+    if (id === 'tool-reinforce' && !document.getElementById('rf-list').children.length) rfInit();
+    if (id === 'tool-checklist' && !document.getElementById('cl-list').children.length) clInit();
+    ivUpdate();
+    el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+}
+
+/* ══ 초기면담지 ══ */
+function ivUpdate() {
+  const s = ['iv-s1','iv-s2','iv-s3','iv-s4'].map(id => {
+    const v = parseInt(document.getElementById(id)?.value || 3);
+    const vEl = document.getElementById(id + '-val');
+    if (vEl) vEl.textContent = v + '점';
+    return v;
+  });
+  const total = s.reduce((a,b)=>a+b,0);
+  const avg   = total / s.length;
+  const res   = document.getElementById('iv-result');
+  if (!res) return;
+  if (avg >= 3.5) {
+    res.style.cssText = 'background:#E8F5E9;border:1.5px solid #A5C9A8;border-radius:10px;padding:14px 16px;margin-bottom:12px;';
+    res.innerHTML = `<div style="font-size:14px;font-weight:700;color:#2E7D32;margin-bottom:4px;">🔴 도전행동에 해당할 가능성이 높습니다 (평균 ${avg.toFixed(1)}점)</div><div style="font-size:13.5px;color:#1B5E20;line-height:1.6;">강도·빈도·기간이 모두 상당합니다. 기능평가(QABF)를 실시하고 중재 4단계를 시작하세요.</div>`;
+  } else if (avg >= 2.5) {
+    res.style.cssText = 'background:#FFF8E1;border:1.5px solid #FFD54F;border-radius:10px;padding:14px 16px;margin-bottom:12px;';
+    res.innerHTML = `<div style="font-size:14px;font-weight:700;color:#F57F17;margin-bottom:4px;">🟡 경계 수준입니다 (평균 ${avg.toFixed(1)}점)</div><div style="font-size:13.5px;color:#7A5A00;line-height:1.6;">2주 더 관찰하며 기록하세요. 빈도나 강도가 높아지면 즉시 중재를 시작합니다.</div>`;
+  } else {
+    res.style.cssText = 'background:#E3F2FD;border:1.5px solid #90CAF9;border-radius:10px;padding:14px 16px;margin-bottom:12px;';
+    res.innerHTML = `<div style="font-size:14px;font-weight:700;color:#1565C0;margin-bottom:4px;">🟢 현재는 도전행동 수준이 아닐 수 있습니다 (평균 ${avg.toFixed(1)}점)</div><div style="font-size:13.5px;color:#0D47A1;line-height:1.6;">지속 관찰을 권장합니다. 일반적인 생활지도(조언·상담)로 대응하세요.</div>`;
+  }
+}
+
+function ivPrint() {
+  const name     = document.getElementById('iv-name')?.value || '(미기재)';
+  const behavior = document.getElementById('iv-behavior')?.value || '(미기재)';
+  const past     = document.getElementById('iv-past')?.value || '(미기재)';
+  const scores   = ['iv-s1','iv-s2','iv-s3','iv-s4'].map(id => document.getElementById(id)?.value || 3);
+  const labels   = ['강도','빈도','기간','방해 정도'];
+  const avg      = scores.reduce((a,b)=>a+parseInt(b),0) / scores.length;
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>초기면담지</title>
+  <style>body{font-family:'Noto Sans KR',sans-serif;max-width:680px;margin:32px auto;font-size:15px;line-height:1.7;}h1{font-size:20px;border-bottom:2px solid #1B4F4F;padding-bottom:8px;color:#1B4F4F;}table{width:100%;border-collapse:collapse;margin:14px 0;}td,th{border:1px solid #ddd;padding:10px 12px;font-size:14px;}th{background:#E4F0F0;font-weight:700;}.result{padding:12px 16px;border-radius:8px;margin:14px 0;background:${avg>=3.5?'#E8F5E9':avg>=2.5?'#FFF8E1':'#E3F2FD'};}</style>
+  </head><body>
+  <h1>📝 초기면담지</h1>
+  <p><strong>작성일:</strong> ${new Date().toLocaleDateString('ko-KR')} &nbsp;|&nbsp; <strong>학생:</strong> ${name}</p>
+  <p><strong>어려운 행동:</strong><br>${behavior.replace(/\n/g,'<br>')}</p>
+  <table><tr><th>평가 항목</th><th>점수 (1~5)</th></tr>
+  ${labels.map((l,i)=>`<tr><td>${l}</td><td>${scores[i]}점</td></tr>`).join('')}
+  <tr><td><strong>평균</strong></td><td><strong>${avg.toFixed(1)}점</strong></td></tr></table>
+  <div class="result"><strong>판단:</strong> ${avg>=3.5?'도전행동 해당 가능성 높음 → 기능평가 실시':avg>=2.5?'경계 수준 → 2주 추가 관찰':'현재는 도전행동 수준 아닐 수 있음'}</div>
+  <p><strong>지금까지 사용한 중재:</strong><br>${past.replace(/\n/g,'<br>')}</p>
+  </body></html>`);
+  win.document.close();
+  win.print();
+}
+
+function ivReset() {
+  ['iv-name','iv-behavior','iv-past'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  ['iv-s1','iv-s2','iv-s3','iv-s4'].forEach(id => { const el=document.getElementById(id); if(el) el.value=3; });
+  ivUpdate();
+}
+
+/* ══ 강화제 체크리스트 ══ */
+const rfItems = [
+  { cat:'사회적 강화', items:['교사의 칭찬 (말로)', '교사의 칭찬 (스티커·도장)', '친구의 관심·인정', '학급 앞에서 발표 기회', '교사와 1:1 대화 시간'] },
+  { cat:'활동 강화', items:['자유 선택 활동 시간', '좋아하는 게임·앱 사용', '쉬는 시간 연장', '교실 심부름·역할', '도서관·특별실 이용'] },
+  { cat:'물질 강화', items:['스티커·도장', '작은 상품(연필·지우개)', '간식', '쿠폰 (활동 선택권)', '배지·메달'] },
+  { cat:'감각 강화', items:['음악 듣기', '특정 장난감·피젯 사용', '좋아하는 색깔·소재 물건', '조용한 공간에서 혼자 있기', '몸 활동 (뛰기·점프)'] },
+];
+let rfScores = {};
+
+function rfInit() {
+  const list = document.getElementById('rf-list');
+  if (!list) return;
+  list.innerHTML = '';
+  rfItems.forEach(cat => {
+    const catDiv = document.createElement('div');
+    catDiv.style.cssText = 'margin-bottom:10px;';
+    catDiv.innerHTML = `<div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);">${cat.cat}</div>`;
+    cat.items.forEach(item => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);';
+      row.innerHTML = `
+        <span style="flex:1;font-size:14px;color:var(--text);">${item}</span>
+        <div style="display:flex;gap:4px;">
+          ${[1,2,3,4,5].map(n=>`<button onclick="rfScore('${item}',${n},this)" data-item="${item}" data-val="${n}"
+            style="width:28px;height:28px;border-radius:6px;border:1.5px solid var(--border);background:white;font-size:13px;font-weight:700;cursor:pointer;color:var(--text-sub);transition:all 0.15s;"
+            title="${n}점">${n}</button>`).join('')}
+        </div>`;
+      catDiv.appendChild(row);
+    });
+    list.appendChild(catDiv);
+  });
+}
+
+function rfScore(item, val, btn) {
+  rfScores[item] = val;
+  const allBtns = document.querySelectorAll(`[data-item="${item}"]`);
+  allBtns.forEach(b => {
+    const bVal = parseInt(b.dataset.val);
+    b.style.background = bVal <= val ? 'var(--green)' : 'white';
+    b.style.color      = bVal <= val ? 'white' : 'var(--text-sub)';
+    b.style.borderColor= bVal <= val ? 'var(--green)' : 'var(--border)';
+  });
+}
+
+function rfCalc() {
+  const sorted = Object.entries(rfScores).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const res = document.getElementById('rf-result');
+  if (!res) return;
+  if (sorted.length === 0) { rfShowToast('항목에 점수를 먼저 매겨주세요.'); return; }
+  res.style.display = 'block';
+  res.innerHTML = `<div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:10px;">🏆 이 학생에게 효과적인 강화제 Top ${sorted.length}</div>
+    ${sorted.map(([item,score],i)=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #B0CEB8;">
+        <span style="font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:var(--green);min-width:24px;">${i+1}</span>
+        <span style="flex:1;font-size:14px;font-weight:600;color:var(--text);">${item}</span>
+        <span style="font-size:13px;font-weight:700;color:var(--green);">${score}점</span>
+      </div>`).join('')}
+    <div style="margin-top:10px;font-size:13px;color:var(--text-sub);line-height:1.6;">중재 실행 시 이 강화제를 적절한 행동에 즉각 제공하세요. BIP 작성 시 활용하세요.</div>`;
+}
+
+function rfReset() {
+  rfScores = {};
+  document.querySelectorAll('#rf-list button').forEach(b => {
+    b.style.background  = 'white';
+    b.style.color       = 'var(--text-sub)';
+    b.style.borderColor = 'var(--border)';
+  });
+  const res = document.getElementById('rf-result');
+  if (res) res.style.display = 'none';
+}
+
+function rfShowToast(msg) {
+  let t = document.getElementById('rf-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'rf-toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:#333;color:white;padding:10px 20px;border-radius:999px;font-size:14px;z-index:9999;transition:transform 0.3s;white-space:nowrap;font-family:inherit;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(()=>{ t.style.transform = 'translateX(-50%) translateY(60px)'; }, 2200);
+}
+
+/* ══ 실행 점검표 ══ */
+const clItems = [
+  { cat:'기능평가', items:['행동의 기능(관심/회피/강화물/감각)을 파악했다','QABF 또는 직접 관찰로 기능을 확인했다','기능 파악 결과를 기록으로 남겼다'] },
+  { cat:'중재 계획', items:['기능에 맞는 예방전략을 설정했다','대체행동을 구체적으로 정했다','후속결과 중재 방법을 정했다','BIP 또는 메모 형태로 계획을 기록했다'] },
+  { cat:'중재 실행', items:['예방전략을 매일 일관되게 실행했다','대체행동을 학생에게 직접 가르쳤다','적절한 행동에 즉각 보상을 제공했다','문제행동에 일관된 반응(최소 반응)을 유지했다','다른 교사·지원인력과 중재 방식을 공유했다'] },
+  { cat:'데이터·기록', items:['행동 발생 빈도를 매일 기록했다','중재 실행 여부를 기록했다','보호자에게 중재 내용을 안내했다'] },
+  { cat:'점검·수정', items:['2~4주 후 효과를 데이터로 확인했다','효과가 없으면 기능 재평가를 했다','중재 방법을 수정하거나 강도를 조정했다','전문가(특수교사 등)와 협력이 필요한지 검토했다'] },
+];
+let clChecked = new Set();
+
+function clInit() {
+  const list = document.getElementById('cl-list');
+  if (!list) return;
+  list.innerHTML = '';
+  clItems.forEach(cat => {
+    const catDiv = document.createElement('div');
+    catDiv.style.cssText = 'margin-bottom:10px;';
+    catDiv.innerHTML = `<div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);">${cat.cat}</div>`;
+    cat.items.forEach((item, idx) => {
+      const key = cat.cat + '_' + idx;
+      const row = document.createElement('label');
+      row.style.cssText = 'display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:7px;cursor:pointer;transition:background 0.15s;';
+      row.onmouseover = ()=>{ row.style.background='var(--surface)'; };
+      row.onmouseout  = ()=>{ row.style.background=''; };
+      row.innerHTML = `
+        <input type="checkbox" data-key="${key}" onchange="clToggle('${key}',this)" style="width:18px;height:18px;margin-top:2px;flex-shrink:0;accent-color:var(--teal);cursor:pointer;">
+        <span style="font-size:14px;color:var(--text);line-height:1.55;">${item}</span>`;
+      catDiv.appendChild(row);
+    });
+    list.appendChild(catDiv);
+  });
+  clUpdateResult();
+}
+
+function clToggle(key, cb) {
+  if (cb.checked) clChecked.add(key);
+  else clChecked.delete(key);
+  clUpdateResult();
+}
+
+function clUpdateResult() {
+  const total   = clItems.reduce((a,c)=>a+c.items.length,0);
+  const checked = clChecked.size;
+  const pct     = Math.round(checked / total * 100);
+  const res     = document.getElementById('cl-result');
+  if (!res) return;
+
+  // 카테고리별 미체크 항목 찾기
+  const missing = [];
+  clItems.forEach(cat => {
+    cat.items.forEach((item, idx) => {
+      const key = cat.cat + '_' + idx;
+      if (!clChecked.has(key)) missing.push({ cat: cat.cat, item });
+    });
+  });
+
+  let color, msg;
+  if (pct >= 80)      { color='#2E7D32'; msg='✅ 중재가 잘 실행되고 있습니다!'; }
+  else if (pct >= 50) { color='#F57F17'; msg='⚠️ 일부 항목을 보완하면 더 효과적입니다.'; }
+  else                { color='#C62828'; msg='🔄 중재 실행을 전반적으로 점검해보세요.'; }
+
+  const topMissing = missing.slice(0,3).map(m=>`<li style="font-size:13.5px;color:var(--text-sub);line-height:1.55;">${m.cat} — ${m.item}</li>`).join('');
+
+  res.style.cssText = `border-radius:10px;padding:14px 16px;margin-bottom:12px;background:${pct>=80?'#E8F5E9':pct>=50?'#FFF8E1':'#FDE8E8'};border:1.5px solid ${pct>=80?'#A5C9A8':pct>=50?'#FFD54F':'#F5AAAA'};`;
+  res.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <div style="flex:1;background:rgba(0,0,0,0.1);border-radius:999px;height:8px;overflow:hidden;">
+        <div style="height:100%;background:${color};width:${pct}%;border-radius:999px;transition:width 0.4s;"></div>
+      </div>
+      <span style="font-size:15px;font-weight:700;color:${color};">${checked}/${total}</span>
+    </div>
+    <div style="font-size:14px;font-weight:700;color:${color};margin-bottom:${topMissing?'8px':'0'};">${msg}</div>
+    ${topMissing ? `<div style="font-size:13px;color:var(--text-sub);margin-bottom:4px;">보완이 필요한 항목 (상위 3개):</div><ul style="margin:0;padding-left:16px;">${topMissing}</ul>` : ''}`;
+}
+
+function clReset() {
+  clChecked.clear();
+  document.querySelectorAll('#cl-list input[type="checkbox"]').forEach(cb=>{ cb.checked=false; });
+  clUpdateResult();
+}
+
+
 function toggleRefCard(headerEl) {
   const card = headerEl.closest('.ref-card');
   // 다른 카드는 닫지 않음 — 여러 카드 동시에 볼 수 있게
