@@ -2652,13 +2652,22 @@ body {
     <!-- ⑥ 55가지 원칙 체크리스트 -->
     <div id="ltab-clark55" class="ltab-content">
 
-      <!-- 소개 + 단계 표시 -->
+      <!-- 소개 헤더 + 모드 전환 -->
       <div style="background:linear-gradient(135deg,var(--teal-dark),var(--teal-mid));border-radius:12px;padding:22px 24px;margin-bottom:20px;">
-        <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal-accent);margin-bottom:8px;">학급 규칙 만들기 도구</div>
-        <div style="font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:white;margin-bottom:6px;">론 클라크 55가지 원칙으로 우리 반 중점 규칙 선택하기</div>
-        <div style="font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:16px;">55개 전부를 가르치려 하면 아무것도 남지 않습니다. <strong style="color:var(--gold);">우리 반에 꼭 필요한 10개</strong>를 골라서 학기 초 학급 규칙으로 만드세요.</div>
-        <!-- 3단계 진행 표시 -->
-        <div style="display:flex;align-items:center;gap:0;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal-accent);margin-bottom:6px;">학급 규칙 만들기 도구</div>
+            <div style="font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:white;margin-bottom:5px;">론 클라크 55가지 원칙으로 우리 반 중점 규칙 선택하기</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;">55개 전부를 가르치려 하면 아무것도 남지 않습니다. <strong style="color:var(--gold);">우리 반에 꼭 필요한 10개</strong>를 골라서 학기 초 학급 규칙으로 만드세요.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+            <button onclick="clark55SetMode('solo')" id="c55-btn-solo" style="padding:7px 14px;border-radius:7px;border:2px solid white;background:white;color:var(--teal-dark);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">👤 혼자 선택하기</button>
+            <button onclick="clark55SetMode('projector')" id="c55-btn-projector" style="padding:7px 14px;border-radius:7px;border:1.5px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;">📺 프로젝터 모드</button>
+            <button onclick="clark55SetMode('group')" id="c55-btn-group" style="padding:7px 14px;border-radius:7px;border:1.5px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;">👥 모둠 활동 모드</button>
+          </div>
+        </div>
+        <!-- 단계 표시 (solo 전용) -->
+        <div id="c55-step-indicator" style="display:flex;align-items:center;gap:0;">
           <div class="c55-step-dot active" id="c55step1dot">1</div>
           <div class="c55-step-line" id="c55line1"></div>
           <div class="c55-step-dot" id="c55step2dot">2</div>
@@ -2668,70 +2677,125 @@ body {
         </div>
       </div>
 
-      <!-- Step 1: 훑어보기 -->
-      <div id="c55-step1">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
-          <div style="font-size:15px;font-weight:700;color:var(--text);">55가지 원칙 — 마음에 드는 것을 골라보세요 <span style="font-size:13px;font-weight:400;color:var(--text-sub);">(최대 10개)</span></div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;" id="clark55Filters">
-            <button class="clark55-filter active" onclick="clark55Filter('all',this)">전체</button>
-            <button class="clark55-filter" onclick="clark55Filter('예의',this)">예의·배려</button>
-            <button class="clark55-filter" onclick="clark55Filter('학습',this)">학습·집중</button>
-            <button class="clark55-filter" onclick="clark55Filter('공동체',this)">공동체·관계</button>
-            <button class="clark55-filter" onclick="clark55Filter('생활',this)">생활습관</button>
+      <!-- ── 혼자 선택 모드 ── -->
+      <div id="c55-mode-solo">
+        <div id="c55-step1">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <div style="font-size:15px;font-weight:700;color:var(--text);">55가지 원칙 — 마음에 드는 것을 골라보세요 <span style="font-size:13px;font-weight:400;color:var(--text-sub);">(최대 10개)</span></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;" id="clark55Filters">
+              <button class="clark55-filter active" onclick="clark55Filter('all',this)">전체</button>
+              <button class="clark55-filter" onclick="clark55Filter('예의',this)">예의·배려</button>
+              <button class="clark55-filter" onclick="clark55Filter('학습',this)">학습·집중</button>
+              <button class="clark55-filter" onclick="clark55Filter('공동체',this)">공동체·관계</button>
+              <button class="clark55-filter" onclick="clark55Filter('생활',this)">생활습관</button>
+            </div>
+          </div>
+          <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;">
+            <div style="font-size:14px;color:var(--text-sub);white-space:nowrap;">선택한 원칙</div>
+            <div style="flex:1;background:var(--border);border-radius:999px;height:8px;overflow:hidden;">
+              <div id="clark55SelBar" style="height:100%;background:var(--amber);border-radius:999px;width:0%;transition:width 0.3s;"></div>
+            </div>
+            <div style="font-size:15px;font-weight:700;color:var(--amber);white-space:nowrap;min-width:48px;text-align:right;"><span id="clark55SelCount">0</span> / 10</div>
+            <button id="c55-next-btn" onclick="clark55GoStep2()" style="display:none;padding:8px 16px;background:var(--amber);color:white;border:none;border-radius:7px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap;">다음 →</button>
+          </div>
+          <div id="clark55List" style="display:flex;flex-direction:column;gap:7px;"></div>
+        </div>
+        <div id="c55-step2" style="display:none;">
+          <div style="background:var(--amber-light);border:1.5px solid #F0CCA8;border-radius:10px;padding:16px 18px;margin-bottom:16px;">
+            <div style="font-size:15px;font-weight:700;color:#7A4A10;margin-bottom:4px;">선택한 원칙 <span id="c55-sel-count2">0</span>개 — 중요도 순으로 번호를 매겨주세요</div>
+            <div style="font-size:13.5px;color:#A06020;">↑↓ 버튼으로 순서를 조정하세요. 학기 초 학급 회의에서 학생들과 함께 정하면 더 효과적입니다.</div>
+          </div>
+          <div id="c55-order-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;"></div>
+          <div style="display:flex;gap:10px;">
+            <button onclick="clark55GoStep1()" style="flex:1;padding:12px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;">← 다시 고르기</button>
+            <button onclick="clark55GoStep3()" style="flex:2;padding:12px;background:var(--teal);color:white;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">우리 반 규칙 완성하기 →</button>
           </div>
         </div>
-
-        <!-- 선택 현황 바 -->
-        <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;">
-          <div style="font-size:14px;color:var(--text-sub);white-space:nowrap;">선택한 원칙</div>
-          <div style="flex:1;background:var(--border);border-radius:999px;height:8px;overflow:hidden;">
-            <div id="clark55SelBar" style="height:100%;background:var(--amber);border-radius:999px;width:0%;transition:width 0.3s;"></div>
+        <div id="c55-step3" style="display:none;">
+          <div style="background:var(--teal-light);border:1.5px solid #B2D8D8;border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <div>
+              <div style="font-size:15px;font-weight:700;color:var(--teal-dark);margin-bottom:3px;">🎉 우리 반 학급 규칙이 완성됐습니다!</div>
+              <div style="font-size:13.5px;color:var(--teal);">교실에 게시하거나 학생들과 공유하세요.</div>
+            </div>
+            <button onclick="clark55Print()" style="padding:8px 18px;background:var(--teal);color:white;border:none;border-radius:7px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;">🖨 인쇄하기</button>
           </div>
-          <div style="font-size:15px;font-weight:700;color:var(--amber);white-space:nowrap;min-width:48px;text-align:right;">
-            <span id="clark55SelCount">0</span> / 10
+          <div id="c55-result-card" style="background:white;border:2px solid var(--teal);border-radius:14px;padding:28px;margin-bottom:16px;">
+            <div style="text-align:center;margin-bottom:20px;">
+              <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">우리 반 학급 규칙</div>
+              <div style="font-family:'Noto Serif KR',serif;font-size:20px;font-weight:700;color:var(--teal-dark);">론 클라크 원칙 기반</div>
+              <div style="height:2px;background:var(--teal-accent);border-radius:1px;margin:14px auto;max-width:80px;opacity:0.6;"></div>
+            </div>
+            <div id="c55-result-list" style="display:flex;flex-direction:column;gap:12px;"></div>
           </div>
-          <button id="c55-next-btn" onclick="clark55GoStep2()" style="display:none;padding:8px 16px;background:var(--amber);color:white;border:none;border-radius:7px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap;">다음 →</button>
-        </div>
-
-        <div id="clark55List" style="display:flex;flex-direction:column;gap:7px;"></div>
-      </div>
-
-      <!-- Step 2: 순서 정하기 -->
-      <div id="c55-step2" style="display:none;">
-        <div style="background:var(--amber-light);border:1.5px solid #F0CCA8;border-radius:10px;padding:16px 18px;margin-bottom:16px;">
-          <div style="font-size:15px;font-weight:700;color:#7A4A10;margin-bottom:4px;">선택한 원칙 <span id="c55-sel-count2">0</span>개 — 중요도 순으로 번호를 매겨주세요</div>
-          <div style="font-size:13.5px;color:#A06020;">학기 초 학급 회의에서 학생들과 함께 순서를 정하면 더 효과적입니다.</div>
-        </div>
-        <div id="c55-order-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;"></div>
-        <div style="display:flex;gap:10px;">
-          <button onclick="clark55GoStep1()" style="flex:1;padding:12px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;">← 다시 고르기</button>
-          <button onclick="clark55GoStep3()" style="flex:2;padding:12px;background:var(--teal);color:white;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">우리 반 규칙 완성하기 →</button>
-        </div>
-      </div>
-
-      <!-- Step 3: 학급 규칙 카드 완성 -->
-      <div id="c55-step3" style="display:none;">
-        <div style="background:var(--teal-light);border:1.5px solid #B2D8D8;border-radius:10px;padding:16px 18px;margin-bottom:20px;">
-          <div style="font-size:15px;font-weight:700;color:var(--teal-dark);margin-bottom:4px;">🎉 우리 반 학급 규칙이 완성됐습니다!</div>
-          <div style="font-size:13.5px;color:var(--teal);margin-bottom:12px;">교실에 게시하거나 학생들과 공유하세요. 학기 초 학급 회의에서 함께 읽어보는 것을 권장합니다.</div>
-          <button onclick="clark55Print()" style="padding:8px 18px;background:var(--teal);color:white;border:none;border-radius:7px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">🖨 인쇄하기</button>
-        </div>
-
-        <!-- 학급 규칙 카드 -->
-        <div id="c55-result-card" style="background:white;border:2px solid var(--teal);border-radius:14px;padding:28px;margin-bottom:16px;">
-          <div style="text-align:center;margin-bottom:20px;">
-            <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">우리 반 학급 규칙</div>
-            <div style="font-family:'Noto Serif KR',serif;font-size:20px;font-weight:700;color:var(--teal-dark);">론 클라크 원칙 기반</div>
-            <div style="height:2px;background:var(--teal-accent);border-radius:1px;margin:14px auto;max-width:80px;opacity:0.6;"></div>
+          <div style="display:flex;gap:10px;">
+            <button onclick="clark55GoStep2()" style="flex:1;padding:12px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;">← 순서 수정</button>
+            <button onclick="clark55RestartAll()" style="flex:1;padding:12px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;">처음부터 다시</button>
           </div>
-          <div id="c55-result-list" style="display:flex;flex-direction:column;gap:12px;"></div>
         </div>
+      </div><!-- /solo -->
 
-        <div style="display:flex;gap:10px;">
-          <button onclick="clark55GoStep2()" style="flex:1;padding:12px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;">← 순서 수정</button>
-          <button onclick="clark55RestartAll()" style="flex:1;padding:12px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;">처음부터 다시</button>
+      <!-- ── 프로젝터 모드 (B) ── -->
+      <div id="c55-mode-projector" style="display:none;">
+        <div style="background:var(--surface);border:1.5px solid var(--teal);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:700;color:var(--teal-dark);margin-bottom:4px;">📺 프로젝터 모드 — 학급 회의용</div>
+          <div style="font-size:13.5px;color:var(--text-sub);margin-bottom:12px;">원칙을 하나씩 크게 보여주며 학생들과 찬반을 결정합니다. 찬성하면 선택, 반대하면 넘깁니다.</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <span style="font-size:13.5px;color:var(--text-sub);align-self:center;">카테고리:</span>
+            <button class="clark55-filter active" onclick="clark55ProjFilter('all',this)">전체</button>
+            <button class="clark55-filter" onclick="clark55ProjFilter('예의',this)">예의·배려</button>
+            <button class="clark55-filter" onclick="clark55ProjFilter('학습',this)">학습·집중</button>
+            <button class="clark55-filter" onclick="clark55ProjFilter('공동체',this)">공동체·관계</button>
+            <button class="clark55-filter" onclick="clark55ProjFilter('생활',this)">생활습관</button>
+          </div>
         </div>
-      </div>
+        <div id="c55-proj-card" style="background:white;border:2px solid var(--teal);border-radius:16px;padding:40px 32px;text-align:center;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:14px;">
+          <div id="c55-proj-num" style="font-size:20px;font-weight:700;color:var(--teal-accent);margin-bottom:12px;"></div>
+          <div id="c55-proj-title" style="font-family:'Noto Serif KR',serif;font-size:26px;font-weight:700;color:var(--teal-dark);margin-bottom:10px;line-height:1.35;"></div>
+          <div id="c55-proj-desc" style="font-size:16px;color:var(--text-sub);line-height:1.65;max-width:500px;margin-bottom:14px;"></div>
+          <div id="c55-proj-pbs" style="font-size:14px;font-weight:700;padding:4px 14px;border-radius:999px;"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:12px;">
+          <button onclick="clark55ProjPrev()" style="flex:1;padding:13px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;">← 이전</button>
+          <button onclick="clark55ProjToggle()" id="c55-proj-toggle" style="flex:2;padding:13px;background:var(--teal);color:white;border:none;border-radius:8px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;">✓ 선택하기</button>
+          <button onclick="clark55ProjNext()" style="flex:1;padding:13px;background:white;color:var(--text-sub);border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;">다음 →</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:12px;">
+          <div style="font-size:14px;color:var(--text-sub);">진행</div>
+          <div style="flex:1;background:var(--border);border-radius:999px;height:6px;overflow:hidden;"><div id="c55-proj-bar" style="height:100%;background:var(--teal);border-radius:999px;width:0%;transition:width 0.3s;"></div></div>
+          <div id="c55-proj-info" style="font-size:13.5px;font-weight:700;color:var(--teal);white-space:nowrap;"></div>
+          <div style="width:1px;height:18px;background:var(--border);"></div>
+          <div style="font-size:13.5px;color:var(--text-sub);">선택: <strong id="c55-proj-sel-count" style="color:var(--amber);">0</strong>/10</div>
+        </div>
+        <div id="c55-proj-selected-wrap" style="display:none;margin-top:4px;">
+          <div style="font-size:13.5px;font-weight:700;color:var(--text-sub);margin-bottom:8px;">✓ 선택된 원칙</div>
+          <div id="c55-proj-selected-list" style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;"></div>
+          <button onclick="clark55ProjFinish()" style="width:100%;padding:13px;background:var(--amber);color:white;border:none;border-radius:8px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;">이 원칙들로 규칙 완성하기 →</button>
+        </div>
+      </div><!-- /projector -->
+
+      <!-- ── 모둠 활동 모드 (C) ── -->
+      <div id="c55-mode-group" style="display:none;">
+        <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+          <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px;">👥 모둠 활동 모드</div>
+          <div style="font-size:14px;color:var(--text-sub);line-height:1.6;margin-bottom:14px;">각 모둠이 담당 카테고리에서 원칙을 고릅니다. 모둠 발표 후 전체 학급 규칙으로 합칩니다.</div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;" id="c55-group-tabs">
+            <button class="c55-group-tab active" onclick="clark55GroupSelect(0,this)" style="padding:10px;border-radius:8px;border:2px solid #E05A5A;background:#FDE8E8;color:#C44444;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">1모둠<br><span style="font-size:12px;font-weight:400;">예의·배려 (3개)</span></button>
+            <button class="c55-group-tab" onclick="clark55GroupSelect(1,this)" style="padding:10px;border-radius:8px;border:2px solid var(--border);background:white;color:var(--text-sub);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">2모둠<br><span style="font-size:12px;font-weight:400;">학습·집중 (3개)</span></button>
+            <button class="c55-group-tab" onclick="clark55GroupSelect(2,this)" style="padding:10px;border-radius:8px;border:2px solid var(--border);background:white;color:var(--text-sub);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">3모둠<br><span style="font-size:12px;font-weight:400;">공동체·관계 (2개)</span></button>
+            <button class="c55-group-tab" onclick="clark55GroupSelect(3,this)" style="padding:10px;border-radius:8px;border:2px solid var(--border);background:white;color:var(--text-sub);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">4모둠<br><span style="font-size:12px;font-weight:400;">생활습관 (2개)</span></button>
+          </div>
+        </div>
+        <div id="c55-group-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div id="c55-group-label" style="font-size:15px;font-weight:700;"></div>
+          <div id="c55-group-count" style="font-size:14px;font-weight:700;"></div>
+        </div>
+        <div id="c55-group-list" style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;"></div>
+        <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:12px;">
+          <div style="font-size:13.5px;font-weight:700;color:var(--text-sub);margin-bottom:8px;">전체 합계 <span id="c55-grp-total">0</span> / 10개</div>
+          <div id="c55-grp-summary" style="display:flex;flex-direction:column;gap:5px;"></div>
+        </div>
+        <button onclick="clark55GroupFinish()" id="c55-grp-finish-btn" style="display:none;width:100%;padding:13px;background:var(--amber);color:white;border:none;border-radius:8px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;">모둠 활동 결과로 규칙 완성하기 →</button>
+      </div><!-- /group -->
 
     </div><!-- /ltab-clark55 -->
 
@@ -4442,7 +4506,78 @@ function resetQABF() {
 
 /* ─── 론 클라크 55가지 원칙 — 학급 규칙 만들기 도구 ─── */
 
-// 55개 원칙 데이터는 기존 clark55Data 유지
+// ── 55가지 원칙 데이터 ──
+const clark55Data = [
+  // 예의·배려
+  { no:1,  cat:'예의', title:'어른이 말씀하실 때는 끝까지 듣는다', desc:'말씀이 끝나기 전에 끼어들지 않는다.', pbs:'관심' },
+  { no:2,  cat:'예의', title:'어른께 반드시 존댓말을 쓴다', desc:'선생님, 부모님, 낯선 어른 모두 마찬가지다.', pbs:null },
+  { no:3,  cat:'예의', title:'"감사합니다"를 항상 말한다', desc:'선물, 도움, 친절 모두에 감사를 표한다.', pbs:null },
+  { no:4,  cat:'예의', title:'문을 잡아 다른 사람이 지나가게 한다', desc:'뒤에 오는 사람을 위해 문을 잡아주는 것은 기본 예절이다.', pbs:null },
+  { no:5,  cat:'예의', title:'식사 예절을 지킨다', desc:'음식을 입 안에 넣은 채 말하지 않는다.', pbs:null },
+  { no:6,  cat:'예의', title:'기침·재채기 시 입을 가린다', desc:'소매나 손으로 입을 가리고 "실례합니다"라고 말한다.', pbs:null },
+  { no:7,  cat:'예의', title:'식사 후 자신의 자리를 치운다', desc:'쟁반과 쓰레기는 스스로 정리한다.', pbs:null },
+  { no:8,  cat:'예의', title:'다른 사람의 눈을 보며 이야기한다', desc:'대화 중 눈을 마주치는 것은 존중의 표시다.', pbs:'관심' },
+  { no:9,  cat:'예의', title:'남을 놀리거나 상처 주는 말을 하지 않는다', desc:'말 한마디가 사람의 마음에 평생 남을 수 있다.', pbs:'관심' },
+  { no:10, cat:'예의', title:'다른 사람에게 손가락질하지 않는다', desc:'손가락질은 무례한 행동이다.', pbs:null },
+  { no:41, cat:'예의', title:'전화 예절을 지킨다', desc:'용건을 먼저 밝히고 끝인사를 잊지 않는다.', pbs:null },
+  { no:42, cat:'예의', title:'공공장소에서 조용히 한다', desc:'도서관, 극장, 병원에서는 작은 소리로 말한다.', pbs:'관심' },
+  { no:43, cat:'예의', title:'줄을 설 때 새치기하지 않는다', desc:'차례를 지키는 것은 기본 질서다.', pbs:'강화' },
+  { no:44, cat:'예의', title:'남의 물건을 허락 없이 빌리지 않는다', desc:'아무리 친한 사이라도 먼저 물어본다.', pbs:'강화' },
+  { no:45, cat:'예의', title:'비밀을 지킨다', desc:'친구가 털어놓은 이야기를 함부로 퍼뜨리지 않는다.', pbs:null },
+  // 학습·집중
+  { no:11, cat:'학습', title:'수업 중에는 집중한다', desc:'선생님이 말씀하실 때 딴짓을 하지 않는다.', pbs:'관심' },
+  { no:12, cat:'학습', title:'손을 들고 발언 기회를 기다린다', desc:'다른 사람의 발표를 방해하지 않는다.', pbs:'관심' },
+  { no:13, cat:'학습', title:'수업 자료를 깨끗하게 다룬다', desc:'책과 노트는 접거나 낙서하지 않는다.', pbs:null },
+  { no:14, cat:'학습', title:'숙제는 반드시 해온다', desc:'불가능한 경우엔 미리 선생님께 말씀드린다.', pbs:'회피' },
+  { no:15, cat:'학습', title:'모르는 것은 질문한다', desc:'이해되지 않으면 그냥 넘어가지 않는다.', pbs:'회피' },
+  { no:16, cat:'학습', title:'자신의 실수를 인정한다', desc:'"제가 틀렸습니다"라고 말할 수 있는 용기가 필요하다.', pbs:null },
+  { no:17, cat:'학습', title:'긍정적인 태도로 임한다', desc:'어렵더라도 포기하지 않고 최선을 다한다.', pbs:'회피' },
+  { no:18, cat:'학습', title:'칭찬받을 때 겸손하게 받아들인다', desc:'"감사합니다"라고 말하고 우쭐대지 않는다.', pbs:null },
+  { no:19, cat:'학습', title:'시험 중 부정행위를 하지 않는다', desc:'정직한 성적이 진짜 실력이다.', pbs:null },
+  { no:20, cat:'학습', title:'발표할 때 목소리를 크고 자신감 있게 낸다', desc:'작은 목소리는 자신감 없이 보인다.', pbs:'관심' },
+  { no:46, cat:'학습', title:'비판을 받아들일 줄 안다', desc:'지적을 개인 공격으로 받아들이지 않는다.', pbs:null },
+  { no:47, cat:'학습', title:'새로운 것에 도전하는 것을 두려워하지 않는다', desc:'실패는 배움의 과정이다.', pbs:'회피' },
+  { no:48, cat:'학습', title:'자신의 강점과 약점을 안다', desc:'자기 자신을 정확히 아는 것이 성장의 시작이다.', pbs:null },
+  { no:49, cat:'학습', title:'목표를 세우고 글로 적는다', desc:'쓰인 목표는 지켜질 가능성이 훨씬 높다.', pbs:null },
+  { no:50, cat:'학습', title:'포기하고 싶을 때 한 번 더 시도한다', desc:'한 번 더의 힘을 믿는다.', pbs:'회피' },
+  // 공동체·관계
+  { no:21, cat:'공동체', title:'우리는 하나의 가족임을 기억한다', desc:'교실은 서로 돕고 배려하는 공동체다.', pbs:null },
+  { no:22, cat:'공동체', title:'팀 활동에서 자신의 몫을 다한다', desc:'다른 사람에게 의존하지 않고 책임을 진다.', pbs:null },
+  { no:23, cat:'공동체', title:'친구의 성공을 진심으로 축하한다', desc:'질투하지 않고 함께 기뻐한다.', pbs:'관심' },
+  { no:24, cat:'공동체', title:'괴롭힘을 목격하면 나선다', desc:'침묵은 동조와 같다.', pbs:'관심' },
+  { no:25, cat:'공동체', title:'새로 온 친구를 환영한다', desc:'낯선 환경에 있는 사람의 마음을 헤아린다.', pbs:'관심' },
+  { no:26, cat:'공동체', title:'친구의 생일을 기억하고 축하한다', desc:'작은 관심이 큰 우정을 만든다.', pbs:'관심' },
+  { no:27, cat:'공동체', title:'갈등은 폭력 없이 대화로 해결한다', desc:'화가 나더라도 먼저 이야기를 나눈다.', pbs:'강화' },
+  { no:28, cat:'공동체', title:'소외되는 친구에게 먼저 다가간다', desc:'혼자 있는 친구를 그냥 지나치지 않는다.', pbs:'관심' },
+  { no:29, cat:'공동체', title:'리더가 없어도 스스로 행동한다', desc:'누군가 시킬 때만 움직이지 않는다.', pbs:'관심' },
+  { no:30, cat:'공동체', title:'공동 공간은 함께 사용하는 것임을 안다', desc:'교실, 화장실, 식당은 모두가 쓰는 공간이다.', pbs:null },
+  { no:51, cat:'공동체', title:'다양성을 존중한다', desc:'나와 다른 문화, 생각, 외모를 가진 사람을 존중한다.', pbs:null },
+  { no:52, cat:'공동체', title:'어려운 사람을 도울 방법을 찾는다', desc:'작은 도움이 누군가의 하루를 바꿀 수 있다.', pbs:null },
+  { no:53, cat:'공동체', title:'환경을 생각하는 행동을 한다', desc:'불필요한 낭비를 줄이고 지구를 아낀다.', pbs:null },
+  { no:54, cat:'공동체', title:'사과할 때 진심을 담는다', desc:'"미안해"는 형식이 아니라 마음에서 나와야 한다.', pbs:null },
+  { no:55, cat:'공동체', title:'매일 최선을 다한다', desc:'오늘 하루도 어제보다 조금 더 나은 사람이 되기 위해 노력한다.', pbs:null },
+  // 생활습관
+  { no:31, cat:'생활', title:'시간을 지킨다', desc:'약속된 시간보다 일찍 준비한다.', pbs:null },
+  { no:32, cat:'생활', title:'복장을 단정히 한다', desc:'외모를 통해 자신에 대한 존중을 표현한다.', pbs:null },
+  { no:33, cat:'생활', title:'자신의 물건을 정리 정돈한다', desc:'내 자리와 내 물건은 내가 관리한다.', pbs:null },
+  { no:34, cat:'생활', title:'쓰레기는 쓰레기통에 버린다', desc:'공공장소를 깨끗하게 유지하는 것은 시민의 의무다.', pbs:null },
+  { no:35, cat:'생활', title:'음식을 감사히 먹는다', desc:'음식을 낭비하거나 불평하지 않는다.', pbs:null },
+  { no:36, cat:'생활', title:'용돈을 계획적으로 쓴다', desc:'충동구매를 하지 않고 필요한 것에 쓴다.', pbs:'강화' },
+  { no:37, cat:'생활', title:'TV나 게임 시간을 조절한다', desc:'스스로 규칙을 정하고 지킨다.', pbs:'강화' },
+  { no:38, cat:'생활', title:'충분히 잠을 잔다', desc:'건강한 생활리듬이 학습 능력을 높인다.', pbs:'감각' },
+  { no:39, cat:'생활', title:'운동을 생활화한다', desc:'건강한 몸이 건강한 마음의 기초다.', pbs:'감각' },
+  { no:40, cat:'생활', title:'독서를 즐긴다', desc:'책은 경험할 수 없는 세계를 경험하게 해준다.', pbs:null },
+];
+
+const clark55CatOrder  = ['예의','학습','공동체','생활'];
+const clark55CatLabels = { 예의:'예의 · 배려', 학습:'학습 · 집중', 공동체:'공동체 · 관계', 생활:'생활 습관' };
+// 카테고리별 모둠 할당 (C방식)
+const clark55Groups = [
+  { name:'1모둠', cat:'예의',   max:3, color:'#E05A5A', lightColor:'#FDE8E8' },
+  { name:'2모둠', cat:'학습',   max:3, color:'#3C7FE0', lightColor:'#E8EFFE' },
+  { name:'3모둠', cat:'공동체', max:2, color:'#3B6E4A', lightColor:'#E6F0E9' },
+  { name:'4모둠', cat:'생활',   max:2, color:'#8B5BE0', lightColor:'#F0E8FE' },
+];
 let clark55Selected = new Set(JSON.parse(localStorage.getItem('clark55sel') || '[]'));
 let clark55Order    = JSON.parse(localStorage.getItem('clark55ord') || '[]');
 let clark55CurFilter = 'all';
@@ -4665,7 +4800,264 @@ function clark55ShowToast(msg) {
   setTimeout(() => { t.style.transform = 'translateX(-50%) translateY(60px)'; }, 2200);
 }
 
-/* ── 탭 활성화 시 렌더 ── */
+/* ── 현재 모드 ── */
+let clark55CurMode = 'solo';
+
+function clark55SetMode(mode) {
+  clark55CurMode = mode;
+  ['solo','projector','group'].forEach(m => {
+    const el  = document.getElementById('c55-mode-' + m);
+    const btn = document.getElementById('c55-btn-' + m);
+    if (el)  el.style.display  = m === mode ? 'block' : 'none';
+    if (btn) {
+      btn.style.background   = m === mode ? 'white' : 'rgba(255,255,255,0.1)';
+      btn.style.color        = m === mode ? 'var(--teal-dark)' : 'white';
+      btn.style.border       = m === mode ? '2px solid white' : '1.5px solid rgba(255,255,255,0.3)';
+      btn.style.fontWeight   = m === mode ? '700' : '500';
+    }
+  });
+  const ind = document.getElementById('c55-step-indicator');
+  if (ind) ind.style.display = mode === 'solo' ? 'flex' : 'none';
+
+  if (mode === 'solo') { clark55SetStep(clark55CurStep); clark55Render(); }
+  else if (mode === 'projector') clark55ProjInit();
+  else if (mode === 'group')     clark55GroupInit();
+}
+
+/* ══ 프로젝터 모드 (B) ══ */
+let c55ProjList   = [];
+let c55ProjIdx    = 0;
+let c55ProjFilter = 'all';
+
+function clark55ProjFilter(f, btn) {
+  document.querySelectorAll('#c55-mode-projector .clark55-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  c55ProjFilter = f;
+  clark55ProjInit();
+}
+
+function clark55ProjInit() {
+  c55ProjList = clark55Data.filter(p =>
+    c55ProjFilter === 'all' || p.cat === c55ProjFilter
+  );
+  c55ProjIdx = 0;
+  clark55ProjRender();
+}
+
+function clark55ProjRender() {
+  if (!c55ProjList.length) return;
+  const p     = c55ProjList[c55ProjIdx];
+  const isSel = clark55Selected.has(p.no);
+  const total = c55ProjList.length;
+
+  document.getElementById('c55-proj-num').textContent   = `${c55ProjIdx + 1} / ${total}`;
+  document.getElementById('c55-proj-title').textContent = p.title;
+  document.getElementById('c55-proj-desc').textContent  = p.desc;
+
+  const pbsEl = document.getElementById('c55-proj-pbs');
+  if (p.pbs) {
+    const pbsColors = { 관심:'#FDE8E8,#C44444', 회피:'#FEF0E0,#A55A00', 강화:'#E8EFFE,#3550C4', 감각:'#F0E8FE,#7B44C4' };
+    const [bg, col] = (pbsColors[p.pbs] || '#f5f5f5,#666').split(',');
+    pbsEl.textContent   = p.pbs + ' 예방';
+    pbsEl.style.background = bg;
+    pbsEl.style.color      = col;
+    pbsEl.style.display    = 'inline-block';
+  } else {
+    pbsEl.style.display = 'none';
+  }
+
+  // 토글 버튼 상태
+  const toggleBtn = document.getElementById('c55-proj-toggle');
+  if (toggleBtn) {
+    toggleBtn.textContent = isSel ? '✓ 선택 취소' : '✓ 선택하기';
+    toggleBtn.style.background = isSel ? '#B86A2A' : 'var(--teal)';
+  }
+
+  // 진행 바
+  const bar  = document.getElementById('c55-proj-bar');
+  const info = document.getElementById('c55-proj-info');
+  if (bar)  bar.style.width  = ((c55ProjIdx + 1) / total * 100).toFixed(1) + '%';
+  if (info) info.textContent = `${c55ProjIdx + 1} / ${total}`;
+
+  // 선택 카운트
+  const selCnt = document.getElementById('c55-proj-sel-count');
+  if (selCnt) selCnt.textContent = clark55Selected.size;
+
+  // 선택된 목록 미리보기
+  clark55ProjRenderSelected();
+}
+
+function clark55ProjRenderSelected() {
+  const wrap = document.getElementById('c55-proj-selected-wrap');
+  const list = document.getElementById('c55-proj-selected-list');
+  if (!wrap || !list) return;
+  if (clark55Selected.size === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  list.innerHTML = '';
+  [...clark55Selected].forEach((no, i) => {
+    const p = clark55Data.find(d => d.no === no);
+    if (!p) return;
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--teal-light);border-radius:7px;font-size:13.5px;';
+    div.innerHTML = `<span style="font-weight:700;color:var(--teal);min-width:20px;">${i+1}</span><span>${p.title}</span>`;
+    list.appendChild(div);
+  });
+}
+
+function clark55ProjToggle() {
+  const p = c55ProjList[c55ProjIdx];
+  if (!p) return;
+  if (clark55Selected.has(p.no)) {
+    clark55Selected.delete(p.no);
+  } else {
+    if (clark55Selected.size >= CLARK55_MAX) {
+      clark55ShowToast(`최대 ${CLARK55_MAX}개까지 선택할 수 있습니다.`);
+      return;
+    }
+    clark55Selected.add(p.no);
+  }
+  clark55SaveSel();
+  clark55ProjRender();
+}
+
+function clark55ProjPrev() {
+  if (c55ProjIdx > 0) { c55ProjIdx--; clark55ProjRender(); }
+}
+function clark55ProjNext() {
+  if (c55ProjIdx < c55ProjList.length - 1) { c55ProjIdx++; clark55ProjRender(); }
+  else clark55ShowToast('마지막 원칙입니다. 아래에서 완성하기를 누르세요.');
+}
+
+function clark55ProjFinish() {
+  clark55Order = [...clark55Selected];
+  clark55SaveSel();
+  clark55SetMode('solo');
+  clark55GoStep3();
+}
+
+/* ══ 모둠 활동 모드 (C) ══ */
+let c55CurGroup = 0;
+// 모둠별 선택 저장 {groupIdx: Set}
+let c55GroupSel = { 0: new Set(), 1: new Set(), 2: new Set(), 3: new Set() };
+
+function clark55GroupInit() {
+  clark55GroupSelect(0, document.querySelector('.c55-group-tab'));
+}
+
+function clark55GroupSelect(idx, btn) {
+  c55CurGroup = idx;
+  const grp   = clark55Groups[idx];
+
+  // 탭 스타일
+  document.querySelectorAll('.c55-group-tab').forEach((b, i) => {
+    const g = clark55Groups[i];
+    if (i === idx) {
+      b.style.border     = `2px solid ${g.color}`;
+      b.style.background = g.lightColor;
+      b.style.color      = g.color;
+    } else {
+      b.style.border     = '2px solid var(--border)';
+      b.style.background = 'white';
+      b.style.color      = 'var(--text-sub)';
+    }
+  });
+
+  // 헤더
+  const lbl = document.getElementById('c55-group-label');
+  const cnt = document.getElementById('c55-group-count');
+  if (lbl) lbl.innerHTML = `<span style="color:${grp.color};font-weight:700;">${grp.name}</span> — ${clark55CatLabels[grp.cat]}`;
+  if (cnt) cnt.innerHTML = `<span style="color:${grp.color};">${c55GroupSel[idx].size} / ${grp.max}개 선택</span>`;
+
+  // 해당 카테고리 목록
+  const list = document.getElementById('c55-group-list');
+  if (!list) return;
+  list.innerHTML = '';
+  clark55Data.filter(p => p.cat === grp.cat).forEach(p => {
+    const isSel = c55GroupSel[idx].has(p.no);
+    const div   = document.createElement('div');
+    div.className = 'c55-item' + (isSel ? ' done' : '');
+    div.style.borderLeftColor = grp.color;
+    div.style.borderLeftWidth = '4px';
+    div.innerHTML = `
+      <span class="c55-num" style="color:${grp.color};">${String(p.no).padStart(2,'0')}</span>
+      <div class="c55-check" style="${isSel ? `background:${grp.color};border-color:${grp.color};` : ''}">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="c55-body">
+        <div class="c55-title">${p.title}</div>
+        <div class="c55-desc">${p.desc}</div>
+      </div>
+      ${p.pbs ? `<span class="c55-pbs ${p.pbs}">${p.pbs} 예방</span>` : ''}
+    `;
+    div.addEventListener('click', () => {
+      if (c55GroupSel[idx].has(p.no)) {
+        c55GroupSel[idx].delete(p.no);
+        div.classList.remove('done');
+        div.querySelector('.c55-check').style.cssText = '';
+      } else {
+        if (c55GroupSel[idx].size >= grp.max) {
+          clark55ShowToast(`${grp.name}은 최대 ${grp.max}개까지 선택할 수 있습니다.`);
+          return;
+        }
+        c55GroupSel[idx].add(p.no);
+        div.classList.add('done');
+        div.querySelector('.c55-check').style.cssText = `background:${grp.color};border-color:${grp.color};`;
+      }
+      clark55GroupUpdateSummary();
+      // 카운트 갱신
+      if (cnt) cnt.innerHTML = `<span style="color:${grp.color};">${c55GroupSel[idx].size} / ${grp.max}개 선택</span>`;
+    });
+    list.appendChild(div);
+  });
+
+  clark55GroupUpdateSummary();
+}
+
+function clark55GroupUpdateSummary() {
+  let total = 0;
+  clark55Groups.forEach((g, i) => total += c55GroupSel[i].size);
+
+  const totalEl = document.getElementById('c55-grp-total');
+  if (totalEl) totalEl.textContent = total;
+
+  const summary = document.getElementById('c55-grp-summary');
+  if (summary) {
+    summary.innerHTML = '';
+    clark55Groups.forEach((g, i) => {
+      const sel   = c55GroupSel[i];
+      const names = [...sel].map(no => {
+        const p = clark55Data.find(d => d.no === no);
+        return p ? p.title : '';
+      }).filter(Boolean);
+      const row = document.createElement('div');
+      row.style.cssText = `display:flex;gap:8px;align-items:flex-start;font-size:13.5px;`;
+      row.innerHTML = `
+        <span style="font-weight:700;color:${g.color};white-space:nowrap;min-width:36px;">${g.name}</span>
+        <span style="color:var(--text-sub);">${names.length ? names.join(' / ') : '아직 선택 없음'}</span>
+      `;
+      summary.appendChild(row);
+    });
+  }
+
+  const finBtn = document.getElementById('c55-grp-finish-btn');
+  if (finBtn) finBtn.style.display = total >= 8 ? 'block' : 'none';
+}
+
+function clark55GroupFinish() {
+  // 4개 모둠의 선택을 합쳐서 solo 모드 결과로 연결
+  clark55Selected.clear();
+  clark55Groups.forEach((g, i) => {
+    c55GroupSel[i].forEach(no => clark55Selected.add(no));
+  });
+  clark55Order = [...clark55Selected];
+  clark55SaveSel();
+  clark55SetMode('solo');
+  clark55GoStep3();
+}
+
+
 const _origSwitchLtab = switchLtab;
 switchLtab = function(id, btn) {
   _origSwitchLtab(id, btn);
