@@ -561,7 +561,7 @@ body {
 }
 
 .section-body {
-  max-width: 960px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 28px 20px 80px;
 }
@@ -1736,7 +1736,10 @@ body {
   transition: box-shadow 0.18s;
 }
 .ref-card:hover { box-shadow: var(--shadow); }
-.ref-card.open  { border-left-color: var(--green); }
+.ref-card.open  {
+  border-left-color: var(--green);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
 
 /* 기능별 컬러 바 */
 .ref-card[data-func-color="관심"]      { border-left-color: #E05A5A; }
@@ -1761,8 +1764,8 @@ body {
   user-select: none;
   transition: background 0.15s;
 }
-.ref-card-header:hover { background: var(--bg); }
-.ref-card.open .ref-card-header { background: var(--bg); }
+.ref-card-header:hover { background: #E6E4E0; }
+.ref-card.open .ref-card-header { background: #E6E4E0; }
 
 .ref-card-header .rch-info { flex: 1; min-width: 0; }
 .ref-card-header .rch-title {
