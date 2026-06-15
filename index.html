@@ -3157,11 +3157,10 @@ body {
       <button class="ref-filter-btn active" onclick="filterRef('all', this)">전체</button>
       <button class="ref-filter-btn" onclick="filterRef('관심', this)">관심 획득</button>
       <button class="ref-filter-btn" onclick="filterRef('회피', this)">과제 회피</button>
-      <button class="ref-filter-btn" onclick="filterRef('강화', this)">강화물 획득</button>
-      <button class="ref-filter-btn" onclick="filterRef('감각', this)">감각 추구</button>
       <button class="ref-filter-btn" onclick="filterRef('공격', this)">공격 행동</button>
       <button class="ref-filter-btn" onclick="filterRef('자해', this)">자해 행동</button>
       <button class="ref-filter-btn" onclick="filterRef('거부', this)">지시 거부</button>
+      <button class="ref-filter-btn" onclick="filterRef('감각', this)">감각 추구</button>
       <button class="ref-filter-btn" onclick="filterRef('도구', this)">📋 도구·서식</button>
     </div>
 
@@ -5093,29 +5092,64 @@ function filterRef(tag, btn) {
 
   const allCards = document.querySelectorAll('.ref-card');
   let firstVisible = null;
+  let behaviorCount = 0;
+
   allCards.forEach(c => {
-    const tags = (c.dataset.tags || '').toLowerCase();
+    const tags      = (c.dataset.tags || '').toLowerCase();
     const funcColor = (c.dataset.funcColor || '').toLowerCase();
-    const title = (c.querySelector('.rch-title')?.textContent || '').toLowerCase();
     const match = tag === 'all'
       || tags.includes(tag.toLowerCase())
       || funcColor === tag.toLowerCase();
     c.style.display = match ? '' : 'none';
     if (match && !firstVisible) firstVisible = c;
+    // 도구 카드 제외 행동 카드 수 계산
+    if (match && funcColor !== '도구') behaviorCount++;
   });
 
-  // 섹션 구분선 표시 여부
+  // 섹션 구분선 + 도구 섹션 표시 여부
+  const refGrid    = document.getElementById('refGrid');
   const toolSection = document.getElementById('refToolGrid');
+
+  // 행동별 카드 섹션 구분선
+  if (refGrid) {
+    const gridDivider = refGrid.previousElementSibling;
+    if (gridDivider) gridDivider.style.display = behaviorCount > 0 ? '' : 'none';
+  }
+
+  // 도구 섹션
   if (toolSection) {
-    const toolDiv = toolSection.previousElementSibling;
+    const toolDivider = toolSection.previousElementSibling;
     const toolVisible = tag === 'all' || tag === '도구' || tag === '서식';
-    if (toolDiv) toolDiv.style.display = toolVisible ? '' : 'none';
+    if (toolDivider) toolDivider.style.display = toolVisible ? '' : 'none';
     toolSection.style.display = toolVisible ? '' : 'none';
   }
 
-  // 필터 결과가 1개면 자동으로 펼치기
-  if (firstVisible && !firstVisible.classList.contains('open')) {
-    firstVisible.classList.add('open');
+  // 결과 없을 때 안내
+  let emptyNotice = document.getElementById('refFilterEmpty');
+  if (!emptyNotice) {
+    emptyNotice = document.createElement('div');
+    emptyNotice.id = 'refFilterEmpty';
+    emptyNotice.style.cssText = 'padding:24px 0;text-align:center;color:var(--text-sub);font-size:14px;';
+    const grid = document.getElementById('refGrid');
+    if (grid) grid.after(emptyNotice);
+  }
+  if (!firstVisible) {
+    emptyNotice.style.display = 'block';
+    emptyNotice.textContent = `"${btn.textContent.trim()}" 항목이 없습니다. 검색창을 이용해 보세요.`;
+  } else {
+    emptyNotice.style.display = 'none';
+  }
+
+  // 첫 번째 결과 자동 펼치기 + 스크롤
+  if (firstVisible) {
+    if (!firstVisible.classList.contains('open')) firstVisible.classList.add('open');
+    setTimeout(() => {
+      const refPage = document.getElementById('page-ref');
+      if (refPage) {
+        const top = firstVisible.getBoundingClientRect().top - refPage.getBoundingClientRect().top - 8;
+        refPage.scrollBy({ top, behavior: 'smooth' });
+      }
+    }, 100);
   }
 }
 
