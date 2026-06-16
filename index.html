@@ -5022,17 +5022,19 @@ function rfInit() {
   const list = document.getElementById('rf-list');
   if (!list) return;
   list.innerHTML = '';
+  let globalIdx = 0;  // 전체 항목 고유 인덱스
   rfItems.forEach(cat => {
     const catDiv = document.createElement('div');
     catDiv.style.cssText = 'margin-bottom:10px;';
     catDiv.innerHTML = `<div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);">${cat.cat}</div>`;
     cat.items.forEach(item => {
+      const idx = globalIdx++;
       const row = document.createElement('div');
       row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);';
       row.innerHTML = `
         <span style="flex:1;font-size:14px;color:var(--text);">${item}</span>
-        <div style="display:flex;gap:4px;">
-          ${[1,2,3,4,5].map(n=>`<button onclick="rfScore('${item}',${n},this)" data-item="${item}" data-val="${n}"
+        <div style="display:flex;gap:4px;" data-rf-group="${idx}">
+          ${[1,2,3,4,5].map(n=>`<button onclick="rfScore('${item}',${n},${idx})" data-rf-idx="${idx}" data-val="${n}"
             style="width:28px;height:28px;border-radius:6px;border:1.5px solid var(--border);background:white;font-size:13px;font-weight:700;cursor:pointer;color:var(--text-sub);transition:all 0.15s;"
             title="${n}점">${n}</button>`).join('')}
         </div>`;
@@ -5042,9 +5044,12 @@ function rfInit() {
   });
 }
 
-function rfScore(item, val, btn) {
+function rfScore(item, val, idx) {
   rfScores[item] = val;
-  const allBtns = document.querySelectorAll(`[data-item="${item}"]`);
+  // querySelectorAll 범위를 rf-list 내부로 제한 + 특수문자 문제 회피: data-rf-idx 숫자 사용
+  const list = document.getElementById('rf-list');
+  if (!list) return;
+  const allBtns = list.querySelectorAll(`[data-rf-idx="${idx}"]`);
   allBtns.forEach(b => {
     const bVal = parseInt(b.dataset.val);
     b.style.background = bVal <= val ? 'var(--green)' : 'white';
@@ -5071,7 +5076,8 @@ function rfCalc() {
 
 function rfReset() {
   rfScores = {};
-  document.querySelectorAll('#rf-list button').forEach(b => {
+  const list = document.getElementById('rf-list');
+  if (list) list.querySelectorAll('button').forEach(b => {
     b.style.background  = 'white';
     b.style.color       = 'var(--text-sub)';
     b.style.borderColor = 'var(--border)';
