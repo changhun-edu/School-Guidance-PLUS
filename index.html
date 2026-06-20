@@ -6898,7 +6898,7 @@ function printCurrentForm() {
     .cat-header { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
     .top-box { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   }
-</style></head><body>
+<\/style></head><body>
 
   <h1>🎁 강화제 체크리스트</h1>
   <div class="meta">
@@ -6990,7 +6990,7 @@ function printCurrentForm() {
     .cl-cat-header { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
     .progress-box { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   }
-</style></head><body>
+<\/style></head><body>
   <h1>✅ 행동중재 실행 점검표</h1>
   <div class="meta">작성일: ${date2} &nbsp;|&nbsp; 생활지도 PLUS</div>
   <div class="progress-box">
@@ -7037,7 +7037,7 @@ function printQABFResult() {
     .content { font-size:14px; }
     .share-note { margin-top:24px; padding:14px 16px; background:#E4F0F0; border-radius:8px; font-size:13.5px; color:#1B4F4F; }
     @media print { .no-print { display:none; } }
-  </style></head><body>
+  <\/style></head><body>
   <h1>📊 QABF 행동기능설문지 결과</h1>
   <div class="meta">작성일: ${date} &nbsp;|&nbsp; 생활지도 PLUS (doumgyo)</div>
   <div class="content">${resultEl.innerHTML}</div>
@@ -7458,7 +7458,7 @@ function ivPrint() {
   const avg      = scores.reduce((a,b)=>a+parseInt(b),0) / scores.length;
   const win = window.open('', '_blank');
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>초기면담지</title>
-  <style>body{font-family:'Noto Sans KR',sans-serif;max-width:680px;margin:32px auto;font-size:15px;line-height:1.7;}h1{font-size:20px;border-bottom:2px solid #1B4F4F;padding-bottom:8px;color:#1B4F4F;}table{width:100%;border-collapse:collapse;margin:14px 0;}td,th{border:1px solid #ddd;padding:10px 12px;font-size:14px;}th{background:#E4F0F0;font-weight:700;}.result{padding:12px 16px;border-radius:8px;margin:14px 0;background:${avg>=3.5?'#E8F5E9':avg>=2.5?'#FFF8E1':'#E3F2FD'};}</style>
+  <style>body{font-family:'Noto Sans KR',sans-serif;max-width:680px;margin:32px auto;font-size:15px;line-height:1.7;}h1{font-size:20px;border-bottom:2px solid #1B4F4F;padding-bottom:8px;color:#1B4F4F;}table{width:100%;border-collapse:collapse;margin:14px 0;}td,th{border:1px solid #ddd;padding:10px 12px;font-size:14px;}th{background:#E4F0F0;font-weight:700;}.result{padding:12px 16px;border-radius:8px;margin:14px 0;background:${avg>=3.5?'#E8F5E9':avg>=2.5?'#FFF8E1':'#E3F2FD'};}<\/style>
   </head><body>
   <h1>📝 초기면담지</h1>
   <p><strong>작성일:</strong> ${new Date().toLocaleDateString('ko-KR')} &nbsp;|&nbsp; <strong>학생:</strong> ${name}</p>
