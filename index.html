@@ -1639,6 +1639,18 @@ body {
 }
 .ref-urgent-btn:hover { background: var(--amber); color: white; border-color: var(--amber); }
 
+/* 심각도 높음 — 빨간 긴급 버튼 */
+.ref-urgent-btn.ref-urgent-red {
+  border-color: #F5AAAA;
+  color: #B03020;
+  background: #FDE8E8;
+}
+.ref-urgent-btn.ref-urgent-red:hover {
+  background: #B03020;
+  color: white;
+  border-color: #B03020;
+}
+
 /* 검색 */
 .ref-search-wrap {
   position: relative;
@@ -1702,6 +1714,69 @@ body {
 .ref-filter-btn.active { background: var(--green); color: white; border-color: var(--green); }
 
 /* 섹션 구분선 */
+/* ── 5순위: 핵심 한 줄 + 접기 ── */
+.pbs-summary {
+  background: var(--teal-light);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--teal-dark);
+  line-height: 1.6;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.pbs-detail-toggle {
+  background: none;
+  border: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  color: var(--text-sub);
+  cursor: pointer;
+  padding: 0 2px 10px;
+  display: block;
+  transition: color 0.15s;
+}
+.pbs-detail-toggle:hover { color: var(--teal); }
+.pbs-detail { animation: fadeIn 0.18s ease; }
+
+/* ── 4순위: 심각도 높음 탭 — 🚨 즉각 안전 탭 스타일 ── */
+.rct-btn.danger { color: #B03020; }
+.rct-btn.danger.active { color: #B03020; border-bottom-color: #B03020; font-weight: 700; }
+
+.ref-safety-box {
+  background: #FDE8E8;
+  border: 1.5px solid #F5AAAA;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.ref-safety-box .rsb-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #B03020;
+  margin-bottom: 8px;
+}
+.ref-safety-box ol {
+  padding-left: 18px;
+  margin: 0;
+}
+.ref-safety-box li {
+  font-size: 14px;
+  color: #8B1A1A;
+  line-height: 1.7;
+  margin-bottom: 4px;
+}
+.ref-safety-box .rsb-note {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #B03020;
+  background: rgba(176,48,32,0.07);
+  border-radius: 6px;
+  padding: 8px 10px;
+  line-height: 1.6;
+}
+
 .ref-section-divider {
   display: flex;
   align-items: center;
@@ -1814,6 +1889,30 @@ body {
   scrollbar-width: none;
 }
 .ref-card-tabs::-webkit-scrollbar { display: none; }
+
+/* ── 6순위: 모바일 탭 2줄 전환 ── */
+@media (max-width: 480px) {
+  .ref-card-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow-x: visible;
+    gap: 0;
+  }
+  .rct-btn {
+    border-bottom: 1px solid var(--border) !important;
+    border-right: 1px solid var(--border);
+    margin-bottom: 0 !important;
+    text-align: center;
+    justify-content: center;
+  }
+  .rct-btn:nth-child(even) { border-right: none; }
+  .rct-btn.active {
+    border-bottom: 2px solid var(--green) !important;
+    background: white;
+  }
+  .rct-btn.urgent.active { border-bottom-color: var(--amber) !important; }
+}
+
 .rct-btn {
   padding: 9px 13px;
   border: none;
@@ -1833,6 +1932,40 @@ body {
 .rct-btn.active { color: var(--green); border-bottom-color: var(--green); font-weight: 700; }
 .rct-btn.urgent { color: var(--amber); }
 .rct-btn.urgent.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+/* ── 7순위: 도구 카드 섹션 시각 분리 ── */
+.ref-tool-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 32px 0 14px;
+  padding: 14px 18px;
+  background: var(--green-light);
+  border: 1.5px solid #A5C9A8;
+  border-radius: var(--radius);
+}
+.ref-tool-section-header .rtsh-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.ref-tool-section-header .rtsh-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 2px;
+}
+.ref-tool-section-header .rtsh-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.ref-tool-section-header .rtsh-desc {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 1px;
+}
 
 .ref-tab-content { display: none; padding: 16px; }
 .ref-tab-content.active { display: block; animation: fadeIn 0.15s ease; }
@@ -1931,188 +2064,9 @@ body {
    PRINT
 ═══════════════════════════════════════════ */
 @media print {
-  #global-nav, #sim-player, #urgent-modal, #qabf-modal, #form-modal { display: none !important; }
-  .page { display: block !important; position: static !important; overflow: visible !important; }
-  /* 서식 인쇄 모드 */
-  body.print-form-mode > *:not(#form-print-area) { display: none !important; }
-  body.print-form-mode #form-print-area { display: block !important; }
+  #global-nav, #sim-player { display: none !important; }
+  .page { display: block !important; }
 }
-
-/* ── 긴급 대응 버튼 강조 ── */
-.sit-btn-urgent {
-  background: rgba(220, 80, 60, 0.18) !important;
-  border-color: rgba(255, 120, 100, 0.5) !important;
-  color: #FFD0C8 !important;
-  font-weight: 700 !important;
-}
-.sit-btn-urgent:hover {
-  background: rgba(220, 80, 60, 0.35) !important;
-  border-color: rgba(255, 140, 120, 0.8) !important;
-  color: white !important;
-}
-
-/* ── 긴급 대응 모달 ── */
-#urgent-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  background: rgba(10, 30, 30, 0.6);
-  backdrop-filter: blur(3px);
-}
-#urgent-modal.open { display: flex; align-items: center; justify-content: center; }
-
-.urgent-modal-box {
-  width: min(700px, 96vw);
-  max-height: 90vh;
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.3);
-}
-
-.urgent-modal-header {
-  background: #B03020;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-.urgent-modal-header .uh-eyebrow {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: #FFB8B0; margin-bottom: 3px;
-}
-.urgent-modal-header .uh-title {
-  font-family: 'Noto Serif KR', serif; font-size: 17px;
-  font-weight: 700; color: white;
-}
-
-/* 상황 선택 탭 */
-.urgent-tabs {
-  display: flex;
-  overflow-x: auto;
-  scrollbar-width: none;
-  background: #1A1A1A;
-  flex-shrink: 0;
-  gap: 2px;
-  padding: 0 4px;
-}
-.urgent-tabs::-webkit-scrollbar { display: none; }
-.utab {
-  padding: 11px 14px;
-  border: none;
-  background: transparent;
-  color: rgba(255,255,255,0.55);
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
-.utab:hover { color: rgba(255,255,255,0.85); }
-.utab.active { color: white; font-weight: 700; border-bottom-color: #FF7060; }
-
-/* 모달 본문 */
-.urgent-modal-body {
-  overflow-y: auto;
-  flex: 1;
-  padding: 0;
-}
-
-/* 대응 카드 */
-.urgent-card {
-  display: none;
-  padding: 20px 22px 28px;
-}
-.urgent-card.active { display: block; }
-
-.urgent-situation {
-  background: #FDE8E8;
-  border: 1.5px solid #F5AAAA;
-  border-radius: 10px;
-  padding: 14px 16px;
-  margin-bottom: 18px;
-  font-size: 14px;
-  color: #8B1A1A;
-  line-height: 1.65;
-}
-.urgent-situation strong { color: #B03020; }
-
-/* 단계 카드 */
-.urgent-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
-
-.ustep {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 16px;
-}
-.ustep-num {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: #B03020;
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.ustep-body { flex: 1; }
-.ustep-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: #B03020; margin-bottom: 4px;
-}
-.ustep-main { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
-.ustep-sub  { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
-.ustep-script {
-  margin-top: 8px;
-  background: var(--teal-light);
-  border-left: 3px solid var(--teal);
-  border-radius: 0 6px 6px 0;
-  padding: 8px 12px;
-  font-size: 13.5px;
-  color: var(--teal-dark);
-  line-height: 1.6;
-  font-style: italic;
-}
-.ustep-script::before { content: '💬 '; font-style: normal; }
-
-/* 나머지 학생 안내 박스 */
-.urgent-class-note {
-  background: #FFF8E1;
-  border: 1.5px solid #FFD54F;
-  border-radius: 10px;
-  padding: 13px 16px;
-  margin-bottom: 14px;
-  font-size: 13.5px;
-  color: #7A5A00;
-  line-height: 1.65;
-}
-.urgent-class-note .ucn-title {
-  font-weight: 700; color: #F57F17; margin-bottom: 5px; font-size: 14px;
-}
-
-/* 다음 단계 안내 */
-.urgent-next {
-  background: var(--teal-light);
-  border: 1px solid #B2D8D8;
-  border-radius: 10px;
-  padding: 13px 16px;
-  font-size: 13.5px;
-  color: var(--teal-dark);
-  line-height: 1.65;
-}
-.urgent-next strong { color: var(--teal); }
 </style>
 </head>
 <body>
@@ -2162,10 +2116,6 @@ body {
       </button>
       <button class="sit-btn" onclick="showPage('learn'); setTimeout(()=>switchLtab('func', document.getElementById('page-learn').querySelectorAll('.ltab')[1]), 200);">
         <span>왜 이런 행동을 하는지 파악하고 싶습니다</span>
-        <span class="sit-arrow">→</span>
-      </button>
-      <button class="sit-btn sit-btn-urgent" onclick="openUrgentModal()">
-        <span>🚨 지금 당장 어떻게 해야 하나요?</span>
         <span class="sit-arrow">→</span>
       </button>
     </div>
@@ -3216,13 +3166,14 @@ body {
     <div class="sim-filter-group">
       <div class="sim-filter-label">시나리오 선택</div>
       <div class="sim-filters">
-        <button class="sim-filter-btn active" onclick="filterSim('all', this)">전체 (16개)</button>
+        <button class="sim-filter-btn active" onclick="filterSim('all', this)">전체 (26개)</button>
         <button class="sim-filter-btn" onclick="filterSim('관심', this)">관심 획득</button>
         <button class="sim-filter-btn" onclick="filterSim('회피', this)">과제 회피</button>
         <button class="sim-filter-btn" onclick="filterSim('강화', this)">강화물 획득</button>
         <button class="sim-filter-btn" onclick="filterSim('감각', this)">감각 추구</button>
         <button class="sim-filter-btn" onclick="filterSim('고시', this)">고시·보호자</button>
         <button class="sim-filter-btn" onclick="filterSim('학급', this)">학급 PBS</button>
+        <button class="sim-filter-btn" onclick="filterSim('통합', this)" style="border-color:#9B6AC0;color:#6B3FA0;">🤝 통합교육</button>
         <button class="sim-filter-btn" onclick="filterSim('에피소드', this)">📺 연속 에피소드</button>
       </div>
     </div>
@@ -3425,6 +3376,138 @@ body {
         <p class="sc-preview">QABF 결과 소리지르기가 관심이 아닌 과제 회피 기능이었습니다. 2주를 낭비했습니다. 어떻게 중재를 수정할까요?</p>
         <div class="sc-start-btn">에피소드 시작 →</div>
       </div>
+
+      <!-- 구분선: 통합교육 시나리오 -->
+      <div style="width:100%;padding:8px 0 4px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#B03020;grid-column:1/-1;display:flex;align-items:center;gap:8px;">
+        <span>통합교육 시나리오</span>
+        <span style="font-size:11px;font-weight:400;color:var(--text-sub);">일반 담임이 통합학급에서 마주치는 실제 상황</span>
+      </div>
+
+      <!-- 17: 통합 — 또래 갈등 -->
+      <div class="scenario-card" data-func="통합" onclick="openSim(16)">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge" style="background:#E8E0F0;color:#6B3FA0;">통합교육</span>
+          <span class="sc-badge type">또래 갈등</span>
+        </div>
+        <h3>통합학급 학생이 쉬는 시간 게임 규칙을 계속 무시합니다</h3>
+        <p class="sc-preview">자폐스펙트럼 학생 민재가 친구들 게임에 끼어들어 규칙을 바꾸고, 지면 카드를 던집니다. 친구들이 같이 안 놀겠다고 합니다.</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <!-- 18: 통합 — 학급 전체 설명 -->
+      <div class="scenario-card" data-func="통합" onclick="openSim(17)">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge" style="background:#E8E0F0;color:#6B3FA0;">통합교육</span>
+          <span class="sc-badge type">학급 전체 대화</span>
+        </div>
+        <h3>친구가 갑자기 소리를 질렀습니다. 반 아이들에게 뭐라고 말하나요?</h3>
+        <p class="sc-preview">수업 중 통합학급 학생이 갑자기 크게 소리를 질렀고 아이들이 웅성거립니다. "왜 지우는 저러는 거예요?" 지금 어떻게 하겠습니까?</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <!-- 19: 통합 — 특수교사 의견 충돌 -->
+      <div class="scenario-card" data-func="통합" onclick="openSim(18)">
+        <span class="sc-difficulty d3">심화</span>
+        <div class="sc-badges">
+          <span class="sc-badge" style="background:#E8E0F0;color:#6B3FA0;">통합교육</span>
+          <span class="sc-badge type">협력 갈등</span>
+        </div>
+        <h3>특수교사는 '제지하지 말라'는데 담임은 수업을 못 하겠습니다</h3>
+        <p class="sc-preview">ADHD 학생의 자리 이탈을 담임은 매번 돌려보냈는데, 특수교사가 '지금은 강하게 제지하지 말라'고 권했습니다. 어떻게 해야 할까요?</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <!-- 20: 강화물 — 핸드폰 -->
+      <div class="scenario-card" data-func="강화" onclick="openSim(19)">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-강화">강화물 획득</span>
+          <span class="sc-badge type">핸드폰·고학년</span>
+        </div>
+        <h3>수업 시작 종이 쳤는데 핸드폰을 내놓지 않습니다</h3>
+        <p class="sc-preview">6학년 준혁이가 게임을 계속하며 핸드폰을 안 내놓습니다. 빼앗으려 하자 "건드리지 마세요"라고 했습니다. 어떻게 하겠습니까?</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <!-- 21: 과제 회피 — 모둠 활동 거부 -->
+      <div class="scenario-card" data-func="회피" onclick="openSim(20)">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-회피">과제 회피</span>
+          <span class="sc-badge type">사회적 불안</span>
+        </div>
+        <h3>모둠 활동만 시작하면 '하기 싫어요'라며 아무것도 안 합니다</h3>
+        <p class="sc-preview">5학년 유진이가 개인 과제는 잘 하면서 모둠 활동만 되면 팔짱을 끼고 거부합니다. 강요하면 책상을 칩니다.</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <!-- 22: 고시 — SNS 보호자 비난 -->
+      <div class="scenario-card" data-func="고시" onclick="openSim(21)">
+        <span class="sc-difficulty d3">심화</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-고시">고시·보호자</span>
+          <span class="sc-badge type">SNS 민원</span>
+        </div>
+        <h3>학부모가 반 단체 카톡방에 교사 비난 글을 올렸습니다</h3>
+        <p class="sc-preview">"우리 아이가 부당하게 혼났다"는 글이 단체 카톡방에 올라오고 다른 학부모들이 동조하기 시작합니다. 어떻게 해야 할까요?</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <!-- 23: 고시 — 학부모 중재 거부 -->
+      <div class="scenario-card" data-func="고시" onclick="openSim(22)">
+        <span class="sc-difficulty d3">심화</span>
+        <div class="sc-badges">
+          <span class="sc-badge func-고시">고시·보호자</span>
+          <span class="sc-badge type">중재 거부</span>
+        </div>
+        <h3>학부모가 '우리 아이는 문제없다. 선생님이 잘못 가르친 것'이라고 합니다</h3>
+        <p class="sc-preview">QABF 결과와 중재 계획을 설명했더니 학부모가 동의를 거부합니다. 보호자 동의 없이 교사가 할 수 있는 것은 무엇인가요?</p>
+        <div class="sc-start-btn">연습 시작 →</div>
+      </div>
+
+      <!-- 구분선: 재발 에피소드 -->
+      <div style="width:100%;padding:8px 0 4px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);grid-column:1/-1;display:flex;align-items:center;gap:8px;">
+        <span>연속 에피소드 — 지민이 재발 3부작</span>
+        <span style="font-size:11px;font-weight:400;color:var(--text-sub);">중재 후 재발·방학·가정 협력까지 — 민준이 에피소드 이후 심화편</span>
+      </div>
+
+      <!-- 24: 재발 1부 -->
+      <div class="scenario-card" data-func="에피소드" onclick="openSim(23)" data-episode="true">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge" style="background:#FBF0E6;color:#C97B3A;">중재 재발</span>
+          <span class="sc-badge type">📺 에피소드 1/3</span>
+        </div>
+        <h3>[재발 1/3] 중재가 처음 2주는 효과가 있었는데 갑자기 나빠졌습니다</h3>
+        <p class="sc-preview">소리지르기가 2주만에 줄었다가 3주차에 다시 늘었습니다. 기능이 바뀐 걸까요, 중재가 잘못된 걸까요?</p>
+        <div class="sc-start-btn">에피소드 시작 →</div>
+      </div>
+
+      <!-- 25: 재발 2부 -->
+      <div class="scenario-card" data-func="에피소드" onclick="openSim(24)" data-episode="true">
+        <span class="sc-difficulty d2">중급</span>
+        <div class="sc-badges">
+          <span class="sc-badge" style="background:#FBF0E6;color:#C97B3A;">중재 재발</span>
+          <span class="sc-badge type">📺 에피소드 2/3</span>
+        </div>
+        <h3>[재발 2/3] 방학 후 행동이 처음으로 돌아왔습니다</h3>
+        <p class="sc-preview">1학기에 효과 있던 중재가 방학 후 2학기 첫 주에 다시 원점으로 돌아왔습니다. 새 담임으로서 어떻게 시작하겠습니까?</p>
+        <div class="sc-start-btn">에피소드 시작 →</div>
+      </div>
+
+      <!-- 26: 재발 3부 -->
+      <div class="scenario-card" data-func="에피소드" onclick="openSim(25)" data-episode="true">
+        <span class="sc-difficulty d3">심화</span>
+        <div class="sc-badges">
+          <span class="sc-badge" style="background:#FBF0E6;color:#C97B3A;">중재 재발</span>
+          <span class="sc-badge type">📺 에피소드 3/3</span>
+        </div>
+        <h3>[재발 3/3] 집과 학교의 중재 방향이 달라 효과가 반감됩니다</h3>
+        <p class="sc-preview">어머니가 "무시하면 아이가 너무 울어서 못 하겠다"고 합니다. 가정과 학교 중재 방향을 어떻게 조율할까요?</p>
+        <div class="sc-start-btn">에피소드 시작 →</div>
+      </div>
     </div>
   </div>
 </div>
@@ -3490,15 +3573,29 @@ body {
 
   <div class="section-body">
 
-    <!-- 긴급 접근 버튼 -->
+    <!-- 긴급 접근 버튼 — 심각도별 분기 -->
     <div class="ref-urgent-row">
       <div class="ref-urgent-label">⚡ 지금 당장 필요한 것</div>
-      <button class="ref-urgent-btn" onclick="urgentOpen('수업 중 소리지르기')">소리지르기·방해</button>
-      <button class="ref-urgent-btn" onclick="urgentOpen('자리 이탈')">자리 이탈</button>
-      <button class="ref-urgent-btn" onclick="urgentOpen('친구 때리기')">때리기·공격</button>
-      <button class="ref-urgent-btn" onclick="urgentOpen('자해행동')">자해 행동</button>
-      <button class="ref-urgent-btn" onclick="urgentOpen('교사 지시 거부')">지시 거부</button>
-      <button class="ref-urgent-btn" onclick="openQABFModal()">기능 파악(QABF)</button>
+
+      <!-- 심각도 높음 → 긴급 대응 모달 -->
+      <div style="width:100%;display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#B03020;width:100%;margin-bottom:2px;">🔴 즉각 안전 필요</div>
+        <button class="ref-urgent-btn ref-urgent-red" onclick="openUrgentModal();switchUrgentTab('selfharm',document.querySelector('#urgent-modal .utab:nth-child(3)'))">자해 행동</button>
+        <button class="ref-urgent-btn ref-urgent-red" onclick="openUrgentModal();switchUrgentTab('aggress',document.querySelector('#urgent-modal .utab:nth-child(4)'))">친구 공격</button>
+        <button class="ref-urgent-btn ref-urgent-red" onclick="openUrgentModal();switchUrgentTab('run',document.querySelector('#urgent-modal .utab:nth-child(2)'))">교실 이탈</button>
+        <button class="ref-urgent-btn ref-urgent-red" onclick="openUrgentModal();switchUrgentTab('meltdown',document.querySelector('#urgent-modal .utab:nth-child(5)'))">울음 폭발</button>
+      </div>
+
+      <!-- 심각도 중간 → 카드 바로 열기 + 지금 할 말 탭 -->
+      <div style="width:100%;display:flex;gap:6px;flex-wrap:wrap;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);width:100%;margin-bottom:2px;">🟡 카드에서 스크립트 확인</div>
+        <button class="ref-urgent-btn" onclick="urgentOpenDirect('ref-card-1','script')">소리지르기·방해</button>
+        <button class="ref-urgent-btn" onclick="urgentOpenDirect('ref-card-2','script')">자리 이탈</button>
+        <button class="ref-urgent-btn" onclick="urgentOpenDirect('ref-card-5','script')">지시 거부</button>
+        <button class="ref-urgent-btn" onclick="urgentOpenDirect('ref-card-6','script')">울음·감정폭발</button>
+        <button class="ref-urgent-btn" onclick="urgentOpenDirect('ref-card-7','script')">욕설·폭언</button>
+        <button class="ref-urgent-btn" onclick="openQABFModal()" style="background:var(--teal-light);color:var(--teal-dark);border-color:#B2D8D8;">기능 파악(QABF)</button>
+      </div>
     </div>
 
     <!-- 검색 -->
@@ -3520,6 +3617,7 @@ body {
       <button class="ref-filter-btn" onclick="filterRef('거부', this)">지시 거부</button>
       <button class="ref-filter-btn" onclick="filterRef('감각', this)">감각 추구</button>
       <button class="ref-filter-btn" onclick="filterRef('도구', this)">📋 도구·서식</button>
+      <button class="ref-filter-btn" onclick="filterRef('통합', this)" style="border-color:#9B6AC0;color:#6B3FA0;">🤝 통합교육</button>
     </div>
 
     <!-- ─ 행동 카드 섹션 ─ -->
@@ -3527,7 +3625,7 @@ body {
     <div class="ref-grid" id="refGrid">
 
       <!-- 카드 1: 수업 방해 — 기본으로 열려 있음 -->
-      <div class="ref-card open" data-func-color="관심"
+      <div class="ref-card open" id="ref-card-1" data-func-color="관심"
            data-tags="관심 회피 방해 수업 소리지르기 방해행동 주의 훈육 분리 스크립트 쿨다운">
         <div class="ref-card-header" onclick="toggleRefCard(this)">
           <div class="rch-info">
@@ -3562,6 +3660,9 @@ body {
             </div>
           </div>
           <div class="ref-tab-content" data-tab="pbs">
+            <div class="pbs-summary">★ 핵심: 반응을 최소화하세요. 혼내는 것도 관심입니다. 기능(관심 vs 회피)을 먼저 파악한 후 맞는 대체행동을 가르칩니다.</div>
+            <button class="pbs-detail-toggle" onclick="togglePbsDetail(this)">자세히 보기 ▾</button>
+            <div class="pbs-detail" style="display:none;">
             <div class="ref-pbs-content">
               <div class="ref-section-title">가능한 기능</div>
               <p>관심 획득(교사·친구의 반응을 원함) 또는 과제 회피(어려운 과제에서 벗어나고 싶음) 가능성이 높습니다.</p>
@@ -3584,17 +3685,17 @@ body {
                 <li>시각적 일과표로 예측 가능성 높이기</li>
               </ul>
             </div>
-
             <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
-              <button onclick="showPage('learn');setTimeout(()=>switchLtab('func',document.getElementById('page-learn').querySelectorAll('.ltab')[['pbs','func','flow','law','spectrum'].indexOf('func')]),200);"
-                style="width:100%;padding:9px 14px;background:var(--teal-light);border:1.5px solid #B2D8D8;border-radius:8px;font-family:inherit;font-size:14px;color:var(--teal-dark);font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:8px;transition:all 0.15s;"
-                onmouseover="this.style.background='#C8E8E8';" onmouseout="this.style.background='var(--teal-light)';">
+              <button onclick="showPage('learn');setTimeout(()=>switchLtab('func',document.getElementById('page-learn').querySelectorAll('.ltab')[1]),200);"
+                style="width:100%;padding:9px 14px;background:var(--teal-light);border:1.5px solid #B2D8D8;border-radius:8px;font-family:inherit;font-size:14px;color:var(--teal-dark);font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:8px;">
                 <span>📖</span><span>개념 배우기 — 행동의 기능 탭에서 더 알아보기 →</span>
               </button>
             </div>
+            </div>
           </div>
           <div class="ref-tab-content" data-tab="law">
-            <div class="ref-law-box">
+            <div class="pbs-summary">★ 핵심: 주의→훈육→분리 순으로 단계를 밟아야 법적 보호를 받습니다. 각 단계마다 기록하세요.</div>
+            <div class="ref-law-box" style="margin-top:10px;">
               <div class="rlb-clause">고시 제11조 (주의)</div>
               <p>학생의 행동이 교내 질서를 저해할 소지가 있는 경우 주의를 줄 수 있습니다.</p>
               <div class="rlb-clause">고시 제12조 ⑥ (분리)</div>
@@ -3624,7 +3725,7 @@ body {
       </div>
 
       <!-- 카드 2: 자리 이탈 -->
-      <div class="ref-card" data-func-color="회피"
+      <div class="ref-card" id="ref-card-2" data-func-color="회피"
            data-tags="회피 관심 자리이탈 돌아다니기 교실이탈 걷기 분리 등교">
         <div class="ref-card-header" onclick="toggleRefCard(this)">
           <div class="rch-info">
@@ -3710,7 +3811,7 @@ body {
       </div>
 
       <!-- 카드 3: 친구 때리기 / 공격행동 -->
-      <div class="ref-card" data-func-color="공격"
+      <div class="ref-card" id="ref-card-3" data-func-color="공격"
            data-tags="관심 강화 공격 때리기 밀기 신체 제지 물리적제지 보고 교장">
         <div class="ref-card-header" onclick="toggleRefCard(this)">
           <div class="rch-info">
@@ -3725,12 +3826,26 @@ body {
         </div>
         <div class="ref-card-body">
           <div class="ref-card-tabs">
-            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn danger active" onclick="switchRefTab(this, 'safety')">🚨 즉각 대응</button>
+            <button class="rct-btn urgent" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
             <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">중재 방향</button>
             <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
             <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
           </div>
-          <div class="ref-tab-content active" data-tab="script">
+          <div class="ref-tab-content active" data-tab="safety">
+            <div class="ref-safety-box">
+              <div class="rsb-title">🚨 지금 이 순간 — 순서대로 하세요</div>
+              <ol>
+                <li><strong>피해 학생 먼저</strong> — "○○아, 많이 아프지? 선생님이랑 잠깐 나가보자." 부상 여부 확인, 필요 시 보건실</li>
+                <li><strong>가해 학생 분리</strong> — "선생님이랑 저쪽 자리로 가자." 흥분 상태에서 즉각 훈계 금지</li>
+                <li><strong>나머지 학생 안정</strong> — "우리 계속 공부해요." 짧게, 수업으로 복귀</li>
+                <li><strong>30분 후 개별 대화</strong> — 흥분이 가라앉은 후 가해 학생과 이야기</li>
+                <li><strong>당일 보호자 통보</strong> — 피해·가해 양쪽 모두, 사실만 간결하게</li>
+              </ol>
+              <div class="rsb-note">⚠️ 피해 학생이 다쳤으면 관리자에게 즉시 보고하세요. 기록 없이는 나중에 불리합니다.</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="script">
             <div class="ref-script">
               <div class="rs-label">💬 즉각 제지</div>
               <div class="rs-text">"멈춰. 친구가 아파. 선생님이랑 잠깐 나가보자."</div>
@@ -3800,7 +3915,7 @@ body {
       </div>
 
       <!-- 카드 4: 자해행동 -->
-      <div class="ref-card" data-func-color="자해"
+      <div class="ref-card" id="ref-card-4" data-func-color="자해"
            data-tags="자해 회피 감각 깨물기 머리박기 긁기 손깨물기 대체행동 피젯 감각도구 전문가 특수교사">
         <div class="ref-card-header" onclick="toggleRefCard(this)">
           <div class="rch-info">
@@ -3815,12 +3930,26 @@ body {
         </div>
         <div class="ref-card-body">
           <div class="ref-card-tabs">
-            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn danger active" onclick="switchRefTab(this, 'safety')">🚨 즉각 대응</button>
+            <button class="rct-btn urgent" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
             <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">중재 방향</button>
             <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
             <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
           </div>
-          <div class="ref-tab-content active" data-tab="script">
+          <div class="ref-tab-content active" data-tab="safety">
+            <div class="ref-safety-box">
+              <div class="rsb-title">🚨 지금 이 순간 — 순서대로 하세요</div>
+              <ol>
+                <li><strong>자극 제거</strong> — 다칠 수 있는 물건(연필, 모서리 등) 즉시 치우기. 머리 박으면 쿠션·가방 사이에 놓기</li>
+                <li><strong>도움 요청</strong> — 혼자 감당하지 마세요. 인터폰으로 교무실: "○○반입니다. 자해 행동이 있습니다. 지원 요청합니다."</li>
+                <li><strong>반응 최소화</strong> — 조용히 옆에 있기. 과도한 달래기·훈계 금지 (강화될 수 있음)</li>
+                <li><strong>나머지 학생</strong> — 다른 교사 요청 또는 잠시 복도·도서관 이동</li>
+                <li><strong>당일 보호자 통보 필수</strong> — 발생 시각, 신체 부위, 강도를 메모해 전달</li>
+              </ol>
+              <div class="rsb-note">⚠️ 자해는 반드시 전문가 개입이 필요합니다. 담임 혼자 장기간 대응하지 마세요.</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="script">
             <div class="ref-script">
               <div class="rs-label">💬 즉각 안전 확인</div>
               <div class="rs-text">"○○아, 선생님이 여기 있어. 괜찮아? 잠깐 손 좀 봐도 될까?"</div>
@@ -3881,7 +4010,7 @@ body {
       </div>
 
       <!-- 카드 5: 교사 지시 거부 -->
-      <div class="ref-card" data-func-color="거부"
+      <div class="ref-card" id="ref-card-5" data-func-color="거부"
            data-tags="거부 회피 불순응 지시거부 반항 선택지 시간지연 자율성">
         <div class="ref-card-header" onclick="toggleRefCard(this)">
           <div class="rch-info">
@@ -3965,7 +4094,7 @@ body {
 
 
       <!-- 카드 6: 울음·감정 폭발 -->
-      <div class="ref-card" data-func-color="관심"
+      <div class="ref-card" id="ref-card-6" data-func-color="관심"
            data-tags="관심 회피 울음 감정폭발 떼쓰기 엎드리기 거부 감정조절 진정 쿨다운">
         <div class="ref-card-header" onclick="toggleRefCard(this)">
           <div class="rch-info">
@@ -4057,7 +4186,7 @@ body {
       </div>
 
       <!-- 카드 7: 욕설·폭언 -->
-      <div class="ref-card" data-func-color="관심"
+      <div class="ref-card" id="ref-card-7" data-func-color="관심"
            data-tags="관심 회피 욕설 폭언 막말 반말 교사모욕 언어폭력 훈육 훈계 기록">
         <div class="ref-card-header" onclick="toggleRefCard(this)">
           <div class="rch-info">
@@ -4141,11 +4270,480 @@ body {
         </div>
       </div>
 
+    </div><!-- /ref-grid — 신규 카드 6개 추가 -->
+
+      <!-- ★ 신규 카드 8: 핸드폰·게임기 수업 중 사용 -->
+      <div class="ref-card" id="ref-card-8" data-func-color="강화"
+           data-tags="강화 핸드폰 게임 스마트폰 전자기기 수업 거부 압수 보관 고시">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">핸드폰 · 게임기 수업 중 사용 거부</div>
+            <div class="rch-badges">
+              <span class="ref-badge 강화">강화물 획득</span>
+              <span class="ref-badge 거부">지시 거부</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">중재 방향</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 첫 요청 — 낮은 목소리, 개별로</div>
+              <div class="rs-text">"○○아, 수업 시작됐어. 핸드폰은 가방에 넣어두고, 수업 끝나면 돌려줄게."</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 수업 중 몰래 다시 꺼낼 때 — 근접 이동 후</div>
+              <div class="rs-text">"가방에." (짧게, 조용히. 전체 앞에서 지적하지 않기)</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 계속 거부할 때 — 단계 고지</div>
+              <div class="rs-text">"○○아, 지금 수업을 방해하고 있어. 계속 이러면 선생님은 다음 단계(보호자 연락)를 해야 해."</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="pbs-summary">★ 핵심: 공개 대결을 만들지 마세요. 조용히 개별 요청 → 수업 지속 → 수업 후 처리 순서로 에스컬레이션합니다.</div>
+            <button class="pbs-detail-toggle" onclick="togglePbsDetail(this)">자세히 보기 ▾</button>
+            <div class="pbs-detail" style="display:none;">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">즉각 대응 흐름</div>
+              <ul>
+                <li>낮은 목소리로 개별 요청 → 잠시 기다리기</li>
+                <li>근접 이동(proximity control)으로 비언어 신호</li>
+                <li>계속 무시하면 수업을 이어가며 수업 후 처리</li>
+              </ul>
+              <div class="ref-section-title">장기 예방</div>
+              <ul>
+                <li>학기 초 학생들과 함께 핸드폰 규칙 합의 ("수업 중 가방 속, 쉬는 시간 자유")</li>
+                <li>학칙에 규정이 있는지 확인 — 있으면 절차대로 일관 적용</li>
+                <li>쉬는 시간 충분한 사용 허용 → 수업 중 충동 줄이기</li>
+              </ul>
+            </div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="pbs-summary">★ 핵심: 강제로 빼앗는 것은 신체 접촉 문제가 됩니다. 일시 보관은 가능하나 절차를 지키세요.</div>
+            <div class="ref-law-box" style="margin-top:10px;">
+              <div class="rlb-clause">고시 제12조 ① (물건 일시 보관)</div>
+              <p>수업 방해 물건을 수업 중 일시 보관할 수 있습니다. 수업 종료 후 즉시 반환이 원칙입니다.</p>
+              <div class="rlb-clause">고시 제11조~제14조 (단계별 절차)</div>
+              <p>주의→훈육→훈계→징계 순으로 단계적 적용. 학칙에 규정이 있어야 더 강한 조치 가능합니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 이 행동에서 특히 주의할 것</div>
+              <ul>
+                <li><strong>강제로 빼앗기 금지</strong> — 학생이 저항하면 신체 접촉 문제로 번집니다. 손을 대지 마세요</li>
+                <li><strong>전체 앞에서 공개 지적 금지</strong> — 6학년 이상은 체면 싸움이 됩니다. 개별로 조용히</li>
+                <li>학생 가방을 직접 열어 꺼내기 — 사생활 침해로 문제 됩니다</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ★ 신규 카드 9: 수업 중 잠자기·엎드리기 -->
+      <div class="ref-card" id="ref-card-9" data-func-color="회피"
+           data-tags="회피 감각 잠자기 엎드리기 수면 피로 무기력 무반응 야간 수면부족">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">수업 중 잠자기 · 엎드리기 · 무반응</div>
+            <div class="rch-badges">
+              <span class="ref-badge 회피">과제 회피</span>
+              <span class="ref-badge 감각">감각·피로</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">중재 방향</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 첫 확인 — 건강 상태 먼저</div>
+              <div class="rs-text">"○○아, 많이 피곤해? 어디 아픈 건 아니지?" (아프면 보건실 안내)</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 참여 유도 — 작은 역할 부여</div>
+              <div class="rs-text">"○○아, 이 부분만 읽어줄 수 있어? 한 줄만이야."</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 수업 후 1:1 대화</div>
+              <div class="rs-text">"요즘 많이 피곤해 보이던데, 어제 몇 시에 잤어? 집에서 무슨 일 있어?"</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="pbs-summary">★ 핵심: 깨우는 것보다 왜 자는지가 중요합니다. 수면 부족·가정 문제·우울·회피 중 원인을 먼저 파악하세요.</div>
+            <button class="pbs-detail-toggle" onclick="togglePbsDetail(this)">자세히 보기 ▾</button>
+            <div class="pbs-detail" style="display:none;">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">원인별 구분</div>
+              <ul>
+                <li><strong>수면 부족(야간 게임·유튜브)</strong> → 보호자와 연계, 취침 시간 루틴 상담</li>
+                <li><strong>가정 내 문제(야간 돌봄·알바)</strong> → 상담교사 연계, 보호자 상담 신중히</li>
+                <li><strong>과제 회피</strong> → 과제 난이도 조절, 선택권 제공</li>
+                <li><strong>우울·무기력</strong> → 학교 상담교사 의뢰</li>
+              </ul>
+              <div class="ref-section-title">즉각 대응</div>
+              <ul>
+                <li>건강 상태 확인 (아프면 보건실)</li>
+                <li>작은 역할 부여로 참여 유도</li>
+                <li>수업 후 1:1 대화로 원인 파악</li>
+              </ul>
+            </div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="pbs-summary">★ 핵심: 수업 중 잠자기는 즉각 법적 조치 대상이 아닙니다. 상담과 원인 파악이 우선입니다.</div>
+            <div class="ref-law-box" style="margin-top:10px;">
+              <div class="rlb-clause">고시 제11조 (조언·상담)</div>
+              <p>학생의 학업 또는 생활 문제에 대해 조언·상담할 수 있습니다. 수면 문제가 지속되면 보호자 상담을 요청할 수 있습니다.</p>
+              <div class="rlb-clause">고시 제9조 ③</div>
+              <p>학생의 문제 개선을 위해 전문가 상담(학교 상담교사 등)을 보호자에게 권고할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 이 행동에서 특히 주의할 것</div>
+              <ul>
+                <li><strong>갑자기 크게 깨우기 금지</strong> — 놀람 반응으로 더 큰 사건이 됩니다. 조용히 이름을 부르며 살짝 책상 두드리기</li>
+                <li><strong>"게으른 것"으로 단정 금지</strong> — 수면 부족이나 가정 문제일 수 있습니다</li>
+                <li>전체 앞에서 공개적으로 지적하기 — 수치심을 줄 수 있습니다</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ★ 신규 카드 10: 친구 놀리기·별명·따돌림 -->
+      <div class="ref-card" id="ref-card-10" data-func-color="관심"
+           data-tags="관심 강화 놀리기 별명 따돌림 험담 무시 집단배제 학교폭력 또래관계">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">친구 놀리기 · 별명 부르기 · 따돌림</div>
+            <div class="rch-badges">
+              <span class="ref-badge 관심">관심 획득</span>
+              <span class="ref-badge 강화">강화물 획득</span>
+              <span class="ref-badge 공격">관계 공격</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">중재 방향</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 현장에서 즉각 — 단호하게, 짧게</div>
+              <div class="rs-text">"그 말, 지금 멈춰. 선생님이 들었어." (더 길게 말하지 않고 수업 계속)</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 피해 학생에게 — 따로, 조용히</div>
+              <div class="rs-text">"아까 기분이 어땠어? 이런 일이 자주 있어? 선생님이 도와줄게."</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 가해 학생에게 — 수업 후 1:1</div>
+              <div class="rs-text">"아까 ○○한테 한 말, 왜 그랬는지 선생님이랑 얘기해보자. 그 말 들은 ○○ 기분이 어땠을 것 같아?"</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="pbs-summary">★ 핵심: 한 번의 훈계로 끝나지 않습니다. 반복 여부, 집단성 여부에 따라 학교폭력 여부를 판단해야 합니다.</div>
+            <button class="pbs-detail-toggle" onclick="togglePbsDetail(this)">자세히 보기 ▾</button>
+            <div class="pbs-detail" style="display:none;">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">심각도 판단</div>
+              <ul>
+                <li>1회성·즉흥적: 현장 제지 + 수업 후 1:1 대화</li>
+                <li>반복·지속적: 학교폭력 신고 의무 여부 검토</li>
+                <li>집단 따돌림: 즉시 관리자 보고, 상담교사 연계</li>
+              </ul>
+              <div class="ref-section-title">장기 중재</div>
+              <ul>
+                <li>가해 학생: 공감 능력 개발, 또래 관계 기술 지도</li>
+                <li>피해 학생: 상담교사 연계, 안전한 또래 관계 형성 지원</li>
+                <li>학급 전체: 정기적인 관계 형성 활동, 다양성 존중 교육</li>
+              </ul>
+            </div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="pbs-summary">★ 핵심: 반복·집단적이면 학교폭력입니다. 교사는 인지 즉시 신고 의무가 있습니다.</div>
+            <div class="ref-law-box" style="margin-top:10px;">
+              <div class="rlb-clause">학교폭력예방법 제20조 (신고 의무)</div>
+              <p>학교폭력을 알게 된 교원은 학교장 및 관련 기관에 즉시 신고해야 합니다. 반복적 놀리기·따돌림은 학교폭력에 해당합니다.</p>
+              <div class="rlb-clause">고시 제11조 (훈육·훈계)</div>
+              <p>1회성 놀리기는 주의→훈육 절차를 적용하고 기록합니다. 기록이 반복성 입증의 근거가 됩니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 이 행동에서 특히 주의할 것</div>
+              <ul>
+                <li><strong>피해 학생을 전체 앞에서 위로하기 금지</strong> — 오히려 더 주목받아 상황을 악화시킵니다</li>
+                <li><strong>"애들이 다 그래" 식으로 넘기기 금지</strong> — 반복되면 학교폭력입니다. 기록하세요</li>
+                <li>가해·피해 학생을 같은 자리에서 화해시키기 — 피해 학생이 압박감을 느낍니다</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ★ 신규 카드 11: 화장실 핑계 무단 이석 -->
+      <div class="ref-card" id="ref-card-11" data-func-color="회피"
+           data-tags="회피 화장실 이석 핑계 자리이탈 수업회피 무단외출 반복">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">화장실 핑계 · 반복 이석 · 무단 외출</div>
+            <div class="rch-badges">
+              <span class="ref-badge 회피">과제 회피</span>
+              <span class="ref-badge 감각">감각 추구</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">중재 방향</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 처음 요청 — 거절하지 말고 확인</div>
+              <div class="rs-text">"그래, 빨리 다녀와." (단, 나간 시각을 메모해 두기)</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 같은 수업 중 재요청 시</div>
+              <div class="rs-text">"아까 다녀왔잖아. 수업 끝나고 가자. 지금은 조금만 참아줄 수 있어?"</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 패턴이 반복될 때 — 수업 후 1:1</div>
+              <div class="rs-text">"요즘 화장실을 자주 가더라. 몸이 불편한 건 아니지? 솔직하게 얘기해줘도 돼."</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="pbs-summary">★ 핵심: 화장실 요청을 무조건 막으면 신체적 문제가 생길 수 있습니다. 패턴 기록 후 원인 파악이 우선입니다.</div>
+            <button class="pbs-detail-toggle" onclick="togglePbsDetail(this)">자세히 보기 ▾</button>
+            <div class="pbs-detail" style="display:none;">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">원인별 구분</div>
+              <ul>
+                <li><strong>진짜 신체 문제</strong> → 보건실 상담, 보호자 연계</li>
+                <li><strong>과제 회피</strong> → 어떤 과목·활동 시간에 집중되는지 확인, 과제 조정</li>
+                <li><strong>사회적 불안 (화장실에서 혼자 있고 싶음)</strong> → 상담교사 연계</li>
+              </ul>
+              <div class="ref-section-title">예방 전략</div>
+              <ul>
+                <li>수업 전 쉬는 시간에 화장실을 다녀오도록 사전 안내</li>
+                <li>특정 과목에만 반복되면 그 과목의 무엇이 힘든지 파악</li>
+                <li>주 2회 이상 반복되면 날짜·시각·과목 기록 시작</li>
+              </ul>
+            </div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="pbs-summary">★ 핵심: 화장실을 아예 금지할 수는 없습니다. 합리적 범위 안에서 지도하세요.</div>
+            <div class="ref-law-box" style="margin-top:10px;">
+              <div class="rlb-clause">고시 제11조 (조언)</div>
+              <p>학생에게 적절한 생활 습관(수업 전 화장실 이용 등)을 조언할 수 있습니다.</p>
+              <div class="rlb-clause">고시 제12조 ⑥</div>
+              <p>반복적 무단 이석이 수업 방해에 해당하면 주의→훈육 절차를 적용할 수 있습니다. 단, 신체 건강 이유는 먼저 확인해야 합니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 이 행동에서 특히 주의할 것</div>
+              <ul>
+                <li><strong>일체 금지 선언 금지</strong> — "화장실은 수업 중 절대 안 돼"는 신체 문제가 있는 학생에게 위험합니다</li>
+                <li><strong>장시간 돌아오지 않을 때 방치 금지</strong> — 10분 이상이면 확인 필요. 교무실에 연락하거나 같은 성별 학생을 보내 확인</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ★ 신규 카드 12: 물건 빼앗기·훔치기 -->
+      <div class="ref-card" id="ref-card-12" data-func-color="강화"
+           data-tags="강화 빼앗기 훔치기 절도 물건 소지품 과자 문구 도벽 충동">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">친구 물건 빼앗기 · 훔치기</div>
+            <div class="rch-badges">
+              <span class="ref-badge 강화">강화물 획득</span>
+              <span class="ref-badge 공격">충동 조절</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn urgent active" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">중재 방향</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'law')">고시 근거</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 현장 발견 즉시 — 조용히, 사실만</div>
+              <div class="rs-text">"○○아, 그 물건 ○○ 거야. 지금 돌려줄 수 있어?" (훈계 없이, 행동만 요구)</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 수업 후 1:1 — 이유 파악 먼저</div>
+              <div class="rs-text">"그 물건 왜 가져갔어? 갖고 싶었어? 아니면 다른 이유가 있어?" (비난 없이 탐색)</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 반환·사과 안내</div>
+              <div class="rs-text">"지금 돌려주고 미안하다고 말하는 게 맞아. 선생님이 같이 있어줄게."</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="pbs-summary">★ 핵심: 즉각 훈계보다 반환이 먼저입니다. 이유를 파악하면 재발 방지 방향이 달라집니다.</div>
+            <button class="pbs-detail-toggle" onclick="togglePbsDetail(this)">자세히 보기 ▾</button>
+            <div class="pbs-detail" style="display:none;">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">원인별 접근</div>
+              <ul>
+                <li><strong>충동 조절 어려움</strong> → 원하면 빌려달라고 말하는 방법 가르치기</li>
+                <li><strong>경제적 어려움</strong> → 학교 복지 연계, 보호자 상담 (신중하게)</li>
+                <li><strong>또래 관계 문제</strong> → 관심 획득 동기라면 사회적 기술 지도</li>
+              </ul>
+              <div class="ref-section-title">반드시 할 것</div>
+              <ul>
+                <li>피해 학생 물건 즉시 반환</li>
+                <li>보호자 통보 (특히 금품이 관련된 경우)</li>
+                <li>반복 여부 기록 — 학교폭력 여부 판단 근거</li>
+              </ul>
+            </div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="law">
+            <div class="pbs-summary">★ 핵심: 금품 갈취로 이어지면 학교폭력입니다. 1회도 기록하고 보고하세요.</div>
+            <div class="ref-law-box" style="margin-top:10px;">
+              <div class="rlb-clause">학교폭력예방법 제2조 (학교폭력 정의)</div>
+              <p>금품 갈취는 학교폭력에 해당합니다. 교원은 인지 즉시 학교장에게 보고해야 합니다.</p>
+              <div class="rlb-clause">고시 제11조~제13조</div>
+              <p>1회성 물건 빼앗기는 주의→훈육 절차로 대응하고, 물건 반환과 보호자 통보를 기록합니다.</p>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 이 행동에서 특히 주의할 것</div>
+              <ul>
+                <li><strong>전체 앞에서 "도둑"이라고 말하기 금지</strong> — 낙인이 됩니다. 반드시 1:1로 처리</li>
+                <li><strong>학생 가방이나 주머니를 교사가 직접 뒤지기 금지</strong> — 영장 없이 사생활 침해가 됩니다. 학생 스스로 꺼내게 하세요</li>
+                <li>해결 없이 당일 넘기기 — 반드시 당일 물건 반환 확인</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ★ 신규 카드 13: 통합교육 — 전이·이동 시 거부 -->
+      <div class="ref-card" id="ref-card-13" data-func-color="감각"
+           data-tags="감각 회피 통합교육 통합 자폐 전이 이동 장소변경 예측 시각일정 특수교육 드러눕기 소리지르기">
+        <div class="ref-card-header" onclick="toggleRefCard(this)">
+          <div class="rch-info">
+            <div class="rch-title">🤝 통합교육 — 장소 이동 시 소리지르기 · 드러눕기</div>
+            <div class="rch-badges">
+              <span class="ref-badge 감각">감각·전이</span>
+              <span class="ref-badge" style="background:#E8E0F0;color:#6B3FA0;">통합교육</span>
+            </div>
+          </div>
+          <div class="rch-toggle">▾</div>
+        </div>
+        <div class="ref-card-body">
+          <div class="ref-card-tabs">
+            <button class="rct-btn danger active" onclick="switchRefTab(this, 'safety')">🚨 즉각 대응</button>
+            <button class="rct-btn urgent" onclick="switchRefTab(this, 'script')">💬 지금 할 말</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'pbs')">중재 방향</button>
+            <button class="rct-btn" onclick="switchRefTab(this, 'never')">하면 안 되는 것</button>
+          </div>
+          <div class="ref-tab-content active" data-tab="safety">
+            <div class="ref-safety-box">
+              <div class="rsb-title">🚨 지금 이 순간 — 순서대로 하세요</div>
+              <ol>
+                <li><strong>강제 이동 중단</strong> — 억지로 끌어당기면 더 강하게 저항합니다. 멈추세요</li>
+                <li><strong>나머지 학생 먼저 이동</strong> — "여러분 먼저 체육관 가 있어요. 선생님이 금방 갈게요"</li>
+                <li><strong>조용히 옆에 서기</strong> — "선생님 여기 있어. 준비되면 같이 가자."</li>
+                <li><strong>도움 요청</strong> — 혼자 5분 이상 해결 안 되면 인터폰으로 지원 요청</li>
+              </ol>
+              <div class="rsb-note">자폐스펙트럼 학생의 전이 거부는 예측 불가능한 변화에 대한 불안이 원인인 경우가 많습니다. 예방이 최선입니다.</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="script">
+            <div class="ref-script">
+              <div class="rs-label">💬 이동 5분 전 예고 — 가장 중요</div>
+              <div class="rs-text">"○○아, 5분 있다가 체육관으로 이동할 거야. 체육관에서 ○○ 할 거야." (일정 예고)</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 이동 직전 — 역할 부여</div>
+              <div class="rs-text">"○○아, 선생님이랑 같이 가자. ○○가 문 열어줄 수 있어?" (작은 역할로 참여 동기)</div>
+            </div>
+            <div class="ref-script">
+              <div class="rs-label">💬 이미 소리 지를 때</div>
+              <div class="rs-text">"선생님 여기 있어. 괜찮아. 준비되면 알려줘." (최소 반응, 기다리기)</div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="pbs">
+            <div class="pbs-summary">★ 핵심: 예고 없는 전이가 가장 큰 원인입니다. 시각적 일과표 + 5분 전 예고로 대부분 예방됩니다.</div>
+            <button class="pbs-detail-toggle" onclick="togglePbsDetail(this)">자세히 보기 ▾</button>
+            <div class="pbs-detail" style="display:none;">
+            <div class="ref-pbs-content">
+              <div class="ref-section-title">예방 전략 (특수교사와 협의)</div>
+              <ul>
+                <li>시각적 일과표 — 하루 일정을 그림/글로 미리 보여주기</li>
+                <li>이동 5분 전 예고 루틴 만들기 (매번 같은 방식으로)</li>
+                <li>이동 시 역할 부여 — "문 열기", "선생님 옆에 서기"</li>
+                <li>이동 후 좋아하는 활동을 알려주기 ("체육관 가면 ○○ 할 거야")</li>
+              </ul>
+              <div class="ref-section-title">특수교사와 공유할 것</div>
+              <ul>
+                <li>어떤 이동에서 더 자주 발생하는지 (교실→체육관? 교실→급식실?)</li>
+                <li>예고를 했을 때와 안 했을 때 차이가 있는지</li>
+              </ul>
+            </div>
+            </div>
+          </div>
+          <div class="ref-tab-content" data-tab="never">
+            <div class="ref-never">
+              <div class="rn-label">🚫 이 행동에서 특히 주의할 것</div>
+              <ul>
+                <li><strong>강제로 끌어당기기 금지</strong> — 물리적 제지는 위험하며 더 강한 저항을 유발합니다</li>
+                <li><strong>큰 소리로 "빨리 가!"라고 재촉 금지</strong> — 감각 과부하가 더 심해집니다</li>
+                <li>나머지 학생 전체가 기다리게 하기 — 다른 학생들이 먼저 이동하게 하세요</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /ref-grid -->
 
     <!-- ─ 도구·서식 섹션 ─ -->
-    <div class="ref-section-divider" style="margin-top:28px;"><span>도구 · 서식</span></div>
-    <div class="ref-grid" id="refToolGrid">
+    <div id="refToolSectionHeader" class="ref-tool-section-header">
+      <div class="rtsh-icon">📋</div>
+      <div>
+        <div class="rtsh-label">평가 도구 · 서식</div>
+        <div class="rtsh-title">QABF 기능평가 &amp; 중재 서식 모음</div>
+        <div class="rtsh-desc">행동 카드와 별개입니다 — 기능을 파악하거나 기록을 시작할 때 사용하세요</div>
+      </div>
+    </div>
+    <div class="ref-grid" id="refToolGrid" style="background:var(--green-light);border:1.5px solid #A5C9A8;border-radius:var(--radius);padding:10px;gap:8px;">
 
       <!-- 카드 6: QABF -->
       <div class="ref-card" data-func-color="도구"
@@ -4166,29 +4764,11 @@ body {
             </p>
             <div id="qabf-container">
               <div id="qabf-intro">
-                <!-- ⚠️ 사용 전 확인 — 새로 추가 -->
-                <div style="background:#FFF8E1;border:1.5px solid #FFD54F;border-radius:10px;padding:14px 16px;margin-bottom:12px;">
-                  <div style="font-size:13.5px;font-weight:700;color:#B07000;margin-bottom:8px;">⚠️ 시작 전에 먼저 확인하세요</div>
-                  <div style="display:flex;flex-direction:column;gap:6px;">
-                    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
-                      <input type="checkbox" id="qabf-check1" onchange="checkQABFReady()" style="width:17px;height:17px;margin-top:2px;flex-shrink:0;accent-color:var(--green);">
-                      <span style="font-size:13.5px;color:#7A5A00;line-height:1.55;">이 행동을 <strong>최소 1~2주 이상 관찰</strong>했습니다. (오늘 처음 본 행동이라면 먼저 빈도 기록지를 2주 작성하세요.)</span>
-                    </label>
-                    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
-                      <input type="checkbox" id="qabf-check2" onchange="checkQABFReady()" style="width:17px;height:17px;margin-top:2px;flex-shrink:0;accent-color:var(--green);">
-                      <span style="font-size:13.5px;color:#7A5A00;line-height:1.55;">결과를 <strong>특수교사 또는 상담교사와 함께 검토</strong>할 계획입니다. (혼자 결과만 보고 중재를 결정하지 마세요.)</span>
-                    </label>
-                  </div>
-                </div>
-                <!-- 사용 방법 안내 -->
                 <div style="background:var(--teal-light);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size: 14px;color:var(--teal-dark);line-height:1.7;">
                   <strong>사용 방법:</strong> 관찰 대상 학생의 행동에 대해 각 문항을 읽고 해당하는 빈도를 선택하세요.<br>
                   0 = 전혀 없음 &nbsp;|&nbsp; 1 = 가끔 &nbsp;|&nbsp; 2 = 자주 &nbsp;|&nbsp; 3 = 항상
                 </div>
-                <button id="qabf-start-btn" onclick="startQABF()" disabled
-                  style="width:100%;padding:13px;background:#AAAAAA;color:white;border:none;border-radius:8px;font-family:inherit;font-size:15px;font-weight:700;cursor:not-allowed;transition:background 0.2s;">
-                  위 항목을 확인한 후 시작할 수 있습니다
-                </button>
+                <button onclick="startQABF()" style="width:100%;padding:13px;background:var(--green);color:white;border:none;border-radius:8px;font-family:inherit;font-size: 15px;font-weight:700;cursor:pointer;">QABF 시작하기 →</button>
               </div>
               <div id="qabf-form" style="display:none;">
                 <div id="qabf-progress-wrap" style="margin-bottom:16px;">
@@ -5248,7 +5828,547 @@ const scenarios = [
         }
       }
     ]
-  }];
+  },
+
+  // ── 시나리오 17: 통합교육 — 또래 갈등 (A-1) ──
+  {
+    title: "통합학급 학생이 쉬는 시간 게임 규칙을 계속 무시합니다",
+    func: "통합",
+    situation: "쉬는 시간. 자폐스펙트럼 진단을 받은 3학년 민재가 친구들의 보드게임에 끼어들어 자기 마음대로 규칙을 바꾸고, 지면 카드를 집어던집니다. 친구들이 '민재랑 같이 안 놀겠다'고 선생님에게 호소합니다. 민재는 왜 못 끼워주냐며 울기 시작합니다.",
+    steps: [
+      {
+        label: "Step 1. 상황 파악",
+        q: "이 상황에서 담임이 가장 먼저 해야 할 것은?",
+        choices: [
+          { text: "A. 친구들에게 '민재도 끼워줘야 한다'고 설득한다", result: "caution" },
+          { text: "B. 민재에게 '규칙을 지켜야 같이 놀 수 있다'고 훈계한다", result: "caution" },
+          { text: "C. 민재를 잠시 진정시키고, 친구들과는 따로 각각 상황을 확인한다", result: "correct" },
+          { text: "D. 쉬는 시간이니 지켜보며 스스로 해결하게 둔다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "정확합니다. 양쪽이 모두 감정이 올라온 상황에서 한꺼번에 해결하려 하면 더 복잡해집니다. 먼저 민재를 진정시키고, 친구들에게는 '선생님이 확인할게요'라고 안심시킨 뒤 각각 상황을 파악합니다. 판결자가 되기 전에 청취자가 되는 것이 우선입니다.", law: "고시 제11조 — 조언·상담: 학생 간 갈등을 중재하고 해결 방안을 안내할 수 있음", tip: "💡 자폐스펙트럼 학생은 규칙을 '절대적으로' 이해하거나 반대로 '자기 규칙만 맞다'고 인식할 수 있습니다. 민재 입장에서 상황을 한 번 들어보세요." },
+          caution: { icon: "⚠️", text: "한쪽만 설득하거나 훈계하면 다른 쪽이 억울함을 느끼고 갈등이 커집니다. 두 입장을 모두 들은 후 중재하는 것이 순서입니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "민재가 울고 있고 친구들이 교사에게 호소한 상황은 이미 교사 개입이 필요한 단계입니다. 스스로 해결을 기대하기 어려운 상황입니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 즉각 중재",
+        q: "민재가 '나도 같이 놀고 싶다'고 울면서 말했습니다. 어떻게 대응하겠습니까?",
+        choices: [
+          { text: "A. '민재가 규칙을 지키면 같이 놀 수 있어'라고 조건을 제시한다", result: "caution" },
+          { text: "B. '친구들이 싫다는데 어쩔 수 없어'라고 현실을 알려준다", result: "wrong" },
+          { text: "C. '같이 놀고 싶구나. 선생님이 어떻게 하면 같이 놀 수 있는지 같이 생각해보자'라고 공감하고 구체적 방법을 함께 찾는다", result: "correct" },
+          { text: "D. 친구들에게 민재를 끼워줄 것을 강제한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS 관점의 핵심 대응입니다. 감정을 먼저 인정한 뒤, '어떻게 하면 같이 놀 수 있을까'라는 구체적 방법 탐색으로 넘어가는 흐름입니다. 자폐스펙트럼 학생에게는 '친구들이 원하는 것'을 구체적으로 가르쳐야 합니다 — '규칙을 지켜야 해'보다 '진 다음에 카드는 테이블에 놓는 거야'처럼요.", law: "고시 제11조 ① — 조언: 학생의 문제 상황을 해결하기 위해 정보와 의견을 제시할 수 있음", tip: "💡 이 상황에서 장기적으로는 특수교사와 협력해 '사회적 기술 지도(게임 규칙 이해, 지는 법 연습)'를 IEP 목표에 포함시키는 것을 제안할 수 있습니다." },
+          caution: { icon: "⚠️", text: "조건 제시 자체는 나쁘지 않지만, 자폐스펙트럼 학생에게는 '규칙을 지켜'라는 말이 구체적으로 무엇을 해야 하는지 불분명할 수 있습니다. 더 구체적인 행동 언어로 안내하세요.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "현실을 그대로 전달하거나 강제로 끼워주게 하는 것 모두 효과적이지 않습니다. 전자는 민재를 더 좌절시키고, 후자는 친구들의 자율성을 침해하고 표면적 해결에 그칩니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 학급 전체 관리",
+        q: "이런 상황이 반복됩니다. 학급 전체 차원에서 어떤 접근이 가장 효과적일까요?",
+        choices: [
+          { text: "A. '민재는 장애가 있으니 참아줘야 해'라고 학급 전체에 설명한다", result: "wrong" },
+          { text: "B. 쉬는 시간 자유 놀이를 없애고 교사가 항상 감독한다", result: "wrong" },
+          { text: "C. 학기 초에 '다름 존중하기' 학급 활동을 하고, 갈등 상황에서 서로 할 수 있는 말과 행동을 사전에 연습해 둔다", result: "correct" },
+          { text: "D. 민재와 친구들이 섞이지 않도록 따로 활동하게 한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "통합교육의 핵심 전략입니다. 갈등이 생긴 후 대응하는 것보다, 학기 초에 '우리 반은 다른 친구들이 있다'는 것을 함께 이야기하고, '친구가 화났을 때 우리는 어떻게 할까' 같은 상황을 미리 연습해두면 실제 갈등이 줄어듭니다. 레이블(장애 이름)보다 행동(이럴 땐 이렇게)으로 접근하는 것이 중요합니다.", law: "고시 제3조 ① — 교원은 모든 학생을 존중하고 차별 없이 대우해야 함", tip: "💡 특수교사와 함께 '우리 반 서로 돕기 계획'을 만들어 학기 초 학부모 안내장에 포함시키면 더욱 효과적입니다." },
+          wrong: { icon: "🔄", text: "장애 이름을 이유로 참으라고 가르치는 것은 민재를 더 분리시키고 친구들에게 부담감을 줍니다. 분리 활동은 통합교육의 목적 자체에 반합니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "상시 감독은 현실적이지 않고, 자율 놀이 자체가 사회적 기술 발달에 중요한 시간입니다. 완전 분리보다는 구조화된 놀이 기회를 점진적으로 늘리는 방향을 권장합니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 18: 통합교육 — 학급 전체 설명 (A-2) ──
+  {
+    title: "친구가 갑자기 소리를 질렀습니다. 반 아이들에게 뭐라고 말하나요?",
+    func: "통합",
+    situation: "4학년 국어 수업 중 통합학급 학생 지우가 갑자기 크게 소리를 질렀습니다. 30명의 학생이 일제히 지우를 쳐다봤고, 몇몇이 웃거나 수군거립니다. 지우는 곧 진정됐지만, 아이들의 시선과 술렁임이 가라앉지 않습니다. 한 학생이 손을 들며 '선생님, 왜 지우는 저러는 거예요?'라고 물었습니다.",
+    steps: [
+      {
+        label: "Step 1. 즉각 반응 — 30초 이내",
+        q: "질문을 받은 직후, 지금 이 순간 어떻게 대응하겠습니까?",
+        choices: [
+          { text: "A. '지우는 장애가 있어서 그래. 이해해줘야 해'라고 설명한다", result: "caution" },
+          { text: "B. '선생님이 나중에 설명해줄게. 지금은 ○쪽 이어서 읽어볼까요?'라고 수업으로 돌아간다", result: "correct" },
+          { text: "C. 질문한 학생을 무시하고 수업을 계속한다", result: "wrong" },
+          { text: "D. 지우에게 왜 소리를 질렀는지 지금 바로 물어본다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "최선의 즉각 대응입니다. 수업 중 긴 설명은 지우에게 오히려 더 많은 시선을 집중시킵니다. 질문은 들었다는 것을 인정하되, 지금은 수업으로 돌아가고 적절한 시간(예: 쉬는 시간, 또는 별도 학급 토의 시간)에 이야기하는 것이 훨씬 효과적입니다.", law: "고시 제3조 ① — 모든 학생의 학습권 보장, 수업 지속", tip: "💡 이 순간 가장 중요한 것은 지우의 행동을 '사건화'하지 않는 것입니다. 교사가 담담하게 넘어가면 아이들도 금방 잊습니다." },
+          caution: { icon: "⚠️", text: "즉각 장애를 언급하는 것은 지우를 더 분리시키고, 나머지 학생들에게 '이해해야 한다'는 부담감을 줄 수 있습니다. 설명이 필요하다면 더 적절한 시간과 방식으로 하는 것이 좋습니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "질문을 완전히 무시하면 아이들의 궁금증이 해소되지 않아 나중에 더 큰 문제가 됩니다. 지우에게 이 순간 이유를 물으면 지우를 더 불편하게 만듭니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 학급 대화 — 적절한 시간에",
+        q: "쉬는 시간 또는 다른 날 학급 전체 대화 시간을 마련했습니다. 어떤 방식이 가장 적절할까요?",
+        choices: [
+          { text: "A. 지우의 진단명과 특성을 학급 전체에 상세히 설명한다", result: "wrong" },
+          { text: "B. '우리 반에는 서로 다른 방식으로 표현하는 친구들이 있어. 그 친구가 소리를 낼 때 우리는 어떻게 하면 좋을까?'라고 아이들과 함께 방법을 만든다", result: "correct" },
+          { text: "C. '그냥 무시하면 돼'라고 간단히 안내한다", result: "caution" },
+          { text: "D. 지우 부모님께 먼저 동의를 구하고 지우가 직접 친구들에게 설명하게 한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "통합교육에서 가장 권장하는 방식입니다. 특정 학생의 이름이나 진단을 언급하지 않고, '우리 반에는 다양한 사람이 있다'는 보편적 접근으로 이야기합니다. '우리는 어떻게 하면 좋을까'라는 질문으로 아이들이 스스로 규범을 만들게 하면 실천율이 높아집니다.", law: "고시 제3조 ① — 학생 상호 존중과 배려", tip: "💡 저학년 예시: '어떤 친구는 깜짝 놀라면 소리가 크게 나올 수 있어. 그럴 때 우리가 할 수 있는 것은 뭐가 있을까?' / 고학년 예시: '사람마다 감정 표현 방식이 달라. 그 친구가 조용해질 때까지 우리는 하던 것을 계속하면 돼.'" },
+          wrong: { icon: "🔄", text: "진단명을 공개하는 것은 지우의 프라이버시 침해이며, 보호자 동의 없이 해서는 안 됩니다. 오히려 지우에게 부정적 낙인을 만들 수 있습니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "'무시하면 돼'는 지우를 고립시키는 메시지가 될 수 있습니다. 지우가 직접 설명하게 하는 것은 보호자 동의와 지우 본인 의사가 있어야 가능한 방법입니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 웃거나 수군거린 학생 대응",
+        q: "며칠 후, 지우가 또 소리를 질렀을 때 몇몇 학생이 웃으며 흉내를 냈습니다. 어떻게 대응하겠습니까?",
+        choices: [
+          { text: "A. 흉내 낸 학생들을 즉시 교실 밖으로 분리한다", result: "caution" },
+          { text: "B. 수업을 잠시 멈추고 '방금 그 행동이 어떤 기분을 만들었을지 생각해봐요'라고 조용히 말한 후 수업을 이어간다. 해당 학생들과는 따로 이야기한다", result: "correct" },
+          { text: "C. 전체 학급을 훈계한다", result: "caution" },
+          { text: "D. 지우를 보호하기 위해 모른 척한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "균형 잡힌 대응입니다. 전체에게 간단히 멈추는 메시지를 주되, 공개적 망신은 주지 않습니다. 이후 해당 학생들과 개별 대화에서 '그 행동이 지우에게 어떤 영향을 줬을지'를 생각하게 합니다. 학교폭력·장애인 차별 금지 관점에서 이런 행동은 기록해두는 것이 좋습니다.", law: "장애인차별금지법 제2조, 학교폭력예방법 제2조 — 모방·조롱 행동도 해당 범위에 포함될 수 있음", tip: "💡 이런 상황이 반복된다면 학교 상담교사와 함께 '공감 능력 향상' 주제의 학급 상담 프로그램을 요청하는 것도 방법입니다." },
+          caution: { icon: "⚠️", text: "즉각 분리나 전체 훈계는 과한 반응이 될 수 있습니다. 해당 학생들과 개별 대화가 더 효과적입니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "모른 척하면 그 행동이 용인된다는 메시지를 줍니다. 지우도, 나머지 학생들도 교사가 봤음을 알고 있습니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 19: 통합교육 — 특수교사와 의견 충돌 (A-3) ──
+  {
+    title: "특수교사는 '제지하지 말라'는데 담임은 수업을 못 하겠습니다",
+    func: "통합",
+    situation: "ADHD 진단을 받은 2학년 수호가 국어 수업 중 자주 자리를 이탈합니다. 담임은 매번 자리로 돌려보냈는데, 이번에 특수교사가 '지금 시기에는 자리 이탈을 강하게 제지하지 말고 자연스럽게 흘려보내라'고 권했습니다. 담임 입장에서는 수업이 매번 끊기고 다른 학생들이 따라 하려 할 것 같아 받아들이기가 어렵습니다.",
+    steps: [
+      {
+        label: "Step 1. 갈등 상황 파악",
+        q: "담임과 특수교사의 의견이 다를 때, 가장 바람직한 첫 번째 행동은?",
+        choices: [
+          { text: "A. 특수교사 의견을 그대로 따른다 — 전문가가 더 잘 안다", result: "caution" },
+          { text: "B. 담임 판단대로 계속 제지한다 — 교실 운영은 담임의 책임이다", result: "caution" },
+          { text: "C. 특수교사와 별도 시간을 잡아 '왜 이 시기에 제지하지 말아야 하는지' 이유를 물어보고, 담임의 어려움도 함께 전달한다", result: "correct" },
+          { text: "D. 관리자에게 판단을 맡긴다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "통합교육 협력의 핵심입니다. 특수교사의 권고에는 배경 이유가 있습니다 — 예를 들어 '지금은 강제 제지가 역효과를 낳는 시기', '이 행동의 기능이 제지에 의해 강화되는 상황' 등일 수 있습니다. 담임도 '나는 수업이 30명 앞에서 끊긴다'는 현실을 전달해야 합니다. 두 전문가의 관점이 합쳐져야 효과적인 중재가 나옵니다.", law: "고시 제9조 ③ — 교원은 필요시 전문가 협력을 통해 학생을 지원할 수 있음", tip: "💡 좋은 협력 대화 예시: '왜 지금 시기에 흘려보내야 하는지 이해하고 싶어요. 그런데 저는 30명 앞에서 수업이 매번 멈추는 게 걱정됩니다. 어떻게 하면 두 가지를 같이 해결할 수 있을까요?'" },
+          caution: { icon: "⚠️", text: "어느 한쪽 의견만 그대로 따르는 것은 협력이 아닙니다. 특수교사는 해당 학생 전문가지만 교실 전체 운영 전문가는 담임입니다. 두 관점이 합쳐져야 합니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "관리자에게 맡기는 것은 두 교사 간의 전문적 협의가 먼저 이루어진 후의 선택지입니다. 첫 단계로는 직접 대화가 우선입니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 중재 방향 조율",
+        q: "특수교사와 대화 후, '자리 이탈 시 강하게 제지하지 않되, 이탈 전 예방 전략을 쓴다'는 방향이 나왔습니다. 담임이 교실에서 실행할 수 있는 예방 전략으로 가장 적절한 것은?",
+        choices: [
+          { text: "A. 수호의 자리를 교실 뒤쪽으로 배치해 이탈해도 수업에 방해가 덜 되게 한다", result: "caution" },
+          { text: "B. 수호가 자리를 떠나기 전 신호(예: 책상 두드리기, 일어서기)를 보낼 때 교사가 먼저 접근해 짧게 상호작용한 후 과제로 돌아오게 유도한다", result: "correct" },
+          { text: "C. 수호가 이탈하면 반 전체가 멈추고 기다린다", result: "wrong" },
+          { text: "D. 이탈 횟수를 매일 기록해 일정 횟수 초과 시 보호자에게 연락한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "선행사건 중재(antecedent intervention)의 전형적 예입니다. 이탈이 발생한 후 대응하는 것보다, 이탈 직전 신호를 포착해 먼저 개입하면 이탈 자체를 예방할 수 있습니다. 수호 입장에서는 '교사가 나를 보고 있다'는 신호를 받게 되어 관심 욕구도 충족됩니다. ADHD 학생에게 매우 효과적인 전략입니다.", law: "", tip: "💡 수호가 자주 이탈하는 특정 시간(예: 40분 수업 25분 이후)이 있다면, 그 직전에 짧은 스트레칭 활동을 넣는 '구조화된 움직임' 전략도 고려해보세요." },
+          caution: { icon: "⚠️", text: "자리 배치 조정은 방해를 줄이는 데 도움이 되지만, 행동 자체를 예방하지는 않습니다. 이탈 횟수 기록은 중재 효과 측정에는 필요하지만, 그것만으로 행동이 줄지는 않습니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "전체 수업이 한 학생 때문에 멈추는 것은 다른 30명 학생의 학습권을 침해합니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 협력 유지",
+        q: "2주 후, 예방 전략을 썼지만 효과가 미미합니다. 어떻게 하겠습니까?",
+        choices: [
+          { text: "A. 다시 강하게 제지하는 방식으로 돌아간다", result: "wrong" },
+          { text: "B. 이탈 빈도 데이터를 들고 특수교사에게 중재 방향 재논의를 요청한다", result: "correct" },
+          { text: "C. 수호의 보호자에게 직접 집에서 지도해달라고 요청한다", result: "caution" },
+          { text: "D. 더 오래 기다려본다 — 중재는 시간이 걸린다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS의 핵심 원리인 '데이터 기반 의사결정'입니다. 효과가 없다면 데이터를 들고 재논의하는 것이 전문적 접근입니다. '이탈이 줄지 않고 있다'는 데이터 없이 주관적으로 '안 된다'고만 하면 협의가 어렵습니다. 기록이 협력을 가능하게 합니다.", law: "고시 제9조 ③ — 전문가 협력을 통해 지속적 지원", tip: "💡 이런 상황이 반복된다면 학교 차원의 '개별화교육지원팀 회의(IEP 회의)' 소집을 요청하는 것도 방법입니다. 담임, 특수교사, 보호자가 함께 방향을 결정하는 공식적 절차입니다." },
+          wrong: { icon: "🔄", text: "합의된 방향에서 갑자기 이전 방식으로 돌아가면 신뢰 관계와 중재의 일관성이 무너집니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "보호자에게 요청하는 것은 협력의 한 방법이지만, 가정에서의 지도 방식과 학교 중재 방향이 달라 혼선을 줄 수 있습니다. 학교 내 중재 방향이 먼저 정리된 후 보호자와 공유하는 순서가 맞습니다. '더 기다리기'는 데이터 없이 하면 방치가 됩니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 20: 강화물 획득 — 핸드폰 (B-1) ──
+  {
+    title: "수업 시작 종이 쳤는데 핸드폰을 내놓지 않습니다",
+    func: "강화",
+    situation: "6학년 점심시간. 종례가 끝나고 5교시가 시작됐습니다. 준혁이가 자리에 앉아 게임을 계속하며 핸드폰을 내놓지 않습니다. '핸드폰 내놔'라고 하면 '잠깐만요'를 반복합니다. 손을 뻗어 빼앗으려 하자 손을 빠르게 빼며 '건드리지 마세요'라고 했습니다.",
+    steps: [
+      {
+        label: "Step 1. 즉각 대응",
+        q: "준혁이가 '건드리지 마세요'라고 하며 핸드폰을 내놓지 않습니다. 지금 어떻게 하겠습니까?",
+        choices: [
+          { text: "A. 강제로 빼앗는다 — 교사 권한이다", result: "wrong" },
+          { text: "B. '지금 당장 내놓지 않으면 보호자에게 연락한다'고 경고한다", result: "caution" },
+          { text: "C. 낮은 목소리로 '준혁아, 수업이 시작됐어. 핸드폰은 가방에 넣어두고, 5교시 끝나면 돌려줄게'라고 말하고 잠시 기다린다", result: "correct" },
+          { text: "D. 모른 척하고 수업을 시작한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "고시와 PBS를 모두 고려한 최선의 대응입니다. 낮은 목소리로 개인 공간을 존중하며 요청하고, 언제 돌려받을 수 있는지 명확히 제시하는 것이 핵심입니다. 준혁 입장에서 '게임을 영원히 빼앗기는 게 아니라 5교시 후에 돌아온다'는 것을 알면 저항이 줄어들 수 있습니다.", law: "고시 제12조 ① — 교사는 수업 방해 물건을 일시 보관할 수 있음. 단, 학생 신체에서 직접 빼앗는 것은 신체 접촉에 해당하므로 주의 필요", tip: "💡 만약 계속 거부한다면: '알겠어. 그러면 선생님은 수업 시작할게. 준혁이는 준비되면 넣어줘'라고 말하고 수업을 시작합니다. 공개적 대결 상황을 만들지 않는 것이 중요합니다." },
+          wrong: { icon: "🔄", text: "강제로 빼앗는 것은 신체 접촉에 해당할 수 있으며, 학생이 저항하면 더 큰 갈등이 됩니다. 모른 척하는 것은 핸드폰 사용을 허용하는 것이 됩니다.", law: "고시 제12조 ④ — 물리적 제지는 생명·신체에 위해를 끼칠 긴급한 경우에 한정", tip: "" },
+          caution: { icon: "⚠️", text: "즉각 경고는 공개적 대결 구도를 만들 수 있습니다. 6학년이라면 체면도 중요합니다. 조용히 개별 요청을 먼저 해보세요.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 수업 중 계속 사용할 때",
+        q: "잠시 후 준혁이가 핸드폰을 가방에 넣었지만, 수업 중 다시 몰래 꺼내 아래에서 보고 있습니다. 어떻게 하겠습니까?",
+        choices: [
+          { text: "A. '준혁이, 핸드폰!'이라고 수업을 멈추고 전체 앞에서 지적한다", result: "caution" },
+          { text: "B. 수업을 계속하면서 준혁이 자리 근처로 천천히 이동해 비언어적으로 알아채게 한다. 그래도 계속하면 조용히 옆에서 '가방에'라고 말한다", result: "correct" },
+          { text: "C. 수업이 끝날 때까지 기다렸다가 종례 때 지적한다", result: "caution" },
+          { text: "D. 즉시 가방을 열어 핸드폰을 꺼내 가져온다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "가장 효과적인 교실 관리 기법입니다. 근접성(proximity control)이라고 불리는 이 방법은 교사가 해당 학생 근처로 이동하는 것만으로도 행동을 자연스럽게 수정하게 합니다. 수업 흐름을 끊지 않고, 준혁이를 공개적으로 망신 주지 않으면서도 메시지를 전달합니다.", law: "", tip: "💡 이 방법이 효과적이려면 평소에 교사가 교실을 돌아다니며 수업하는 것이 익숙해져야 합니다. 앞에만 서 있으면 이 기법을 쓰기 어렵습니다." },
+          caution: { icon: "⚠️", text: "전체 앞에서 지적하는 것은 준혁이의 반감을 살 수 있습니다. 종례까지 기다리는 것은 문제를 방치하는 것입니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "학생의 가방에 직접 손을 대는 것은 사생활 침해로 문제가 될 수 있습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 장기 대응 및 예방",
+        q: "이 상황이 매주 반복됩니다. 고시와 PBS를 고려할 때 가장 효과적인 장기 전략은?",
+        choices: [
+          { text: "A. 등교 시 핸드폰을 일괄 수거해 하교 시 돌려준다", result: "caution" },
+          { text: "B. 학칙에 핸드폰 사용 규정이 있는지 확인하고, 없다면 학급 규칙으로 합의한다. 규칙 위반 시 절차(주의→훈육→보관)를 일관되게 적용한다", result: "correct" },
+          { text: "C. 보호자에게 핸드폰을 학교에 가져오지 않도록 요청한다", result: "caution" },
+          { text: "D. 핸드폰을 사용해도 되는 쉬는 시간을 충분히 주고, 수업 중에는 스스로 조절하게 기다린다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "고시 기반의 정확한 접근입니다. 교사 개인이 임의로 규칙을 만들기보다, 학칙 또는 학급 합의 규칙을 근거로 일관된 절차를 적용하면 '왜 나만 혼내냐'는 반발을 줄일 수 있습니다. 절차가 학생들에게 사전에 안내되어 있어야 하며, 규칙 위반 시 단계적으로 적용하는 것이 핵심입니다.", law: "고시 제11조~제14조 — 주의·훈육·훈계·분리의 단계적 절차 / 고시 제12조 ① — 수업 방해 물건 일시 보관 가능", tip: "💡 학기 초 학생들과 함께 핸드폰 사용 규칙을 만들면 ('수업 중에는 가방 속, 쉬는 시간에는 자유') 실천율이 훨씬 높아집니다." },
+          caution: { icon: "⚠️", text: "일괄 수거는 분실·파손 책임 문제가 생길 수 있습니다. 보호자 요청은 협조를 구할 수 있지만, 교사 통제 범위 밖입니다. 무제한 쉬는 시간 사용도 수업 준비 태도에 영향을 줄 수 있습니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 21: 과제 회피 — 모둠 활동 거부 (C-1) ──
+  {
+    title: "모둠 활동만 시작하면 '하기 싫어요'라며 아무것도 안 합니다",
+    func: "회피",
+    situation: "5학년 사회 모둠 활동 시간. 유진이가 '하기 싫어요'라며 팔짱을 끼고 아무것도 하지 않습니다. 모둠원들이 먼저 해보라고 권유하면 '저리 가요'라고 밀어내고, 강요하면 책상을 손으로 치며 소리를 지릅니다. 개인 활동 시간에는 비교적 잘 참여합니다.",
+    steps: [
+      {
+        label: "Step 1. 기능 파악",
+        q: "유진이가 모둠 활동만 거부하는 이유로 가장 가능성 높은 기능은?",
+        choices: [
+          { text: "A. 강화물 획득 — 쉬고 싶어서", result: "caution" },
+          { text: "B. 과제 회피 — 모둠 활동 자체의 사회적 부담(발표, 평가, 친구 시선)을 피하고 싶다", result: "correct" },
+          { text: "C. 관심 획득 — 교사의 관심을 원한다", result: "caution" },
+          { text: "D. 감각 자극 — 사람이 많으면 감각적으로 불편하다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "핵심을 잘 파악했습니다. 개인 활동에서는 잘 참여하지만 모둠 활동에서만 거부하는 패턴은 '모둠 활동 자체의 사회적 부담'이 회피 원인임을 강하게 시사합니다. 친구들에게 평가받는 것에 대한 불안, 발표에 대한 두려움, 특정 모둠원과의 갈등 등이 원인일 수 있습니다. '게으른 것'이나 '의지의 문제'가 아닐 가능성이 높습니다.", law: "QABF — 과제 회피 기능 (사회적 맥락의 부담 포함)", tip: "💡 유진이와 1:1 대화에서 '모둠 활동이 왜 힘든지' 직접 물어보세요. 아이 스스로 말하지 못하면 '발표가 싫어? 친구들이랑 같이 하는 게 싫어?' 식으로 선택지를 제시하면 좋습니다." },
+          caution: { icon: "⚠️", text: "쉬고 싶거나 관심을 원하는 기능도 가능하지만, '개인 활동은 잘 한다'는 단서가 핵심입니다. 모둠 상황에만 나타나는 거부는 모둠 자체의 요소가 원인일 가능성이 높습니다. 감각 불편도 가능성이 있으며, 모둠 활동 시 소음·접촉이 많다면 감각 민감성도 함께 확인해보세요.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 즉각 대응",
+        q: "유진이가 지금 팔짱을 끼고 앉아 있습니다. 모둠원들이 불편해합니다. 어떻게 하겠습니까?",
+        choices: [
+          { text: "A. '모둠이 다 같이 해야 하는데, 유진이는 왜 혼자 안 해?'라고 전체 앞에서 말한다", result: "wrong" },
+          { text: "B. 모둠원들에게 '유진이는 잠깐 생각 중이야, 먼저 시작해봐'라고 하고, 유진이에게 다가가 조용히 '어떤 부분이 어려워?'라고 물어본다", result: "correct" },
+          { text: "C. 유진이에게 개인 과제를 따로 주고 모둠 활동에서 제외한다", result: "caution" },
+          { text: "D. 모둠 활동을 멈추고 다음 활동으로 넘어간다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "가장 효과적인 즉각 대응입니다. 모둠원들의 활동을 계속하게 하면서, 유진이와 개별 대화 공간을 만드는 것이 핵심입니다. '왜 안 해?'가 아니라 '어떤 부분이 어려워?'라는 질문은 저항이 아닌 대화를 유도합니다. 유진이에게 아주 작은 역할('이 부분만 적어줄 수 있어?')을 제시하는 것도 좋습니다.", law: "고시 제11조 — 조언: 학생의 문제 상황을 해결하기 위해 정보와 의견을 제시", tip: "💡 유진이가 거부하는 이유를 짧게 확인한 후, '그럼 오늘은 기록하는 역할만 해줄래?'처럼 부담이 가장 적은 역할부터 시작하게 하세요." },
+          wrong: { icon: "🔄", text: "공개적 지적은 사회적 불안을 더 키웁니다. 모둠 활동 자체를 멈추는 것은 나머지 학생들의 학습을 방해합니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "완전히 제외하는 것은 단기 해결책이 되지만, 모둠 활동 참여 능력을 키울 기회를 없애버립니다. 부분 참여(아주 작은 역할)부터 시작하는 것이 낫습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 장기 중재",
+        q: "유진이가 모둠 활동을 편안하게 느끼도록 하는 장기 전략으로 가장 효과적인 것은?",
+        choices: [
+          { text: "A. 모둠 활동 횟수를 줄인다", result: "wrong" },
+          { text: "B. 유진이가 편안한 모둠원과 먼저 짝활동부터 시작해 점차 모둠 규모를 늘리고, 역할을 처음에는 기록자처럼 부담이 적은 것으로 시작한다", result: "correct" },
+          { text: "C. 발표를 면제해준다", result: "caution" },
+          { text: "D. 보호자에게 사회성 치료를 권한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS의 '점진적 노출(graduated exposure)' 전략입니다. 한 번에 완전한 모둠 활동을 요구하는 것이 아니라, 짝 → 3명 → 모둠으로 단계를 밟아가며 성공 경험을 쌓게 합니다. 역할도 기록자 → 발표 보조 → 발표자 순으로 점진적으로 늘립니다. 성공할 때마다 즉각 긍정 피드백을 주는 것이 핵심입니다.", law: "", tip: "💡 유진이와 개인 면담에서 '어떤 역할이 제일 편해?'라고 물어보고 선택권을 주세요. 통제감을 느끼는 것 자체가 불안을 줄여줍니다." },
+          wrong: { icon: "🔄", text: "모둠 활동 횟수를 줄이는 것은 협력 학습의 기회를 없애버립니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "발표 완전 면제는 단기 안도를 주지만 장기적으로 발표 불안이 더 커집니다. 전문 치료가 필요할 수도 있지만, 학교에서 할 수 있는 것들을 먼저 시도해보세요.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 22: 고시 — SNS 보호자 비난 (E-1) ──
+  {
+    title: "학부모가 반 단체 카톡방에 교사 비난 글을 올렸습니다",
+    func: "고시",
+    situation: "오늘 오후, 학부모 단체 카톡방에 한 학부모가 '우리 아이가 선생님한테 부당하게 혼났다. 다른 분들도 비슷한 경험 있으시면 공유해달라'는 글을 올렸습니다. 몇몇 학부모가 동조 댓글을 달기 시작합니다. 담임 선생님에게도 캡처본이 전달됐습니다.",
+    steps: [
+      {
+        label: "Step 1. 즉각 행동",
+        q: "캡처본을 받은 직후, 가장 먼저 해야 할 것은?",
+        choices: [
+          { text: "A. 단체 카톡방에 즉시 해명 글을 올린다", result: "wrong" },
+          { text: "B. 해당 학부모에게 바로 개인 전화를 건다", result: "caution" },
+          { text: "C. 캡처본을 보관하고 관리자(교감·교장)에게 즉시 보고한다", result: "correct" },
+          { text: "D. 일단 무시하고 다음 날까지 상황을 지켜본다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "반드시 해야 할 첫 번째 행동입니다. 교사 개인이 단독으로 대응하기 전에 관리자 보고가 먼저입니다. 이유는 두 가지입니다. 첫째, 교사 혼자 대응하면 실수할 가능성이 있고, 둘째, 이후 학교 차원의 대응이나 법적 절차(명예훼손 등)가 필요할 수 있을 때 '즉시 보고했다'는 사실이 중요합니다. 캡처본은 증거입니다.", law: "고시 제10조 ④ — 교원의 생활지도 관련 민원은 학교장이 처리하는 것이 원칙 / 교원지위법 제15조 — 학교는 교원이 교육활동 침해를 당한 경우 즉시 보호 조치를 해야 함", tip: "💡 보고할 때: '○월 ○일 ○시 단체 카톡방에 이런 내용이 올라왔습니다'라는 사실 중심으로 전달하세요. 감정을 빼고 사실만 보고하는 것이 효과적입니다." },
+          wrong: { icon: "🔄", text: "단체 카톡방에 해명 글을 올리는 것은 가장 피해야 할 행동입니다. 공개적 논쟁이 되면 더 많은 학부모가 주목하게 되고, 교사의 말이 왜곡될 수 있습니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "흥분한 상태에서 개인 전화는 감정적 대화로 흐를 수 있습니다. 관리자 보고 후 학교 차원의 대응 방향이 결정된 뒤 연락하는 것이 순서입니다. 무시하는 것은 상황이 더 확산될 수 있습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 학교 차원 대응",
+        q: "관리자 보고 후, 학교는 해당 학부모와 면담을 권고했습니다. 면담 전에 준비할 것은?",
+        choices: [
+          { text: "A. 내가 어떤 잘못을 했는지 먼저 사과 내용을 준비한다", result: "wrong" },
+          { text: "B. 해당 학생에게 중재했던 날짜·내용·절차를 기록으로 정리하고, 관리자와 동행 면담을 요청한다", result: "correct" },
+          { text: "C. 법적 대응을 위해 개인적으로 변호사를 먼저 찾아간다", result: "caution" },
+          { text: "D. 해당 학생의 평소 행동 문제를 정리해 학부모에게 제시할 준비를 한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "가장 바람직한 준비입니다. 기록이 교사를 지킵니다. '언제, 어떤 행동이 있었고, 어떤 절차(주의→훈육)로 대응했는지'가 정리되어 있으면 면담에서 사실 중심으로 이야기할 수 있습니다. 관리자 동행은 학교 차원의 공식 대응임을 보여주고, 교사 혼자 감당하지 않아도 된다는 것을 의미합니다.", law: "고시 제10조 ④⑤ — 상담 일시·방법은 사전 협의, 학교장이 정하는 바에 따라 진행 / 교원지위법 제15조 — 학교장은 교원 보호 조치 의무", tip: "💡 면담 시 기억할 것: '사실을 설명하는 것'이 목표입니다. 승패를 가리는 자리가 아닙니다. 차분하게 '이런 상황이 있었고, 이렇게 대응했습니다'를 전달하세요." },
+          wrong: { icon: "🔄", text: "선제적 사과는 사실 확인 전에는 하지 않는 것이 원칙입니다. 학생의 문제 행동 목록을 제시하는 것은 방어적으로 보일 수 있고 역효과가 납니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "법적 대응은 학교 차원의 대응이 먼저이며, 필요하다면 교원단체나 교육청 법률 지원을 통해 진행하는 것이 더 적절합니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 재발 방지",
+        q: "이번 사태가 마무리됐습니다. 앞으로 비슷한 상황을 예방하기 위해 가장 중요한 것은?",
+        choices: [
+          { text: "A. 학부모 단체 카톡방을 없앤다", result: "caution" },
+          { text: "B. 앞으로 중재 시 보호자에게 사전 통보를 철저히 하고, 중재 내용을 기록으로 남긴다", result: "correct" },
+          { text: "C. 학부모 민원이 두려워 앞으로 생활지도를 최소화한다", result: "wrong" },
+          { text: "D. 문제 학생을 별도 공간으로 분리해 다른 학부모들의 눈에 띄지 않게 한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "가장 효과적이고 지속 가능한 예방책입니다. 특히 중재가 필요한 학생의 보호자에게는 '오늘 이런 상황이 있었고 이렇게 대응했습니다'를 그날 연락하는 습관이 중요합니다. 보호자가 카톡방에서 먼저 소식을 접하게 되면 교사에게 불리합니다. 기록과 소통이 교사를 지킵니다.", law: "고시 제10조 — 보호자 상담 및 통보 관련 절차", tip: "💡 학기 초 학급 안내장에 '중재 시 당일 보호자 통보' 원칙을 명시해두면, 이후 소통이 훨씬 원활해집니다." },
+          wrong: { icon: "🔄", text: "민원이 두려워 생활지도를 포기하거나, 학생을 숨기는 방식은 교육적으로도 법적으로도 잘못된 방향입니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "단체 카톡방을 없애는 것은 소통 채널을 막는 것으로, 다른 갈등을 만들 수 있습니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 23: 고시 — 학부모 중재 거부 (E-2) ──
+  {
+    title: "학부모가 '우리 아이는 문제없다. 선생님이 잘못 가르친 것'이라고 합니다",
+    func: "고시",
+    situation: "자리 이탈과 친구 때리기가 반복되는 3학년 태현이에 대해 QABF 결과와 중재 계획을 학부모에게 설명했습니다. 그러자 어머니가 '우리 아이는 집에서는 그런 적 없다. 선생님이 아이를 제대로 가르치지 못해서 그런 것 아니냐. 우리 아이를 문제아 취급하지 마라'며 중재 계획 동의를 거부했습니다.",
+    steps: [
+      {
+        label: "Step 1. 면담 대응",
+        q: "학부모가 격하게 반발합니다. 지금 이 순간 어떻게 대응하겠습니까?",
+        choices: [
+          { text: "A. '어머니 말씀이 맞습니다, 제가 부족했습니다'라고 사과한다", result: "wrong" },
+          { text: "B. 태현이의 행동 기록(날짜·상황·빈도)을 보여주며 '아이를 문제아로 보는 것이 아니라 더 잘 도우려는 것입니다'라고 설명한다", result: "correct" },
+          { text: "C. '동의하지 않으면 학교에서는 어떤 지원도 할 수 없다'고 말한다", result: "wrong" },
+          { text: "D. 면담을 바로 종료하고 다음에 다시 이야기하자고 한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "정확한 대응입니다. 보호자의 방어적 반응은 '내 아이가 비난받는다'는 불안에서 옵니다. '더 잘 돕기 위해'라는 방향을 명확히 하고, 주관적 판단이 아닌 구체적 기록(날짜·상황·빈도)을 근거로 이야기하면 감정이 아닌 사실로 대화할 수 있습니다. '집에서는 안 그런다'는 말에는 '가정과 학교 환경이 다를 수 있다'고 인정하면서도 학교에서의 지원 필요성을 설명합니다.", law: "고시 제10조 ① — 교원은 학생의 학교생활에 관한 정보를 보호자에게 제공할 수 있음", tip: "💡 이렇게 말해보세요: '어머님, 저도 태현이가 충분히 잘할 수 있다고 생각합니다. 지금 제가 보여드리는 기록은 태현이를 혼내려는 게 아니라, 어떻게 도울 수 있을지 같이 생각해보려는 겁니다.'" },
+          wrong: { icon: "🔄", text: "사실 확인 전 사과는 교사의 대응이 잘못됐다는 것을 인정하는 것이 됩니다. '동의 없으면 지원 불가'는 사실이 아니며 위협적으로 들립니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "즉각 종료보다는 잠시 감정을 식히는 시간을 주면서도 대화를 이어가는 것이 좋습니다. '잠깐 물 한 잔 드릴까요?'처럼요.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 보호자 동의 없이 할 수 있는 것",
+        q: "보호자가 계속 동의를 거부합니다. 학교에서 보호자 동의 없이 할 수 있는 중재는 무엇인가요?",
+        choices: [
+          { text: "A. 보호자 동의 없이는 아무것도 할 수 없다", result: "wrong" },
+          { text: "B. 수업 내 환경 조정(자리 배치·과제 난이도 조정·대화 스크립트 사용 등 일반 교육 범위의 중재)은 보호자 동의 없이도 할 수 있다", result: "correct" },
+          { text: "C. 동의 없이 특수교육 의뢰를 진행할 수 있다", result: "wrong" },
+          { text: "D. 태현이를 학부모 동의 없이 상담실에 보낼 수 있다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "중요한 구분입니다. 보호자 동의가 필요한 것과 그렇지 않은 것을 구분해야 합니다. 수업 방법, 자리 배치, 대화 방식 등 교사의 일반 교육 활동 범위의 중재는 보호자 동의 없이 교사 재량으로 할 수 있습니다. 반면 특수교육 의뢰, 외부 전문가 상담 의뢰, 약물 복용 권고 등은 보호자 동의가 필요합니다.", law: "고시 제9조 ③ — 교원은 전문가 상담을 보호자에게 권고할 수 있음 (강제 아님) / 특수교육법 제15조 — 특수교육 의뢰는 보호자 동의 필요", tip: "💡 보호자 동의가 어려울 때도 교사가 할 수 있는 것들: 자리 배치 변경, 과제 난이도·양 조절, 대화 스크립트 활용, 학급 환경 구조화, 행동 기록 지속, 학교 내 협의(특수교사·상담교사와 정보 공유)" },
+          wrong: { icon: "🔄", text: "교사의 일반 교육 범위 내 중재는 보호자 동의와 무관하게 할 수 있습니다. 특수교육 의뢰는 반드시 보호자 동의가 필요합니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "상담실 방문은 학생 본인이 원한다면 가능하지만, 교사가 강제로 보낼 수는 없습니다. 보호자 동의 없이 상담이 이루어지면 나중에 문제가 될 수 있습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 장기 대응",
+        q: "보호자 갈등이 지속됩니다. 학교 차원에서 취할 수 있는 공식 절차는?",
+        choices: [
+          { text: "A. 태현이의 행동 문제를 더 이상 지원하지 않는다", result: "wrong" },
+          { text: "B. 행동 기록을 계속 축적하고, 학교장 보고 후 필요시 학교 차원의 보호자 면담 또는 전문가 상담 권고 공문 발송을 진행한다", result: "correct" },
+          { text: "C. 태현이를 분리해 담임이 따로 개별 지도한다", result: "caution" },
+          { text: "D. 다른 학부모들에게 상황을 알려 압력을 행사하게 한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "장기적으로 가장 올바른 접근입니다. 교사 개인이 보호자와 갈등하는 것이 아니라, 학교 차원의 공식 절차로 이행하는 것이 핵심입니다. 지속적인 행동 기록은 학교장 보고, 교육청 보고, 필요시 법적 대응의 근거가 됩니다. 전문가 상담 권고 공문은 '강제'가 아니라 '권고'이며, 이를 보내는 것 자체가 교사의 의무를 다한 기록이 됩니다.", law: "고시 제9조 ③ — 전문가 상담 권고 가능 / 제14조 — 학교장에게 징계 요청 가능 / 제10조 ④ — 학교장이 보호자 면담을 요청할 수 있음", tip: "💡 '혼자 감당하지 않아도 됩니다.' 어려운 보호자 상황은 담임 혼자의 문제가 아닙니다. 관리자에게 보고하고, 교원 단체나 교육청 민원 지원을 활용하세요." },
+          wrong: { icon: "🔄", text: "지원을 포기하는 것은 태현이를 방치하는 것입니다. 다른 학부모를 통한 압박은 심각한 윤리·법적 문제가 됩니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "담임 단독의 개별 지도는 자원이 한정되고 지속성이 없습니다. 학교 시스템 안에서 지원하는 방향이 맞습니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 24: 에피소드 — 중재 후 재발 1부 (D-1) ──
+  {
+    title: "[재발 1/3] 중재가 처음 2주는 효과가 있었는데 갑자기 나빠졌습니다",
+    func: "에피소드",
+    episode: true,
+    situation: "5학년 지민이의 수업 중 소리지르기에 대해 2주간 '관심 획득' 기능으로 판단하고 중재(무시 전략 + 적절한 관심 제공)를 실시했습니다. 처음 2주는 소리지르기가 주 5회에서 주 1회로 줄었습니다. 그런데 3주차부터 다시 주 4~5회로 늘어났습니다. 기능이 바뀐 걸까요, 중재가 잘못된 걸까요?",
+    steps: [
+      {
+        label: "Step 1. 재발 원인 분석",
+        q: "효과가 있던 중재가 3주차부터 다시 효과가 없어진 이유로 가장 가능성 높은 것은?",
+        choices: [
+          { text: "A. 기능이 관심 획득이 아니었다 — 처음부터 기능 평가가 틀렸다", result: "caution" },
+          { text: "B. 중재 자체는 맞지만, 다른 교사·교과 시간에 중재 방식이 일관되게 적용되지 않았을 수 있다", result: "correct" },
+          { text: "C. PBS 중재는 원래 2주가 한계다", result: "wrong" },
+          { text: "D. 지민이 의지가 부족하다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "중재 재발의 가장 흔한 원인입니다. 담임 시간에는 중재가 일관되게 적용됐지만, 다른 교과 교사나 쉬는 시간·급식 등 다른 상황에서 중재 방식이 달랐다면 행동은 다시 강화될 수 있습니다. 행동 중재는 모든 환경에서 일관될 때 효과가 지속됩니다. 이것을 '일반화(generalization)' 문제라고 합니다.", law: "PBS 핵심 원리 — 중재 일관성과 일반화", tip: "💡 확인할 것: 지민이가 다른 교과 시간(전담 수업)에서도 비슷한 행동을 하는지, 그때 해당 교사가 어떻게 반응하는지 물어보세요. 한 교사가 관심을 주면 행동이 다시 강화됩니다." },
+          caution: { icon: "⚠️", text: "처음 2주 효과가 있었다면 기능 평가 자체는 맞았을 가능성이 높습니다. 갑자기 나빠졌다면 다른 원인을 먼저 찾아보세요.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "중재 효과의 한계는 시간이 아니라 일관성·환경에 달려 있습니다. 의지 문제로 귀인하는 것은 PBS 관점에 맞지 않습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 확인 및 조정",
+        q: "다른 교과 교사에게 물어보니 '소리 지를 때 왜 그러는지 바로 물어봤다'고 했습니다. 이게 왜 문제인가요?",
+        choices: [
+          { text: "A. 문제없다. 원인을 파악하는 것은 좋은 교사 행동이다", result: "wrong" },
+          { text: "B. 관심 획득 기능인 학생에게 소리 지를 때 관심을 주면, 그 반응 자체가 행동을 강화한다", result: "correct" },
+          { text: "C. 전담 교사가 담임보다 학생을 더 잘 파악하려 해서 문제다", result: "wrong" },
+          { text: "D. 원인 파악은 좋지만, 타이밍이 잘못됐다 — 행동이 멈춘 후에 물어봐야 한다", result: "correct" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "두 답 모두 맞습니다. 관심 획득 기능인 학생이 소리를 질렀을 때 '왜 그러는지' 물어보는 것 자체가 관심을 주는 것입니다. 행동 직후의 모든 관심(혼내는 것, 달래는 것, 이유를 묻는 것 포함)은 관심 획득 기능을 강화합니다. 원인 파악은 중요하지만, 행동이 완전히 멈추고 진정된 후 별도 시간에 해야 합니다.", law: "행동 후속결과 원리 — 행동 직후 반응이 행동의 빈도를 결정한다", tip: "💡 전담 교사와 공유할 내용: '지민이가 소리 지를 때는 반응하지 말고 수업을 계속해주세요. 소리가 멈추면 즉시 눈 맞춤과 칭찬을 해주세요.' 이것을 문서로 전달하면 더 효과적입니다." },
+          wrong: { icon: "🔄", text: "의도는 좋지만 타이밍이 문제입니다. 소리 지를 때 관심을 주는 것은 어떤 형태든 강화입니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 중재 강화",
+        q: "전달 방법을 전담 교사와 공유하기 위한 가장 효과적인 방법은?",
+        choices: [
+          { text: "A. 구두로 '소리 지를 때 무시해달라'고 부탁한다", result: "caution" },
+          { text: "B. '지민이 행동 중재 요약서'를 간단한 문서로 만들어 담임·전담 교사 모두가 동일하게 볼 수 있도록 공유하고, 주 1회 짧은 점검을 한다", result: "correct" },
+          { text: "C. 담임이 전담 수업 시간에도 교실에 함께 있는다", result: "wrong" },
+          { text: "D. 지민이 보호자에게 '학교에서 이런 중재를 하고 있다'고 안내한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "중재 일반화의 핵심 전략입니다. 구두 전달은 잊히거나 왜곡될 수 있습니다. '이 학생이 소리 지를 때는 이렇게 반응한다, 적절한 행동을 하면 이렇게 반응한다'를 A4 한 장으로 정리해 관련 교사 모두와 공유하면 일관성이 생깁니다. 주 1회 짧은 점검(5분이라도)으로 서로 다르게 적용하고 있는 부분을 수정합니다.", law: "PBS 핵심 원리 — 팀 기반 접근(team-based approach)", tip: "📋 다음 에피소드: 방학 후 행동이 다시 돌아왔습니다. 어떻게 해야 할까요?" },
+          caution: { icon: "⚠️", text: "구두 전달은 효과가 불안정합니다. 보호자 안내는 좋은 방향이지만, 교사들 간 일관성이 먼저 확보된 후에 하는 것이 순서입니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "담임이 전담 수업에 항상 있는 것은 현실적으로 불가능하며, 지속 가능한 방법이 아닙니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 25: 에피소드 — 중재 후 재발 2부 (D-2) ──
+  {
+    title: "[재발 2/3] 방학 후 행동이 처음으로 돌아왔습니다",
+    func: "에피소드",
+    episode: true,
+    situation: "1학기에 중재를 통해 지민이의 소리지르기가 주 1회 이하로 줄었습니다. 여름방학 후 2학기가 시작됐는데, 첫 주부터 소리지르기가 다시 하루 2~3회로 돌아왔습니다. 새 학기라 학급 분위기도 달라졌고, 지민이의 반 배치도 바뀌었습니다. 지민이를 새로 담당하는 2학기 담임입니다.",
+    steps: [
+      {
+        label: "Step 1. 상황 파악",
+        q: "행동이 방학 후 다시 돌아온 가장 가능성 높은 이유는?",
+        choices: [
+          { text: "A. 1학기 중재가 처음부터 잘못됐다", result: "wrong" },
+          { text: "B. 방학 중 중재가 적용되지 않아 행동이 소거 저항 없이 다시 강화됐고, 새 환경(새 담임·새 학급)이 추가 스트레스 요인이 됐다", result: "correct" },
+          { text: "C. 지민이 의지가 부족해 방학 동안 게을렀다", result: "wrong" },
+          { text: "D. 2학기 담임이 1학기보다 실력이 부족하다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "정확한 분석입니다. '소거(extinction)'된 것처럼 보이던 행동이 중재가 중단되면 다시 나타나는 것을 '자발적 회복(spontaneous recovery)'이라고 합니다. 방학은 중재 공백 기간이며, 새 환경은 행동의 기능(관심 획득이라면 새 교사에게서 관심을 얻으려는 시도)이 다시 활성화됩니다. 이것은 예측 가능한 패턴이며 실패가 아닙니다.", law: "행동분석 원리 — 자발적 회복(spontaneous recovery)", tip: "💡 2학기 담임으로서 먼저 할 것: 1학기 담임 또는 기록에서 '어떤 기능이었는지, 어떤 중재가 효과 있었는지'를 확인합니다. 처음부터 다시 시작하지 않아도 됩니다." },
+          wrong: { icon: "🔄", text: "1학기에 효과가 있었다면 중재 자체는 맞았습니다. 의지나 담임 실력의 문제가 아닙니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 중재 재개",
+        q: "1학기 기록을 확인하니 '관심 획득 기능, 무시 전략 + 적절한 관심 제공 전략 효과 있었음'이 기록되어 있습니다. 2학기 첫 주, 어떻게 하겠습니까?",
+        choices: [
+          { text: "A. 1학기 기록이 있으니 그대로 똑같이 적용한다", result: "caution" },
+          { text: "B. 2학기 새 환경을 고려해 먼저 1~2주 재관찰하고, 기능이 동일한지 확인한 후 중재를 재개한다", result: "correct" },
+          { text: "C. 소리지르기가 시작되자마자 즉시 분리한다", result: "wrong" },
+          { text: "D. 보호자에게 '방학 동안 왜 지도하지 않으셨냐'고 항의한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "가장 전문적인 접근입니다. 1학기 기록은 훌륭한 출발점이지만, 새 환경(담임, 학급, 자리 배치)에서 기능이 동일한지 1~2주 재확인이 필요합니다. 기능이 같다면 동일 중재를, 달라졌다면 기능에 맞게 수정합니다. 기록이 있다는 것이 얼마나 큰 자산인지 이 상황에서 알 수 있습니다.", law: "PBS — 지속적 기능 재평가 원칙", tip: "💡 1학기 담임과 짧은 인수인계 대화를 나눠보세요: '지민이 중재에서 특히 효과 있었던 것, 효과 없었던 것이 뭔가요?' 기록 외의 현장 경험이 중요합니다." },
+          caution: { icon: "⚠️", text: "기록을 그대로 적용하는 것은 효율적이지만, 새 환경에서 기능이 달라졌을 가능성을 고려해야 합니다. 특히 새 담임이라면 지민이가 새로운 방식으로 관심을 추구할 수 있습니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "즉각 분리는 적절한 첫 번째 대응이 아닙니다. 보호자에게 항의하는 것은 협력 관계를 무너뜨립니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 이번에는 더 잘 유지하려면",
+        q: "중재를 재개했고 다시 효과가 나타났습니다. 이번 학기 말에 또 재발하지 않으려면 가장 중요한 것은?",
+        choices: [
+          { text: "A. 방학 중에도 중재를 계속 적용하도록 보호자를 교육한다", result: "caution" },
+          { text: "B. 중재 기록을 상세히 남기고, 겨울방학 전에 다음 학년 담임과 인수인계 자료를 공유한다", result: "correct" },
+          { text: "C. 지민이가 스스로 행동을 조절할 수 있게 될 때까지 중재를 계속한다", result: "caution" },
+          { text: "D. 행동이 완전히 없어진 후 기록을 종료한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "PBS의 '지속 가능성(sustainability)' 원칙입니다. 개별 교사의 노력이 학생과 함께 이어지려면, 기록과 인수인계가 핵심입니다. '이 학생의 행동 기능은 무엇이고, 어떤 중재가 효과 있었고, 어떤 것은 없었다'는 정보가 다음 담임에게 전달되면 처음부터 다시 시작하지 않아도 됩니다. 기록이 학생의 성장을 연속적으로 지원합니다.", law: "고시 제10조 — 보호자 상담 기록 유지 / PBS — 데이터 기반 의사결정의 지속성", tip: "📋 다음(마지막) 에피소드: 집과 학교의 중재 방향이 달라 효과가 반감됩니다. 어떻게 조율할까요?" },
+          caution: { icon: "⚠️", text: "보호자 교육은 협력의 일부이지만, 방학 중 보호자가 전문적 중재를 유지하기를 기대하는 것은 현실적이지 않습니다. 자기 조절이 목표이지만 거기까지 가는 경로에 기록과 인수인계가 필요합니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "행동이 없어진 것처럼 보여도 기록은 계속 유지해야 합니다. 재발 시 기록이 있어야 빠르게 대응할 수 있습니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  },
+
+  // ── 시나리오 26: 에피소드 — 중재 후 재발 3부 (D-3) ──
+  {
+    title: "[재발 3/3] 집과 학교의 중재 방향이 달라 효과가 반감됩니다",
+    func: "에피소드",
+    episode: true,
+    situation: "지민이의 중재를 학교에서 잘 적용하고 있지만, 어머니로부터 연락이 왔습니다. '지민이가 집에서 소리를 지를 때 제가 바로 달래줬는데 그게 문제였나요? 학교처럼 무시해야 하나요? 그런데 무시하면 아이가 너무 심하게 울어서 못 하겠어요.' 집과 학교의 접근이 달라서 지민이가 혼란스러워할 것 같습니다.",
+    steps: [
+      {
+        label: "Step 1. 보호자와 소통",
+        q: "어머니의 고민에 어떻게 반응하겠습니까?",
+        choices: [
+          { text: "A. '집에서도 무시 전략을 써야 합니다. 달래주면 행동이 강화됩니다'라고 직접 말한다", result: "caution" },
+          { text: "B. '어머니, 그 마음 충분히 이해합니다. 집과 학교 상황이 다르니까요. 집에서는 완전한 무시보다 다른 방법이 있을 수 있습니다. 같이 이야기해봐요'라고 말한다", result: "correct" },
+          { text: "C. '집에서 어떻게 하든 학교 중재에 영향은 없습니다'라고 안심시킨다", result: "wrong" },
+          { text: "D. 보호자가 전문가가 아니니 학교 방식을 따르도록 설득한다", result: "wrong" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "협력의 출발점은 공감입니다. 어머니가 아이 우는 것을 무시하는 것이 얼마나 힘든지를 먼저 인정한 후, 집에서 '완전한 무시'가 아닌 다른 방법을 함께 찾는 방향으로 대화합니다. 학교와 집이 100% 동일할 필요는 없습니다. 핵심은 '소리 지를 때 원하는 것을 주지 않는다'는 원칙이 공유되는 것입니다.", law: "고시 제10조 ① — 교원은 보호자와 협력하여 학생을 지원", tip: "💡 집에서 쓸 수 있는 대안: '소리를 지르면 잠깐 방을 나가고, 울음이 멈추면 돌아와서 안아준다'처럼 완전 무시가 아닌 '반응 지연' 방식을 안내할 수 있습니다." },
+          caution: { icon: "⚠️", text: "맞는 말이지만 어머니의 어려움을 인정하지 않으면 대화가 닫힙니다. 원칙보다 공감이 먼저입니다.", law: "", tip: "" },
+          wrong: { icon: "🔄", text: "집과 학교의 반응이 다르면 아이는 '학교에서는 안 되지만 집에서는 된다'를 학습합니다. 이는 학교 중재 효과를 실제로 약화시킵니다. 보호자를 전문가처럼 대우하지 않으면 협력이 이루어지지 않습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 2. 가정-학교 협력 방안",
+        q: "집에서 어머니가 현실적으로 할 수 있는 방법을 제안할 때, 가장 적절한 것은?",
+        choices: [
+          { text: "A. 학교에서 하는 것과 동일하게 완전히 무시한다", result: "caution" },
+          { text: "B. 소리지르기가 시작되면 '엄마는 잠깐 기다릴게'라고 말하고 물러선다. 울음이 멈추면 즉시 돌아와 안아준다. 원하는 것은 소리가 멈춘 후에만 준다", result: "correct" },
+          { text: "C. 집에서는 학교와 달라도 된다 — 집은 집이니까", result: "wrong" },
+          { text: "D. 지민이에게 '학교에서처럼 집에서도 소리 지르면 안 돼'라고 직접 설명한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "가정에서 현실적으로 적용 가능한 '반응 지연' 전략입니다. 완전한 무시가 아니라 '멈출 때까지 기다리고, 멈추면 즉각 반응한다'는 원칙을 지키면서도 어머니가 감당할 수 있는 방법입니다. 핵심은 '소리 지르는 동안에는 원하는 것을 주지 않는다'입니다. 이것이 학교와 가정에서 공유할 수 있는 최소한의 원칙입니다.", law: "", tip: "💡 어머니에게 '언제 기다리다가 돌아가면 되는지'를 구체적으로 알려주세요. '10초 세고 돌아오기', '울음 강도가 낮아지면 돌아오기' 같은 구체적 기준이 있으면 실천하기 쉽습니다." },
+          wrong: { icon: "🔄", text: "집과 학교 반응이 완전히 달라도 된다는 것은 중재 일관성 원칙에 반합니다.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "완전 무시는 어머니가 현실적으로 유지하기 어렵습니다. 지민이에게 말로 설명하는 것은 도움이 되지만, 그것만으로 행동이 바뀌지는 않습니다.", law: "", tip: "" }
+        }
+      },
+      {
+        label: "Step 3. 에피소드 마무리 — 전체 복습",
+        q: "지민이 에피소드 3편을 통해 배운 것 중 가장 중요한 PBS 원칙은?",
+        choices: [
+          { text: "A. 기능평가를 처음에 정확히 하는 것이 모든 것의 출발점이다", result: "correct" },
+          { text: "B. 중재는 담임 혼자 하는 것이며, 잘 설계하면 다른 사람의 협력 없이도 효과가 유지된다", result: "wrong" },
+          { text: "C. 행동이 한 번 좋아지면 그게 영구적이다", result: "wrong" },
+          { text: "D. 재발이 생기면 중재를 처음부터 다시 시작해야 한다", result: "caution" }
+        ],
+        feedback: {
+          correct: { icon: "✅", text: "3편 에피소드 전체를 관통하는 핵심입니다. 1편에서는 중재 일관성(전담 교사와 공유), 2편에서는 자발적 회복과 기록의 중요성, 3편에서는 가정-학교 협력을 다뤘습니다. 이 모든 것의 출발점은 '기능이 무엇인가'를 정확히 파악하는 것이었습니다. 기능이 맞으면 중재 방향이 맞고, 방향이 맞으면 재발해도 빠르게 회복할 수 있습니다.", law: "PBS 핵심 원리 — 기능 기반 중재(function-based intervention)", tip: "🎉 재발 에피소드 완료! '중재가 효과 없다'고 느껴질 때 확인할 세 가지: ① 중재가 모든 환경에서 일관되게 적용됐는가? ② 중재 공백(방학·담임 교체)이 있었는가? ③ 가정과 학교가 같은 방향인가?" },
+          wrong: { icon: "🔄", text: "중재는 팀 기반 접근이 필수이며, 행동의 변화는 영구적이지 않습니다. 재발이 생겨도 처음부터 다시 시작할 필요는 없습니다 — 기록이 있다면.", law: "", tip: "" },
+          caution: { icon: "⚠️", text: "재발 시 기록이 있다면 처음부터 다시 시작하지 않아도 됩니다. 기록의 가치가 바로 여기에 있습니다.", law: "", tip: "" }
+        }
+      }
+    ]
+  }
+];
 
 /* ─── 페이지 라우팅 ─── */
 const pages = ['home','learn','sim','ref'];
@@ -5462,6 +6582,16 @@ function closeFormModal() {
   document.body.style.overflow = '';
 }
 
+// ESC 키로 서식 모달도 닫기
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const qm = document.getElementById('qabf-modal');
+    const fm = document.getElementById('form-modal');
+    if (qm && qm.style.display !== 'none') closeQABFModal();
+    if (fm && fm.style.display !== 'none') closeFormModal();
+  }
+});
+
 
 function pbsToggleDetail(btn) {
   const detail = document.getElementById('pbs-detail');
@@ -5474,140 +6604,8 @@ function pbsToggleDetail(btn) {
   btn.style.borderColor = isOpen ? 'var(--border)'  : '#B2D8D8';
 }
 
-/* ─── 서식 모달 인쇄 ─── */
-function printCurrentForm() {
-  const tab = _formCurTab;
-  if (tab === 'interview') {
-    ivPrint(); // 기존 초기면담지 인쇄 함수 재사용
-    return;
-  }
-
-  // 강화제 체크리스트 / 실행 점검표
-  const titles = { reinforce: '🎁 강화제 체크리스트', checklist: '✅ 행동중재 실행 점검표' };
-  const date = new Date().toLocaleDateString('ko-KR');
-
-  let bodyHtml = '';
-  if (tab === 'reinforce') {
-    const resultEl = document.getElementById('rf-result');
-    const listEl   = document.getElementById('rf-list');
-    bodyHtml = `
-      <h1>${titles[tab]}</h1>
-      <p class="meta">작성일: ${date} &nbsp;|&nbsp; 생활지도 PLUS</p>
-      ${resultEl && resultEl.style.display !== 'none'
-        ? `<div class="result-box">${resultEl.innerHTML}</div>` : ''}
-      <div class="list-box">${listEl ? listEl.innerHTML : ''}</div>`;
-  } else {
-    const resultEl = document.getElementById('cl-result');
-    const listEl   = document.getElementById('cl-list');
-    bodyHtml = `
-      <h1>${titles[tab]}</h1>
-      <p class="meta">작성일: ${date} &nbsp;|&nbsp; 생활지도 PLUS</p>
-      ${resultEl ? `<div class="result-box">${resultEl.innerHTML}</div>` : ''}
-      <div class="list-box">${listEl ? listEl.innerHTML : ''}</div>`;
-  }
-
-  const win = window.open('', '_blank');
-  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${titles[tab]}</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family:'Noto Sans KR',sans-serif; max-width:680px; margin:32px auto; font-size:14px; line-height:1.7; color:#1A1A1A; }
-    h1 { font-size:20px; border-bottom:3px solid #1B4F4F; padding-bottom:8px; color:#1B4F4F; }
-    .meta { font-size:13px; color:#666; margin-bottom:18px; }
-    .result-box { background:#E4F0F0; border-radius:8px; padding:12px 14px; margin-bottom:14px; }
-    .list-box { font-size:13.5px; }
-    label { display:flex; align-items:flex-start; gap:8px; padding:5px 0; }
-    input[type=checkbox] { width:16px; height:16px; margin-top:3px; flex-shrink:0; }
-    button { display:none; }
-    @media print { .no-print { display:none !important; } }
-  </style></head><body>
-  ${bodyHtml}
-  <div class="no-print" style="margin-top:20px;"><button onclick="window.print()" style="display:inline-block;padding:10px 24px;background:#1B4F4F;color:white;border:none;border-radius:6px;font-size:15px;cursor:pointer;">인쇄 / PDF 저장</button></div>
-  </body></html>`);
-  win.document.close();
-  setTimeout(() => win.print(), 600);
-}
-
-/* ─── QABF 체크박스 활성화 ─── */
-function checkQABFReady() {
-  const c1 = document.getElementById('qabf-check1');
-  const c2 = document.getElementById('qabf-check2');
-  const btn = document.getElementById('qabf-start-btn');
-  if (!btn) return;
-  const ready = c1 && c2 && c1.checked && c2.checked;
-  btn.disabled = !ready;
-  btn.style.background = ready ? 'var(--green)' : '#AAAAAA';
-  btn.style.cursor = ready ? 'pointer' : 'not-allowed';
-  btn.textContent = ready ? 'QABF 시작하기 →' : '위 항목을 확인한 후 시작할 수 있습니다';
-}
-
-/* ─── QABF 결과 인쇄 ─── */
-function printQABFResult() {
-  const resultEl = document.getElementById('qabf-result');
-  if (!resultEl || resultEl.style.display === 'none') return;
-  const date = new Date().toLocaleDateString('ko-KR');
-  const win = window.open('', '_blank');
-  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>QABF 결과</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family:'Noto Sans KR',sans-serif; max-width:600px; margin:32px auto; font-size:15px; line-height:1.7; color:#1A1A1A; }
-    h1 { font-size:20px; border-bottom:3px solid #1B4F4F; padding-bottom:8px; color:#1B4F4F; margin-bottom:4px; }
-    .meta { font-size:13px; color:#666; margin-bottom:20px; }
-    .content { font-size:14px; }
-    .share-note { margin-top:24px; padding:14px 16px; background:#E4F0F0; border-radius:8px; font-size:13.5px; color:#1B4F4F; }
-    @media print { .no-print { display:none; } }
-  </style></head><body>
-  <h1>📊 QABF 행동기능설문지 결과</h1>
-  <div class="meta">작성일: ${date} &nbsp;|&nbsp; 생활지도 PLUS (doumgyo)</div>
-  <div class="content">${resultEl.innerHTML}</div>
-  <div class="share-note">
-    <strong>📋 다음 단계:</strong> 이 결과를 특수교사·상담교사에게 보여주고 함께 중재 방향을 논의하세요.<br>
-    결과 단독으로 중재를 결정하지 마세요. 기능평가는 전문가 협력의 시작점입니다.
-  </div>
-  <div class="no-print" style="margin-top:20px;"><button onclick="window.print()" style="padding:10px 24px;background:#1B4F4F;color:white;border:none;border-radius:6px;font-size:15px;cursor:pointer;">인쇄 / PDF 저장</button></div>
-  </body></html>`);
-  win.document.close();
-  setTimeout(() => win.print(), 600);
-}
-
-/* ─── 긴급 대응 모달 ─── */
-function openUrgentModal() {
-  const modal = document.getElementById('urgent-modal');
-  if (!modal) return;
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  // 첫 탭 초기화
-  switchUrgentTab('scream', modal.querySelector('.utab'));
-}
-
-function closeUrgentModal() {
-  const modal = document.getElementById('urgent-modal');
-  if (!modal) return;
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function switchUrgentTab(id, btn) {
-  document.querySelectorAll('.urgent-card').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.utab').forEach(b => b.classList.remove('active'));
-  const card = document.getElementById('ucard-' + id);
-  if (card) card.classList.add('active');
-  if (btn) btn.classList.add('active');
-  // 본문 스크롤 맨 위로
-  const body = document.querySelector('.urgent-modal-body');
-  if (body) body.scrollTop = 0;
-}
-
-// ESC 키 — 긴급 모달 포함
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    const um = document.getElementById('urgent-modal');
-    const qm = document.getElementById('qabf-modal');
-    const fm = document.getElementById('form-modal');
-    if (um && um.classList.contains('open')) { closeUrgentModal(); return; }
-    if (qm && qm.style.display !== 'none') closeQABFModal();
-    if (fm && fm.style.display !== 'none') closeFormModal();
-  }
-});
+/* ─── 홈 상황 선택 인터랙션 ─── */
+/* ─── 법적 근거 토글 ─── */
 function toggleLaw() {
   const body = document.getElementById('homeLawBody');
   body.classList.toggle('open');
@@ -5656,7 +6654,8 @@ function filterSim(func, btn) {
     let show;
     if (func === 'all')         show = true;
     else if (func === '에피소드') show = isEpisode;
-    else                        show = cardFunc === func && !isEpisode;
+    else if (func === '통합')   show = cardFunc === '통합';
+    else                        show = cardFunc === func && !isEpisode && cardFunc !== '통합';
     c.style.display = show ? '' : 'none';
   });
   // 추천 라벨 숨기기
@@ -6213,7 +7212,16 @@ function toggleRefCard(headerEl) {
   }
 }
 
-/* 탭 전환 — 열린 카드 내 탭 */
+/* ── 5순위: pbs 접기 토글 ── */
+function togglePbsDetail(btn) {
+  const detail = btn.nextElementSibling;
+  if (!detail) return;
+  const isOpen = detail.style.display !== 'none';
+  detail.style.display = isOpen ? 'none' : 'block';
+  btn.textContent = isOpen ? '자세히 보기 ▾' : '접기 ▴';
+}
+
+/* ── 탭 전환 — 열린 카드 내 탭 ── */
 function switchRefTab(btn, tab) {
   const body = btn.closest('.ref-card-body');
   body.querySelectorAll('.rct-btn').forEach(b => b.classList.remove('active'));
@@ -6259,8 +7267,10 @@ function filterRef(tag, btn) {
   // 도구 섹션
   if (toolSection) {
     const toolDivider = toolSection.previousElementSibling;
+    const toolHeader  = document.getElementById('refToolSectionHeader');
     const toolVisible = tag === 'all' || tag === '도구' || tag === '서식';
-    if (toolDivider) toolDivider.style.display = toolVisible ? '' : 'none';
+    if (toolDivider && toolDivider.id !== 'refToolSectionHeader') toolDivider.style.display = toolVisible ? '' : 'none';
+    if (toolHeader)  toolHeader.style.display = toolVisible ? '' : 'none';
     toolSection.style.display = toolVisible ? '' : 'none';
   }
 
@@ -6293,7 +7303,7 @@ function filterRef(tag, btn) {
   }
 }
 
-/* 검색 — 카드 본문 텍스트 전체 탐색 + 하이라이트 */
+/* 검색 — 카드 본문 텍스트 전체 탐색 + 탭 자동 활성화 */
 function searchRef(val) {
   const q = val.trim().toLowerCase();
   const hint = document.getElementById('refSearchHint');
@@ -6302,32 +7312,32 @@ function searchRef(val) {
   if (!q) {
     document.querySelectorAll('.ref-card').forEach(c => {
       c.style.display = '';
-      // 하이라이트 제거
       c.querySelectorAll('.ref-highlight').forEach(el => {
         el.outerHTML = el.textContent;
       });
     });
-    // 섹션 복구
     const toolSection = document.getElementById('refToolGrid');
+    const toolHeader  = document.getElementById('refToolSectionHeader');
     if (toolSection) {
       const toolDiv = toolSection.previousElementSibling;
-      if (toolDiv) toolDiv.style.display = '';
+      if (toolDiv && toolDiv.id !== 'refToolSectionHeader') toolDiv.style.display = '';
       toolSection.style.display = '';
     }
+    if (toolHeader) toolHeader.style.display = '';
     hint.textContent = '카드 제목·내용 전체를 검색합니다. 검색 시 첫 번째 결과가 자동으로 열립니다.';
     document.querySelectorAll('.ref-filter-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.ref-filter-btn').classList.add('active');
     return;
   }
 
-  // 필터 버튼 비활성화
   document.querySelectorAll('.ref-filter-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('.ref-filter-btn').classList.add('active');
 
   let count = 0;
   let firstMatch = null;
+  let firstMatchTab = null;
+
   document.querySelectorAll('.ref-card').forEach(c => {
-    // 검색 대상: tags + 제목 + 카드 본문 텍스트 모두
     const searchText = [
       c.dataset.tags || '',
       c.querySelector('.rch-title')?.textContent || '',
@@ -6337,40 +7347,139 @@ function searchRef(val) {
     if (searchText.includes(q)) {
       c.style.display = '';
       count++;
-      if (!firstMatch) firstMatch = c;
+      if (!firstMatch) {
+        firstMatch = c;
+        // ── 2순위 핵심: 검색어가 어느 탭에 있는지 감지 ──
+        const tabContents = c.querySelectorAll('.ref-tab-content');
+        tabContents.forEach(tc => {
+          if (!firstMatchTab && tc.textContent.toLowerCase().includes(q)) {
+            firstMatchTab = tc.dataset.tab;
+          }
+        });
+        // tags나 제목에만 있으면 기본 탭(script) 유지
+        if (!firstMatchTab) firstMatchTab = 'script';
+      }
     } else {
       c.style.display = 'none';
     }
   });
 
-  // 섹션 구분선 처리
+  // 도구 섹션 처리
   const toolSection = document.getElementById('refToolGrid');
+  const toolHeader  = document.getElementById('refToolSectionHeader');
   if (toolSection) {
-    const toolDivider = toolSection.previousElementSibling;
     const toolVisible = [...toolSection.querySelectorAll('.ref-card')].some(c => c.style.display !== 'none');
-    if (toolDivider) toolDivider.style.display = toolVisible ? '' : 'none';
+    const toolDiv = toolSection.previousElementSibling;
+    if (toolDiv && toolDiv.id !== 'refToolSectionHeader') toolDiv.style.display = toolVisible ? '' : 'none';
     toolSection.style.display = toolVisible ? '' : 'none';
+    if (toolHeader) toolHeader.style.display = toolVisible ? '' : 'none';
   }
 
   hint.textContent = count > 0
     ? `"${val}" 검색 결과 ${count}개`
     : `"${val}"에 해당하는 카드가 없습니다.`;
 
-  // 첫 번째 결과 자동 펼치기
-  if (firstMatch && !firstMatch.classList.contains('open')) {
-    firstMatch.classList.add('open');
-    firstMatch.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // 첫 번째 결과: 카드 열기 + 해당 탭 자동 활성화
+  if (firstMatch) {
+    if (!firstMatch.classList.contains('open')) firstMatch.classList.add('open');
+
+    // 탭 전환
+    if (firstMatchTab) {
+      const tabBtns     = firstMatch.querySelectorAll('.rct-btn');
+      const tabContents = firstMatch.querySelectorAll('.ref-tab-content');
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+      const targetBtn     = firstMatch.querySelector(`.rct-btn[onclick*="'${firstMatchTab}'"]`);
+      const targetContent = firstMatch.querySelector(`[data-tab="${firstMatchTab}"]`);
+      if (targetBtn)     targetBtn.classList.add('active');
+      if (targetContent) targetContent.classList.add('active');
+
+      // 탭 전환 표시 토스트
+      if (firstMatchTab !== 'script') {
+        showRefTabToast(firstMatch, firstMatchTab);
+      }
+    }
+
+    setTimeout(() => {
+      const refPage = document.getElementById('page-ref');
+      if (refPage) {
+        const top = firstMatch.getBoundingClientRect().top - refPage.getBoundingClientRect().top - 8;
+        refPage.scrollBy({ top, behavior: 'smooth' });
+      }
+    }, 100);
   }
 }
 
-/* 긴급 접근 — 카드 제목으로 빠른 열기 */
+/* 탭 전환 안내 토스트 */
+function showRefTabToast(card, tabId) {
+  const tabNames = { script: '💬 지금 할 말', pbs: '🎯 중재 방향', law: '⚖️ 고시 근거', never: '🚫 하면 안 되는 것' };
+  let toast = document.getElementById('ref-tab-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'ref-tab-toast';
+    toast.style.cssText = 'position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--teal-dark);color:white;padding:9px 18px;border-radius:999px;font-size:13.5px;font-family:inherit;z-index:9999;transition:transform 0.25s;white-space:nowrap;pointer-events:none;font-weight:600;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = `검색어가 [${tabNames[tabId] || tabId}] 탭에서 발견됐습니다`;
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.style.transform = 'translateX(-50%) translateY(60px)';
+  }, 2500);
+}
+
+/* 긴급 접근 — 카드 id로 직접 열기 + 지정 탭 활성화 (검색 우회) */
+function urgentOpenDirect(cardId, tabId) {
+  // 검색창 초기화 (필터와 충돌 방지)
+  const input = document.getElementById('refSearchInput');
+  if (input) input.value = '';
+  // 모든 카드 표시 복구
+  document.querySelectorAll('.ref-card').forEach(c => c.style.display = '');
+  const toolSection = document.getElementById('refToolGrid');
+  const toolHeader  = document.getElementById('refToolSectionHeader');
+  if (toolSection) toolSection.style.display = '';
+  if (toolHeader)  toolHeader.style.display = '';
+
+  const card = document.getElementById(cardId);
+  if (!card) return;
+
+  // 카드 열기
+  if (!card.classList.contains('open')) card.classList.add('open');
+
+  // 지정 탭 활성화
+  const tabBtns     = card.querySelectorAll('.rct-btn');
+  const tabContents = card.querySelectorAll('.ref-tab-content');
+  tabBtns.forEach(b => b.classList.remove('active'));
+  tabContents.forEach(c => c.classList.remove('active'));
+  const targetBtn     = card.querySelector(`.rct-btn[onclick*="'${tabId}'"]`);
+  const targetContent = card.querySelector(`[data-tab="${tabId}"]`);
+  if (targetBtn)     targetBtn.classList.add('active');
+  if (targetContent) targetContent.classList.add('active');
+
+  // 스크롤
+  setTimeout(() => {
+    const refPage = document.getElementById('page-ref');
+    if (refPage) {
+      const cardTop = card.getBoundingClientRect().top;
+      const pageTop = refPage.getBoundingClientRect().top;
+      refPage.scrollBy({ top: cardTop - pageTop - 60, behavior: 'smooth' });
+    }
+  }, 60);
+}
+
+/* 긴급 접근 — 키워드 검색 (기존 호환용 유지) */
 function urgentOpen(keyword) {
-  // 검색창에 키워드 입력 후 searchRef 실행
   const input = document.getElementById('refSearchInput');
   input.value = keyword;
   searchRef(keyword);
-  // 검색창으로 스크롤
-  input.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  setTimeout(() => {
+    const refPage = document.getElementById('page-ref');
+    const input2  = document.getElementById('refSearchInput');
+    if (refPage && input2) {
+      const top = input2.getBoundingClientRect().top - refPage.getBoundingClientRect().top - 8;
+      refPage.scrollBy({ top, behavior: 'smooth' });
+    }
+  }, 120);
 }
 
 /* ─── QABF 온라인 버전 ─── */
@@ -6502,12 +7611,7 @@ function showQABFResult() {
       </ul>
     </div>
     <button onclick="resetQABF()" style="width:100%;padding:11px;border:1.5px solid var(--border);background:white;border-radius:8px;font-family:inherit;font-size: 14px;cursor:pointer;color:var(--text-sub);">↺ 다시 평가하기</button>
-    <div style="background:#E4F0F0;border:1px solid #B2D8D8;border-radius:10px;padding:13px 15px;margin-top:12px;margin-bottom:8px;">
-      <div style="font-size:13px;font-weight:700;color:var(--teal-dark);margin-bottom:5px;">📋 결과를 특수교사에게 공유하세요</div>
-      <div style="font-size:13px;color:var(--teal-dark);line-height:1.6;margin-bottom:10px;">이 결과는 중재의 시작점입니다. 혼자 결정하지 말고 특수교사·상담교사와 함께 검토하세요.</div>
-      <button onclick="printQABFResult()" style="width:100%;padding:10px;background:var(--teal);color:white;border:none;border-radius:7px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;">🖨️ 결과 인쇄 / PDF 저장 →</button>
-    </div>
-    <button onclick="closeQABFModal()" style="width:100%;padding:11px;border:1.5px solid var(--border);background:white;border-radius:8px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--text-sub);margin-top:4px;">닫기</button>
+    <button onclick="closeQABFModal()" style="width:100%;padding:11px;border:none;background:var(--teal);color:white;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;">✓ 완료 — 닫기</button>
   `;
 }
 
@@ -6549,245 +7653,6 @@ function resetQABF() {
 })();
 </script>
 
-<!-- ═══════════════════════════════════════════
-     🚨 긴급 대응 모달
-═══════════════════════════════════════════ -->
-<div id="urgent-modal" onclick="if(event.target===this)closeUrgentModal()">
-  <div class="urgent-modal-box">
-    <!-- 헤더 -->
-    <div class="urgent-modal-header">
-      <div>
-        <div class="uh-eyebrow">특수교사 없이 혼자일 때</div>
-        <div class="uh-title">🚨 지금 당장 어떻게 하나요?</div>
-      </div>
-      <button onclick="closeUrgentModal()" style="width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
-    </div>
-    <!-- 상황 탭 -->
-    <div class="urgent-tabs">
-      <button class="utab active" onclick="switchUrgentTab('scream',this)">😱 갑자기 소리 지름</button>
-      <button class="utab" onclick="switchUrgentTab('run',this)">🏃 교실 밖 이탈</button>
-      <button class="utab" onclick="switchUrgentTab('selfharm',this)">🤕 자해 행동</button>
-      <button class="utab" onclick="switchUrgentTab('aggress',this)">👊 친구 공격</button>
-      <button class="utab" onclick="switchUrgentTab('meltdown',this)">😭 드러눕기·울음폭발</button>
-    </div>
-    <!-- 본문 -->
-    <div class="urgent-modal-body">
-
-      <!-- ① 갑자기 소리 지름 -->
-      <div class="urgent-card active" id="ucard-scream">
-        <div class="urgent-situation">
-          <strong>상황:</strong> 수업 중 학생이 갑자기 큰 소리를 지릅니다. 나머지 학생들이 놀라거나 웃음이 나올 수 있습니다.
-        </div>
-        <div class="urgent-steps">
-          <div class="ustep">
-            <div class="ustep-num">1</div>
-            <div class="ustep-body">
-              <div class="ustep-label">즉각 반응</div>
-              <div class="ustep-main">표정·목소리를 평온하게 유지합니다</div>
-              <div class="ustep-sub">교사가 크게 반응하면 행동이 강화됩니다. 놀라더라도 과잉 반응은 하지 마세요.</div>
-              <div class="ustep-script">"괜찮아. 잠깐 쉬자."</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">2</div>
-            <div class="ustep-body">
-              <div class="ustep-label">나머지 학생 안정</div>
-              <div class="ustep-main">학급 전체에게 짧게 안내하고 수업으로 돌아갑니다</div>
-              <div class="ustep-sub">10초 내로 처리합니다. 길게 설명할수록 해당 학생에게 관심이 집중됩니다.</div>
-              <div class="ustep-script">"우리 계속 공부해요. 다들 ○○번 펴세요."</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">3</div>
-            <div class="ustep-body">
-              <div class="ustep-label">환경 조정</div>
-              <div class="ustep-main">소리를 유발한 원인을 파악하고 제거합니다</div>
-              <div class="ustep-sub">갑작스러운 큰 소리(선생님 박수·벨 소리), 예상치 못한 일정 변경, 감각 과부하(빛·소음)가 원인인 경우가 많습니다.</div>
-            </div>
-          </div>
-        </div>
-        <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
-          사전에 "우리 반 친구 중 갑자기 소리가 나올 수 있는데, 그건 그 친구만의 방식이에요. 우리는 하던 것을 계속해요"라고 학기 초에 한 번 안내해두면 이후 상황이 훨씬 안정됩니다.
-        </div>
-        <div class="urgent-next">
-          <strong>오늘 이후 할 일:</strong> 언제, 어떤 상황에서 소리가 났는지 메모해 두세요. 2주 패턴이 보이면 특수교사와 상의하거나 QABF를 실시합니다.
-        </div>
-      </div>
-
-      <!-- ② 교실 밖 이탈 -->
-      <div class="urgent-card" id="ucard-run">
-        <div class="urgent-situation">
-          <strong>상황:</strong> 학생이 갑자기 교실 문을 열고 복도나 밖으로 나갑니다. 나머지 학생들이 혼자 남겨집니다.
-        </div>
-        <div class="urgent-steps">
-          <div class="ustep">
-            <div class="ustep-num">1</div>
-            <div class="ustep-body">
-              <div class="ustep-label">즉각 조치 — 30초 이내</div>
-              <div class="ustep-main">학급을 먼저 안전하게 고정하고 도움을 요청합니다</div>
-              <div class="ustep-sub">교사 혼자 쫓아가면 나머지 학생들이 무감독 상태가 됩니다. 인터폰·교무실 연락이 먼저입니다.</div>
-              <div class="ustep-script">"여러분은 자리에서 책 읽고 있어요." → 인터폰으로 교무실: "○학년 ○반 ○○○ 학생이 복도로 나갔습니다. 확인 부탁드립니다."</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">2</div>
-            <div class="ustep-body">
-              <div class="ustep-label">학생 접근</div>
-              <div class="ustep-main">복도에서 만났을 때 — 조용히, 낮은 목소리로</div>
-              <div class="ustep-sub">뒤쫓거나 큰 소리로 부르면 더 멀리 달아날 수 있습니다. 옆에 나란히 서서 낮게 말합니다.</div>
-              <div class="ustep-script">"선생님이 여기 있어. 준비되면 같이 들어가자."</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">3</div>
-            <div class="ustep-body">
-              <div class="ustep-label">복귀 후</div>
-              <div class="ustep-main">교실로 돌아오면 조용히 자리를 안내합니다</div>
-              <div class="ustep-sub">이유를 바로 묻거나 훈계하지 않습니다. 안정 후 1:1 대화 시간을 따로 마련하세요.</div>
-              <div class="ustep-script">"어서 와. 여기 앉자."</div>
-            </div>
-          </div>
-        </div>
-        <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
-          이탈 직후: "선생님이 잠깐 확인하고 올게요. 그 사이 ○쪽 문제 풀어보세요." 학생이 돌아왔을 때 주목하지 않도록: "자, 우리 계속 이어서요."
-        </div>
-        <div class="urgent-next">
-          <strong>오늘 이후 할 일:</strong> 이탈 직전에 무슨 일이 있었는지 기록합니다(어떤 수업, 어떤 활동, 어떤 지시 직후). 이탈 패턴이 파악되면 예방 전략을 세울 수 있습니다.
-        </div>
-      </div>
-
-      <!-- ③ 자해 행동 -->
-      <div class="urgent-card" id="ucard-selfharm">
-        <div class="urgent-situation">
-          <strong>상황:</strong> 학생이 자신의 손·머리·몸을 스스로 때리거나, 깨물거나, 벽·바닥에 머리를 박습니다.
-        </div>
-        <div class="urgent-steps">
-          <div class="ustep">
-            <div class="ustep-num">1</div>
-            <div class="ustep-body">
-              <div class="ustep-label">신체 안전 확보 — 최우선</div>
-              <div class="ustep-main">다칠 수 있는 물건·공간을 즉시 치웁니다</div>
-              <div class="ustep-sub">머리를 박는 경우: 벽과의 거리를 두거나 쿠션·가방을 사이에 놓습니다. 손을 잡는 신체적 제지는 최소화하고, 필요한 경우에만 양팔을 부드럽게 감쌉니다.</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">2</div>
-            <div class="ustep-body">
-              <div class="ustep-label">즉시 도움 요청</div>
-              <div class="ustep-main">혼자 감당하지 않습니다 — 교무실·관리자에게 바로 연락</div>
-              <div class="ustep-sub">자해 행동은 교사 단독 대응의 한계가 있습니다. 특수교사, 상담교사, 교감 중 1인을 즉시 호출합니다.</div>
-              <div class="ustep-script">인터폰: "○학년 ○반입니다. 학생이 자해 행동을 하고 있습니다. 즉시 지원 요청합니다."</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">3</div>
-            <div class="ustep-body">
-              <div class="ustep-label">반응 최소화</div>
-              <div class="ustep-main">조용하고 차분한 목소리로 존재만 알립니다</div>
-              <div class="ustep-sub">과도한 관심·훈계·달래기는 자해를 강화할 수 있습니다. 옆에 있되 자극을 최소화합니다.</div>
-              <div class="ustep-script">"선생님 여기 있어. 같이 숨 쉬자." (천천히 깊게 숨쉬는 모델링)</div>
-            </div>
-          </div>
-        </div>
-        <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
-          학생들을 같은 공간에 두는 것보다 복도·도서관 등으로 잠시 이동시키는 것이 모두를 위해 낫습니다. 가능하다면 옆 반 교사에게 잠시 맡기는 방법도 사전에 협의해두세요.
-        </div>
-        <div class="urgent-next">
-          <strong>오늘 이후 반드시 할 일:</strong> ① 발생 시각·상황·지속 시간·신체 부위를 기록 ② 보호자에게 당일 통보 ③ 특수교사·상담교사와 협력 계획 수립. 자해는 반드시 전문가 개입이 필요합니다.
-        </div>
-      </div>
-
-      <!-- ④ 친구 공격 -->
-      <div class="urgent-card" id="ucard-aggress">
-        <div class="urgent-situation">
-          <strong>상황:</strong> 학생이 친구를 때리거나, 물건을 던지거나, 밀치거나, 할퀴었습니다.
-        </div>
-        <div class="urgent-steps">
-          <div class="ustep">
-            <div class="ustep-num">1</div>
-            <div class="ustep-body">
-              <div class="ustep-label">피해 학생 먼저</div>
-              <div class="ustep-main">맞은 학생을 즉시 분리·확인합니다</div>
-              <div class="ustep-sub">부상 여부 확인이 최우선입니다. 다쳤다면 보건실로 즉시 보냅니다. 가해 학생에게 먼저 반응하면 피해 학생이 더 상처받을 수 있습니다.</div>
-              <div class="ustep-script">피해 학생에게: "○○아, 많이 아프지? 선생님이랑 잠깐 나가자."</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">2</div>
-            <div class="ustep-body">
-              <div class="ustep-label">가해 학생 분리</div>
-              <div class="ustep-main">흥분이 가라앉을 공간으로 이동시킵니다</div>
-              <div class="ustep-sub">즉각 훈계·설명은 효과가 없습니다. 흥분 상태에서는 언어가 들리지 않습니다. 교실 한쪽 또는 복도 벤치로 이동 후 진정 시간을 줍니다.</div>
-              <div class="ustep-script">"지금은 잠깐 여기 앉아 있어. 선생님이 금방 올게."</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">3</div>
-            <div class="ustep-body">
-              <div class="ustep-label">기록 후 보호자 통보</div>
-              <div class="ustep-main">당일 반드시 양쪽 보호자에게 연락합니다</div>
-              <div class="ustep-sub">언제, 어디서, 어떤 상황에서, 어떤 행동이 있었는지 사실만 기록합니다. "왜 그랬는지"는 나중에 확인합니다. 기록이 없으면 나중에 분쟁이 생깁니다.</div>
-            </div>
-          </div>
-        </div>
-        <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
-          사건 직후 학급 전체를 오래 세워두지 마세요. "선생님이 정리하고 있어요. 지금은 하던 것 계속해요."로 신속하게 수업으로 돌아갑니다. 학급 토의는 양쪽 학생이 안정된 다음에 진행합니다.
-        </div>
-        <div class="urgent-next">
-          <strong>오늘 이후 할 일:</strong> ① 사건 경위 기록(5W1H) ② 피해·가해 양쪽 보호자 통보 ③ 관리자 보고 ④ 재발 방지를 위해 선행사건 파악 — 무엇이 공격 직전에 있었나요?
-        </div>
-      </div>
-
-      <!-- ⑤ 드러눕기·울음폭발 -->
-      <div class="urgent-card" id="ucard-meltdown">
-        <div class="urgent-situation">
-          <strong>상황:</strong> 학생이 바닥에 드러눕거나, 크게 울거나, 소리를 지르며 움직이지 않으려 합니다.
-        </div>
-        <div class="urgent-steps">
-          <div class="ustep">
-            <div class="ustep-num">1</div>
-            <div class="ustep-body">
-              <div class="ustep-label">기다립니다 — 서두르지 마세요</div>
-              <div class="ustep-main">지금 설득·훈계는 효과가 없습니다</div>
-              <div class="ustep-sub">멜트다운(폭발적 감정 방출) 상태에서는 이성적 판단이 불가능합니다. 강제로 일으키려 하면 더 격해집니다. 안전한지만 확인하고 옆에 있어 주세요.</div>
-              <div class="ustep-script">"선생님 여기 있어. 울어도 돼. 준비되면 알려줘."</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">2</div>
-            <div class="ustep-body">
-              <div class="ustep-label">자극 줄이기</div>
-              <div class="ustep-main">주변 소음·시선을 줄여줍니다</div>
-              <div class="ustep-sub">다른 학생들이 쳐다보거나 웅성거리면 더 격해집니다. 칸막이·책상 배치로 시선 차단, 나머지 학생들은 활동에 집중하도록 안내합니다.</div>
-            </div>
-          </div>
-          <div class="ustep">
-            <div class="ustep-num">3</div>
-            <div class="ustep-body">
-              <div class="ustep-label">진정 후 대화</div>
-              <div class="ustep-main">완전히 진정된 후 짧게 확인합니다</div>
-              <div class="ustep-sub">울음이 멈추고 눈 맞춤이 되면 신호입니다. 이때 "무슨 일이 있었어?" 한 마디로 시작합니다. 교실로의 복귀는 학생이 준비됐을 때.</div>
-              <div class="ustep-script">"이제 좀 나아졌어? 선생님한테 얘기해줄 수 있어?"</div>
-            </div>
-          </div>
-        </div>
-        <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
-          시선 분산이 핵심입니다. "우리는 계속 공부해요. 방해하지 말고요."를 단호하게, 그러나 짧게. 쉬는 시간이라면 다른 공간으로 이동시켜 주세요.
-        </div>
-        <div class="urgent-next">
-          <strong>오늘 이후 할 일:</strong> 폭발 직전 무슨 일이 있었는지 기록합니다(어떤 요구를 받았나, 어떤 변화가 있었나). 패턴이 보이면 예고·선택권 제공으로 예방할 수 있습니다.
-        </div>
-      </div>
-
-    </div><!-- /urgent-modal-body -->
-  </div><!-- /urgent-modal-box -->
-</div>
-
 <!-- QABF 인라인 모달 -->
 <div id="qabf-modal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(27,79,79,0.45);backdrop-filter:blur(2px);" onclick="if(event.target===this)closeQABFModal()">
   <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(680px,96vw);max-height:88vh;background:white;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,0.22);">
@@ -6811,10 +7676,7 @@ function resetQABF() {
         <div style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal-accent);margin-bottom:3px;">중재 서식</div>
         <div style="font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;color:white;" id="form-modal-title">서식</div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <button onclick="printCurrentForm()" title="현재 서식 인쇄 / PDF 저장" style="padding:7px 13px;border-radius:6px;border:1.5px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.12);color:white;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">🖨️ 인쇄</button>
-        <button onclick="closeFormModal()" style="width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
-      </div>
+      <button onclick="closeFormModal()" style="width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
     </div>
     <!-- 서식 탭 -->
     <div style="display:flex;border-bottom:2px solid var(--border);background:var(--surface);flex-shrink:0;">
