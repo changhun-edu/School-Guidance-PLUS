@@ -1802,6 +1802,15 @@ body {
 /* 레퍼런스 카드 */
 .ref-grid { display: flex; flex-direction: column; gap: 10px; }
 
+/* 도구·서식 그리드 — 행동 카드와 동일한 너비·정렬 */
+#refToolGrid {
+  background: var(--green-light);
+  border: 1.5px solid #A5C9A8;
+  border-radius: var(--radius);
+  padding: 10px;
+  gap: 8px;
+}
+
 .ref-card {
   background: var(--surface);
   border: 1.5px solid var(--border);
@@ -4453,7 +4462,6 @@ body {
         </div>
       </div>
 
-    </div><!-- /ref-grid — 신규 카드 6개 추가 -->
 
       <!-- ★ 신규 카드 8: 핸드폰·게임기 수업 중 사용 -->
       <div class="ref-card" id="ref-card-8" data-func-color="강화"
@@ -4926,7 +4934,7 @@ body {
         <div class="rtsh-desc">행동 카드와 별개입니다 — 기능을 파악하거나 기록을 시작할 때 사용하세요</div>
       </div>
     </div>
-    <div class="ref-grid" id="refToolGrid" style="background:var(--green-light);border:1.5px solid #A5C9A8;border-radius:var(--radius);padding:10px;gap:8px;">
+    <div class="ref-grid" id="refToolGrid">
 
       <!-- 카드 6: QABF -->
       <div class="ref-card" data-func-color="도구"
@@ -5138,6 +5146,7 @@ body {
 
     </div><!-- /refToolGrid -->
   </div>
+</div>
 
 <!-- FOOTER -->
 <footer id="site-footer">
