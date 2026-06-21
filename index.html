@@ -5120,24 +5120,182 @@ body {
               <div class="fi-btn ready">사용 가능 ↑</div>
             </div>
 
-            <!-- BIP — 외부 링크 -->
-            <div class="form-item" style="opacity:0.7;">
-              <div class="fi-icon">📊</div>
+            <!-- BIP — 가이드 + 인쇄 서식 -->
+            <div class="form-item" onclick="toggleFormTool('tool-bip')" style="cursor:pointer;">
+              <div class="fi-icon">📋</div>
               <div class="fi-info">
                 <div class="fi-name">행동지원계획 BIP</div>
-                <div class="fi-desc">경기도교육청 사례집 부록 양식을 직접 사용하세요</div>
+                <div class="fi-desc">7개 섹션 작성 가이드 + 빈 서식 인쇄</div>
               </div>
-              <a href="https://www.goe.go.kr" target="_blank" rel="noopener" style="font-size:13px;color:var(--teal);font-weight:700;white-space:nowrap;text-decoration:none;" onclick="event.stopPropagation()">경기도교육청 →</a>
+              <div class="fi-btn ready">가이드 ↓</div>
+            </div>
+            <div id="tool-bip" style="display:none;background:var(--bg);border-radius:10px;padding:18px;margin-bottom:8px;margin-top:-4px;">
+              <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:14px;">📋 행동지원계획(BIP) 작성 가이드</div>
+
+              <!-- 섹션별 가이드 -->
+              <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+
+                <!-- 섹션 1 -->
+                <div style="border:1.5px solid var(--border);border-radius:8px;overflow:hidden;">
+                  <div style="background:#F4F2EE;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:12px;font-weight:700;background:var(--teal-dark);color:white;padding:2px 8px;border-radius:999px;">1</span>
+                    <span style="font-size:14px;font-weight:700;color:var(--text);">학생 정보</span>
+                    <span style="font-size:12.5px;color:var(--text-sub);margin-left:auto;">성명·장애유형·담당교사·수퍼바이저·작성일</span>
+                  </div>
+                  <div style="padding:10px 14px;font-size:13.5px;color:var(--text-sub);line-height:1.7;">
+                    📌 <strong>수퍼바이저</strong>는 행동분석전문가(BCBA 등)를 기재합니다. 학교에 없다면 특수교육지원센터 담당자를 기재하세요.
+                  </div>
+                </div>
+
+                <!-- 섹션 2 -->
+                <div style="border:1.5px solid var(--border);border-radius:8px;overflow:hidden;">
+                  <div style="background:#F4F2EE;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:12px;font-weight:700;background:var(--teal-dark);color:white;padding:2px 8px;border-radius:999px;">2</span>
+                    <span style="font-size:14px;font-weight:700;color:var(--text);">긍정적 행동지원 계획 작성 배경</span>
+                  </div>
+                  <div style="padding:10px 14px;font-size:13.5px;color:var(--text-sub);line-height:1.7;">
+                    📌 <strong>왜 이 학생에게 BIP가 필요한가</strong>를 간략히 서술합니다.<br>
+                    예시: "○○학생은 수업 중 소리지르기 행동이 주 5회 이상 발생하여 본인 및 학급 학생의 학습권을 저해하고 있어 체계적 행동지원 계획이 필요합니다."
+                  </div>
+                </div>
+
+                <!-- 섹션 3 -->
+                <div style="border:1.5px solid var(--border);border-radius:8px;overflow:hidden;">
+                  <div style="background:#F4F2EE;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:12px;font-weight:700;background:var(--teal-dark);color:white;padding:2px 8px;border-radius:999px;">3</span>
+                    <span style="font-size:14px;font-weight:700;color:var(--text);">일과시간 지침 요약</span>
+                    <span style="font-size:12.5px;color:var(--text-sub);margin-left:auto;">등하교·식사·화장실·의사소통·약물</span>
+                  </div>
+                  <div style="padding:10px 14px;font-size:13.5px;color:var(--text-sub);line-height:1.7;">
+                    📌 각 항목에 <strong>현재 지원 방법</strong>과 <strong>주의사항</strong>을 기재합니다.<br>
+                    의사소통 능력은 말하기·듣기·읽기/쓰기·대체의사소통(AAC 등) 수준을 구분해서 기재하세요.
+                  </div>
+                </div>
+
+                <!-- 섹션 4 -->
+                <div style="border:1.5px solid var(--border);border-radius:8px;overflow:hidden;">
+                  <div style="background:#F4F2EE;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:12px;font-weight:700;background:var(--teal-dark);color:white;padding:2px 8px;border-radius:999px;">4</span>
+                    <span style="font-size:14px;font-weight:700;color:var(--text);">사용 가능한 강화제 정보</span>
+                    <span style="font-size:12.5px;color:var(--text-sub);margin-left:auto;">← QABF 결과 활용 가능</span>
+                  </div>
+                  <div style="padding:10px 14px;font-size:13.5px;color:var(--text-sub);line-height:1.7;">
+                    📌 <strong>강화제 체크리스트</strong>(위 서식)를 먼저 실시한 후 Top 5 결과를 여기에 옮겨 적으세요.<br>
+                    주 강화제·유형 강화제·활동 강화제·사회적 강화제를 구분해서 기재합니다.
+                    <div style="margin-top:8px;padding:8px 10px;background:var(--teal-light);border-radius:6px;font-size:13px;color:var(--teal-dark);">
+                      💡 강화제 체크리스트 결과를 활용하면 이 섹션을 자동으로 채울 수 있습니다.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 섹션 5 -->
+                <div style="border:1.5px solid var(--border);border-radius:8px;overflow:hidden;">
+                  <div style="background:#F4F2EE;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:12px;font-weight:700;background:var(--teal-dark);color:white;padding:2px 8px;border-radius:999px;">5</span>
+                    <span style="font-size:14px;font-weight:700;color:var(--text);">행동 기록 방법 &amp; 기능적 행동 평가</span>
+                    <span style="font-size:12.5px;color:var(--text-sub);margin-left:auto;">← QABF 결과 활용 가능</span>
+                  </div>
+                  <div style="padding:10px 14px;font-size:13.5px;color:var(--text-sub);line-height:1.7;">
+                    📌 도전행동별로 <strong>조작적 정의</strong>(관찰 가능한 행동 기술)와 <strong>측정 방법</strong>을 기재합니다.<br>
+                    평가 도구: 간접평가(QABF·MAS·교사 면담 등) + 직접평가(ABC 기록·일화 기록 등)<br>
+                    <span style="color:#C97B3A;font-weight:600;">⚠️ 최대 도전행동 3개까지 기재할 수 있습니다.</span>
+                    <div style="margin-top:8px;padding:8px 10px;background:var(--teal-light);border-radius:6px;font-size:13px;color:var(--teal-dark);">
+                      💡 위 QABF를 실시한 후 결과를 이 섹션의 기능 분석란에 옮겨 적으세요.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 섹션 6 -->
+                <div style="border:1.5px solid var(--border);border-radius:8px;overflow:hidden;">
+                  <div style="background:#F4F2EE;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:12px;font-weight:700;background:var(--teal-dark);color:white;padding:2px 8px;border-radius:999px;">6</span>
+                    <span style="font-size:14px;font-weight:700;color:var(--text);">구체적인 행동 중재 전략</span>
+                  </div>
+                  <div style="padding:10px 14px;font-size:13.5px;color:var(--text-sub);line-height:1.7;">
+                    📌 <strong>예방 전략</strong>과 <strong>반응 전략</strong> 각 3가지씩을 기재합니다.<br>
+                    예방 전략: 행동이 발생하기 전에 환경을 조정하는 방법 (예: 시각 일정표 제공, 과제 난이도 조정)<br>
+                    반응 전략: 행동 발생 후 교사가 대응하는 방법 (예: 무시·쿨다운·분리·대체행동 강화)
+                    <div style="margin-top:8px;padding:8px 10px;background:#FFF8E1;border:1px solid #FFD54F;border-radius:6px;font-size:13px;color:#7A5A00;">
+                      💡 레퍼런스 사전의 "중재 방향" 탭을 참고하면 전략 아이디어를 얻을 수 있습니다.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 섹션 7 -->
+                <div style="border:1.5px solid var(--border);border-radius:8px;overflow:hidden;">
+                  <div style="background:#F4F2EE;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:12px;font-weight:700;background:var(--teal-dark);color:white;padding:2px 8px;border-radius:999px;">7</span>
+                    <span style="font-size:14px;font-weight:700;color:var(--text);">행동 중재 그래프</span>
+                  </div>
+                  <div style="padding:10px 14px;font-size:13.5px;color:var(--text-sub);line-height:1.7;">
+                    📌 <strong>빈도 기록지</strong>(아래 서식)로 수집한 데이터를 바탕으로 중재 전·후 행동 빈도 변화를 기록합니다.<br>
+                    기준선(중재 전) → 중재 1단계 → 중재 2단계 순으로 꺾은선 그래프를 작성합니다.
+                  </div>
+                </div>
+
+              </div><!-- /섹션별 가이드 -->
+
+              <!-- 인쇄 버튼 -->
+              <button onclick="printBIP()" style="width:100%;padding:11px;background:var(--teal-dark);color:white;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                🖨️ BIP 빈 서식 인쇄 / PDF 저장
+              </button>
+              <div style="text-align:center;font-size:12.5px;color:var(--text-sub);margin-top:8px;">경기도교육청 긍정적 행동지원 사례집(2025) 부록 양식 기반</div>
             </div>
 
-            <!-- 빈도 기록지 — 외부 링크 -->
-            <div class="form-item" style="opacity:0.7;">
+            <!-- 빈도 기록지 — 가이드 + 인쇄 서식 -->
+            <div class="form-item" onclick="toggleFormTool('tool-bindo')" style="cursor:pointer;">
               <div class="fi-icon">📈</div>
               <div class="fi-info">
                 <div class="fi-name">행동 발생 빈도 기록지</div>
-                <div class="fi-desc">경기도교육청 사례집 부록 양식을 직접 사용하세요</div>
+                <div class="fi-desc">날짜별 발생 횟수 기록 + 자동 합계 + 인쇄</div>
               </div>
-              <a href="https://www.goe.go.kr" target="_blank" rel="noopener" style="font-size:13px;color:var(--teal);font-weight:700;white-space:nowrap;text-decoration:none;" onclick="event.stopPropagation()">경기도교육청 →</a>
+              <div class="fi-btn ready">작성하기 ↓</div>
+            </div>
+            <div id="tool-bindo" style="display:none;background:var(--bg);border-radius:10px;padding:18px;margin-bottom:8px;margin-top:-4px;">
+              <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin-bottom:14px;">📈 도전적 행동 발생 빈도 데이터 기록지</div>
+
+              <!-- 기본 정보 -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+                <div>
+                  <label style="font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:5px;">학생 이름</label>
+                  <input id="bindo-name" type="text" placeholder="예: ○○○" oninput="bindoUpdatePreview()"
+                    style="width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:13.5px;outline:none;">
+                </div>
+                <div>
+                  <label style="font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:5px;">도전적 행동</label>
+                  <input id="bindo-behavior" type="text" placeholder="예: 수업 중 소리지르기" oninput="bindoUpdatePreview()"
+                    style="width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:13.5px;outline:none;">
+                </div>
+              </div>
+
+              <!-- 기록 테이블 -->
+              <div style="overflow-x:auto;margin-bottom:10px;">
+                <table id="bindo-table" style="width:100%;border-collapse:collapse;font-size:13.5px;">
+                  <thead>
+                    <tr style="background:#E4F0F0;">
+                      <th style="border:1px solid #B2D8D8;padding:8px 10px;text-align:center;font-weight:700;color:var(--teal-dark);width:140px;">날짜 (시간)</th>
+                      <th style="border:1px solid #B2D8D8;padding:8px 10px;text-align:center;font-weight:700;color:var(--teal-dark);">발생 횟수 (정자 표시)</th>
+                      <th style="border:1px solid #B2D8D8;padding:8px 10px;text-align:center;font-weight:700;color:var(--teal-dark);width:80px;">합계</th>
+                      <th style="border:1px solid #ccc;padding:4px;width:32px;background:#F4F2EE;"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="bindo-tbody"></tbody>
+                </table>
+              </div>
+              <button onclick="bindoAddRow()" style="width:100%;padding:8px;border:1.5px dashed var(--border);background:none;border-radius:7px;font-family:inherit;font-size:13.5px;color:var(--text-sub);cursor:pointer;margin-bottom:14px;">＋ 행 추가</button>
+
+              <!-- 합계 요약 -->
+              <div id="bindo-summary" style="display:none;padding:10px 14px;background:var(--teal-light);border-radius:8px;font-size:13.5px;color:var(--teal-dark);margin-bottom:14px;">
+                <strong>총 발생 횟수: <span id="bindo-total">0</span>회</strong>
+                &nbsp;|&nbsp; 기록 일수: <span id="bindo-days">0</span>일
+                &nbsp;|&nbsp; 일평균: <span id="bindo-avg">0</span>회
+              </div>
+
+              <!-- 인쇄 버튼 -->
+              <button onclick="printBindo()" style="width:100%;padding:11px;background:var(--teal-dark);color:white;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                🖨️ 빈도 기록지 인쇄 / PDF 저장
+              </button>
+              <div style="text-align:center;font-size:12.5px;color:var(--text-sub);margin-top:8px;">경기도교육청 긍정적 행동지원 사례집(2025) 부록 양식 기반</div>
             </div>
 
           </div>
@@ -7420,18 +7578,328 @@ function toggleFormTool(id) {
   if (!el) return;
   const isOpen = el.style.display !== 'none';
   // 모두 닫기
-  ['tool-interview','tool-reinforce','tool-checklist'].forEach(tid => {
+  ['tool-interview','tool-reinforce','tool-checklist','tool-bip','tool-bindo'].forEach(tid => {
     const t = document.getElementById(tid);
     if (t) t.style.display = 'none';
   });
   if (!isOpen) {
     el.style.display = 'block';
-    // 처음 열리는 경우 초기화
     if (id === 'tool-reinforce' && !document.getElementById('rf-list').children.length) rfInit();
     if (id === 'tool-checklist' && !document.getElementById('cl-list').children.length) clInit();
+    if (id === 'tool-bindo') bindoInit();
     ivUpdate();
     el.scrollIntoView({ behavior:'smooth', block:'nearest' });
   }
+}
+
+/* ══ 빈도 기록지 ══ */
+let _bindoRows = 6;
+
+function bindoInit() {
+  const tbody = document.getElementById('bindo-tbody');
+  if (!tbody || tbody.children.length) return;
+  for (let i = 0; i < 6; i++) bindoAddRow(false);
+}
+
+function bindoAddRow(scroll) {
+  const tbody = document.getElementById('bindo-tbody');
+  if (!tbody) return;
+  const idx = tbody.children.length;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="border:1px solid #ddd;padding:4px 6px;">
+      <input type="text" placeholder="예: 2026.6.21" oninput="bindoUpdatePreview()"
+        style="width:100%;border:none;font-family:inherit;font-size:13px;outline:none;background:transparent;">
+    </td>
+    <td style="border:1px solid #ddd;padding:4px 6px;">
+      <input type="text" placeholder="정(正)자로 기록" oninput="bindoCalcRow(this);bindoUpdatePreview()"
+        style="width:100%;border:none;font-family:inherit;font-size:13px;outline:none;background:transparent;">
+    </td>
+    <td id="bindo-sum-${idx}" style="border:1px solid #ddd;padding:4px 6px;text-align:center;font-weight:700;color:var(--teal-dark);font-size:13.5px;"></td>
+    <td style="border:1px solid #ccc;padding:2px;text-align:center;background:#F4F2EE;">
+      <button onclick="this.closest('tr').remove();bindoUpdatePreview();"
+        style="border:none;background:none;cursor:pointer;color:#AAA;font-size:14px;line-height:1;">✕</button>
+    </td>`;
+  tbody.appendChild(tr);
+  if (scroll !== false) tr.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function bindoCalcRow(input) {
+  // 정(正)자 = 5획, 숫자도 허용
+  const tr   = input.closest('tr');
+  const val  = input.value.trim();
+  const idx  = [...tr.parentElement.children].indexOf(tr);
+  const cell = document.getElementById('bindo-sum-' + idx);
+  if (!cell) return;
+  // 숫자면 그대로, 정자면 5배, 혼합: 숫자+정자
+  let total = 0;
+  const numMatch  = val.match(/\d+/g);
+  const jungMatch = val.match(/정/gi);
+  if (numMatch)  total += numMatch.reduce((a,b) => a + parseInt(b), 0);
+  if (jungMatch) total += jungMatch.length * 5;
+  if (!numMatch && !jungMatch && val) total = val.length; // 기타 텍스트는 글자 수
+  cell.textContent = total > 0 ? total + '회' : '';
+}
+
+function bindoUpdatePreview() {
+  const tbody = document.getElementById('bindo-tbody');
+  if (!tbody) return;
+  let totalSum = 0, days = 0;
+  tbody.querySelectorAll('tr').forEach((tr, idx) => {
+    const inputs = tr.querySelectorAll('input');
+    const dateVal = inputs[0] ? inputs[0].value.trim() : '';
+    const cell    = document.getElementById('bindo-sum-' + idx);
+    const sum     = cell ? parseInt(cell.textContent) || 0 : 0;
+    if (sum > 0) { totalSum += sum; days++; }
+  });
+  const summary = document.getElementById('bindo-summary');
+  const totalEl = document.getElementById('bindo-total');
+  const daysEl  = document.getElementById('bindo-days');
+  const avgEl   = document.getElementById('bindo-avg');
+  if (summary) {
+    summary.style.display = totalSum > 0 ? 'block' : 'none';
+    if (totalEl) totalEl.textContent = totalSum;
+    if (daysEl)  daysEl.textContent  = days;
+    if (avgEl)   avgEl.textContent   = days > 0 ? (totalSum / days).toFixed(1) : 0;
+  }
+}
+
+/* ── 빈도 기록지 인쇄 ── */
+function printBindo() {
+  const name     = (document.getElementById('bindo-name')?.value || '').trim();
+  const behavior = (document.getElementById('bindo-behavior')?.value || '').trim();
+  const date     = new Date().toLocaleDateString('ko-KR');
+  const tbody    = document.getElementById('bindo-tbody');
+
+  let rowsHtml = '';
+  let totalSum = 0, filledDays = 0;
+  if (tbody) {
+    tbody.querySelectorAll('tr').forEach((tr, idx) => {
+      const inputs  = tr.querySelectorAll('input');
+      const dateVal = inputs[0] ? inputs[0].value.trim() : '';
+      const tally   = inputs[1] ? inputs[1].value.trim() : '';
+      const cell    = document.getElementById('bindo-sum-' + idx);
+      const sum     = cell ? parseInt(cell.textContent) || 0 : 0;
+      if (sum > 0) { totalSum += sum; filledDays++; }
+      rowsHtml += `<tr>
+        <td style="border:1px solid #ccc;padding:10px 12px;">${dateVal}</td>
+        <td style="border:1px solid #ccc;padding:10px 12px;">${tally}</td>
+        <td style="border:1px solid #ccc;padding:10px 12px;text-align:center;font-weight:700;">${sum > 0 ? sum + '회' : ''}</td>
+      </tr>`;
+    });
+  }
+
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>행동 발생 빈도 기록지</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Noto Sans KR',sans-serif; max-width:680px; margin:32px auto; font-size:14px; color:#1A1A1A; padding:0 16px; }
+  h1 { font-size:18px; font-weight:700; text-align:center; border-bottom:2px solid #1B4F4F; padding-bottom:10px; margin-bottom:14px; color:#1B4F4F; }
+  .meta { font-size:13.5px; margin-bottom:16px; line-height:2; }
+  .meta span { display:inline-block; min-width:120px; }
+  table { width:100%; border-collapse:collapse; margin-bottom:12px; }
+  th { background:#E4F0F0; border:1px solid #B2D8D8; padding:9px 12px; font-weight:700; color:#1B4F4F; }
+  td { border:1px solid #ccc; padding:10px 12px; }
+  .summary { margin-top:12px; padding:10px 14px; background:#E4F0F0; border-radius:6px; font-size:13.5px; color:#1B4F4F; }
+  .note { margin-top:10px; font-size:12.5px; color:#666; }
+  .print-btn { margin-top:20px; text-align:center; }
+  .print-btn button { padding:10px 28px; background:#1B4F4F; color:white; border:none; border-radius:6px; font-size:15px; font-family:inherit; cursor:pointer; }
+  @media print { .print-btn { display:none; } * { -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
+<\/style></head><body>
+  <h1>〈도전적 행동 발생 빈도 데이터 기록지〉</h1>
+  <div class="meta">
+    <div>- 학생 이름: <strong>${name || '_____________'}</strong></div>
+    <div>- 도전적 행동: <strong>${behavior || '_____________'}</strong></div>
+    <div style="font-size:12px;color:#888;margin-top:4px;">작성일: ${date} &nbsp;|&nbsp; 생활지도 PLUS</div>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:180px;">날짜 (시간)</th>
+      <th>발생 횟수 (정자 표시)</th>
+      <th style="width:90px;">합계</th>
+    </tr></thead>
+    <tbody>${rowsHtml}</tbody>
+  </table>
+  ${totalSum > 0 ? `<div class="summary">총 발생 횟수: <strong>${totalSum}회</strong> &nbsp;|&nbsp; 기록 일수: ${filledDays}일 &nbsp;|&nbsp; 일평균: ${(totalSum/filledDays).toFixed(1)}회</div>` : ''}
+  <div class="note">✓ 각 도전적 행동이 발생한 날짜(시간) 및 발생횟수를 기록하세요.</div>
+  <div class="print-btn"><button onclick="window.print()">🖨️ 인쇄 / PDF 저장</button></div>
+</body></html>`);
+  win.document.close();
+  setTimeout(() => win.print(), 600);
+}
+
+/* ── BIP 빈 서식 인쇄 ── */
+function printBIP() {
+  const date = new Date().toLocaleDateString('ko-KR');
+  const win  = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>행동지원계획 BIP</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Noto Sans KR',sans-serif; max-width:700px; margin:28px auto; font-size:13.5px; color:#1A1A1A; padding:0 16px; }
+  h1 { font-size:17px; font-weight:700; text-align:center; margin-bottom:4px; }
+  .sub { text-align:center; font-size:13px; color:#555; margin-bottom:16px; }
+  .sec-title { font-size:13.5px; font-weight:700; background:#E4F0F0; border-left:4px solid #1B4F4F; padding:7px 12px; margin:14px 0 6px; color:#1B4F4F; }
+  table { width:100%; border-collapse:collapse; margin-bottom:6px; }
+  th,td { border:1px solid #ccc; padding:8px 10px; font-size:13px; }
+  th { background:#F4F2EE; font-weight:700; text-align:center; width:130px; }
+  td { min-height:32px; vertical-align:top; }
+  .blank { min-height:50px; border:1px solid #ccc; border-radius:4px; padding:8px; margin-bottom:6px; }
+  .tall { min-height:80px; }
+  .note { font-size:11.5px; color:#888; margin-top:3px; }
+  .strategy-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .strategy-box { border:1px solid #ccc; border-radius:4px; padding:10px; }
+  .strategy-label { font-size:12px; font-weight:700; color:#1B4F4F; margin-bottom:6px; }
+  .strategy-field { margin-bottom:8px; }
+  .strategy-field label { font-size:12px; color:#555; display:block; margin-bottom:3px; }
+  .strategy-field .line { border-bottom:1px solid #ccc; min-height:22px; }
+  .footer { margin-top:16px; font-size:11.5px; color:#888; text-align:center; border-top:1px solid #ddd; padding-top:8px; }
+  .print-btn { margin-top:20px; text-align:center; }
+  .print-btn button { padding:10px 28px; background:#1B4F4F; color:white; border:none; border-radius:6px; font-size:15px; font-family:inherit; cursor:pointer; }
+  @media print { .print-btn { display:none; } * { -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
+<\/style></head><body>
+
+  <h1>행동 지원 계획 (Behavior Intervention Plan)</h1>
+  <div class="sub">경기도교육청 긍정적 행동지원 사례집(2025) 부록 2 | 생활지도 PLUS | 작성일: ${date}</div>
+
+  <!-- 1. 학생 정보 -->
+  <div class="sec-title">1. 학생 정보</div>
+  <table>
+    <tr><th>성명 (성별)</th><td></td><th>장애 유형</th><td></td></tr>
+    <tr><th>담당교사</th><td></td><th>수퍼바이저<br><span style="font-weight:400;font-size:11.5px;">(행동분석전문가)</span></th><td></td></tr>
+    <tr><th>최초작성 일자</th><td></td><th>수정 일자</th><td></td></tr>
+  </table>
+
+  <!-- 2. 작성 배경 -->
+  <div class="sec-title">2. 긍정적 행동지원 계획 작성 배경</div>
+  <div class="blank tall"></div>
+
+  <!-- 3. 일과시간 지침 -->
+  <div class="sec-title">3. 일과시간을 위한 지침 요약</div>
+  <table>
+    <tr><th>등하교 시간</th><td colspan="3"></td></tr>
+    <tr><th>식사 방법</th><td colspan="3"></td></tr>
+    <tr><th>화장실 사용</th><td colspan="3"></td></tr>
+    <tr><th rowspan="4">의사소통<br>능력 및 수준</th><td style="width:80px;font-size:12px;color:#555;">말하기</td><td colspan="2"></td></tr>
+    <tr><td style="font-size:12px;color:#555;">듣기</td><td colspan="2"></td></tr>
+    <tr><td style="font-size:12px;color:#555;">읽기/쓰기</td><td colspan="2"></td></tr>
+    <tr><td style="font-size:12px;color:#555;">대체 의사소통</td><td colspan="2"></td></tr>
+    <tr><th>약물 복용 여부</th><td colspan="3"></td></tr>
+    <tr><th>기타</th><td colspan="3"></td></tr>
+  </table>
+
+  <!-- 4. 강화제 정보 -->
+  <div class="sec-title">4. 사용 가능한 강화제 정보</div>
+  <table>
+    <tr><th>강화제 선호도<br>평가 실시 내용</th><td colspan="3"></td></tr>
+    <tr><th>주 강화제</th><td></td><th>유형 강화제</th><td></td></tr>
+    <tr><th>활동 강화제</th><td></td><th>사회적 강화제<br><span style="font-weight:400;font-size:11px;">(칭찬 등)</span></th><td></td></tr>
+  </table>
+
+  <!-- 5. 기능적 행동 평가 -->
+  <div class="sec-title">5. 행동 기록 방법 및 기능적 행동 평가 결과</div>
+  <table>
+    <tr>
+      <th style="width:100px;vertical-align:middle;">도전행동<br>데이터<br>측정 방법</th>
+      <td>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:13px;">
+          <div>도전행동 1: <span style="border-bottom:1px solid #ccc;display:inline-block;width:180px;">&nbsp;</span></div>
+          <div>도전행동 2: <span style="border-bottom:1px solid #ccc;display:inline-block;width:180px;">&nbsp;</span></div>
+          <div>도전행동 3: <span style="border-bottom:1px solid #ccc;display:inline-block;width:180px;">&nbsp;</span></div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th>기능적<br>행동<br>평가 도구</th>
+      <td>
+        <div style="font-size:12px;margin-bottom:6px;font-weight:700;color:#555;">간접 평가</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px;margin-bottom:10px;">
+          <label><input type="checkbox"> IEP 검토</label>
+          <label><input type="checkbox"> 의료기록 검토</label>
+          <label><input type="checkbox"> 이전 중재 계획 검토</label>
+          <label><input type="checkbox"> 교사 면담</label>
+          <label><input type="checkbox"> 학부모 면담</label>
+          <label><input type="checkbox"> 학생 면담</label>
+          <label><input type="checkbox"> MAS</label>
+          <label><input type="checkbox"> QABF</label>
+          <label><input type="checkbox"> 기타: ________</label>
+        </div>
+        <div style="font-size:12px;margin-bottom:6px;font-weight:700;color:#555;">직접 평가</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px;">
+          <label><input type="checkbox"> ABC 기록</label>
+          <label><input type="checkbox"> 일화 기록</label>
+          <label><input type="checkbox"> Scatter plot</label>
+          <label><input type="checkbox"> 기타: ________</label>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="sec-title" style="font-size:13px;">6. 기능적 행동 평가 결과</div>
+  <table>
+    <tr>
+      <th style="text-align:center;">도전행동 1</th>
+      <th style="text-align:center;">도전행동 2</th>
+      <th style="text-align:center;">도전행동 3</th>
+    </tr>
+    <tr>
+      <td><div style="font-size:12px;color:#555;margin-bottom:4px;">기능 1</div><div style="min-height:22px;"></div></td>
+      <td><div style="font-size:12px;color:#555;margin-bottom:4px;">기능 1</div><div style="min-height:22px;"></div></td>
+      <td><div style="font-size:12px;color:#555;margin-bottom:4px;">기능 1</div><div style="min-height:22px;"></div></td>
+    </tr>
+    <tr>
+      <td><div style="font-size:12px;color:#555;margin-bottom:4px;">기능 2</div><div style="min-height:22px;"></div></td>
+      <td><div style="font-size:12px;color:#555;margin-bottom:4px;">기능 2</div><div style="min-height:22px;"></div></td>
+      <td><div style="font-size:12px;color:#555;margin-bottom:4px;">기능 2</div><div style="min-height:22px;"></div></td>
+    </tr>
+  </table>
+
+  <!-- 7. 구체적 중재 전략 -->
+  <div class="sec-title">7. 구체적인 행동 중재 전략</div>
+  <div class="strategy-grid">
+    <div class="strategy-box">
+      <div class="strategy-label">예방 전략 ①</div>
+      <div class="strategy-field"><label>전략 이름:</label><div class="line"></div></div>
+      <div class="strategy-field"><label>적용 방법:</label><div class="line" style="min-height:40px;"></div></div>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-label">반응 전략 ①</div>
+      <div class="strategy-field"><label>전략 이름:</label><div class="line"></div></div>
+      <div class="strategy-field"><label>적용 방법:</label><div class="line" style="min-height:40px;"></div></div>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-label">예방 전략 ②</div>
+      <div class="strategy-field"><label>전략 이름:</label><div class="line"></div></div>
+      <div class="strategy-field"><label>적용 방법:</label><div class="line" style="min-height:40px;"></div></div>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-label">반응 전략 ②</div>
+      <div class="strategy-field"><label>전략 이름:</label><div class="line"></div></div>
+      <div class="strategy-field"><label>적용 방법:</label><div class="line" style="min-height:40px;"></div></div>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-label">예방 전략 ③</div>
+      <div class="strategy-field"><label>전략 이름:</label><div class="line"></div></div>
+      <div class="strategy-field"><label>적용 방법:</label><div class="line" style="min-height:40px;"></div></div>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-label">반응 전략 ③</div>
+      <div class="strategy-field"><label>전략 이름:</label><div class="line"></div></div>
+      <div class="strategy-field"><label>적용 방법:</label><div class="line" style="min-height:40px;"></div></div>
+    </div>
+  </div>
+
+  <!-- 8. 행동 중재 그래프 영역 -->
+  <div class="sec-title">8. 행동 중재 그래프</div>
+  <div class="blank" style="min-height:120px;display:flex;align-items:center;justify-content:center;color:#AAA;font-size:13px;">빈도 기록지 데이터를 바탕으로 꺾은선 그래프를 작성하세요</div>
+
+  <div class="footer">경기도교육청 긍정적 행동지원 사례집(2025) 부록 2 기반 | 생활지도 PLUS</div>
+  <div class="print-btn"><button onclick="window.print()">🖨️ 인쇄 / PDF 저장</button></div>
+</body></html>`);
+  win.document.close();
+  setTimeout(() => win.print(), 700);
 }
 
 /* ══ 초기면담지 ══ */
