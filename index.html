@@ -7927,27 +7927,112 @@ function ivUpdate() {
 }
 
 function ivPrint() {
-  const name     = document.getElementById('iv-name')?.value || '(미기재)';
-  const behavior = document.getElementById('iv-behavior')?.value || '(미기재)';
-  const past     = document.getElementById('iv-past')?.value || '(미기재)';
-  const scores   = ['iv-s1','iv-s2','iv-s3','iv-s4'].map(id => document.getElementById(id)?.value || 3);
-  const labels   = ['강도','빈도','기간','방해 정도'];
-  const avg      = scores.reduce((a,b)=>a+parseInt(b),0) / scores.length;
+  const name     = document.getElementById('iv-name')?.value.trim()     || '(미기재)';
+  const behavior = document.getElementById('iv-behavior')?.value.trim() || '(미기재)';
+  const past     = document.getElementById('iv-past')?.value.trim()     || '(미기재)';
+  const date     = new Date().toLocaleDateString('ko-KR');
+
+  // ── 슬라이더 점수 + 전체 레이블 + 범위 텍스트 ──
+  const scoreItems = [
+    { id:'iv-s1', label:'강도 — 신체적 위험이 있는가',            lo:'1 위험 없음',  hi:'5 매우 위험'     },
+    { id:'iv-s2', label:'빈도 — 얼마나 자주 일어나는가',          lo:'1 드물게',     hi:'5 매일 반복'     },
+    { id:'iv-s3', label:'기간 — 얼마나 오래 지속되어 왔는가',     lo:'1 이번 주',    hi:'5 수개월 이상'   },
+    { id:'iv-s4', label:'방해 정도 — 수업·학교생활을 얼마나 방해하는가', lo:'1 거의 없음', hi:'5 심각한 방해' },
+  ];
+  const scores = scoreItems.map(item => parseInt(document.getElementById(item.id)?.value || 3));
+  const avg    = scores.reduce((a,b) => a + b, 0) / scores.length;
+
+  // ── 판단 결과 (화면과 동일한 색상·텍스트) ──
+  let resultBg, resultBorder, resultColor, resultTitle, resultDesc;
+  if (avg >= 3.5) {
+    resultBg = '#E8F5E9'; resultBorder = '#A5C9A8'; resultColor = '#2E7D32';
+    resultTitle = `🔴 도전행동에 해당할 가능성이 높습니다 (평균 ${avg.toFixed(1)}점)`;
+    resultDesc  = '강도·빈도·기간이 모두 상당합니다. 기능평가(QABF)를 실시하고 중재 4단계를 시작하세요.';
+  } else if (avg >= 2.5) {
+    resultBg = '#FFF8E1'; resultBorder = '#FFD54F'; resultColor = '#F57F17';
+    resultTitle = `🟡 경계 수준입니다 (평균 ${avg.toFixed(1)}점)`;
+    resultDesc  = '2주 더 관찰하며 기록하세요. 빈도나 강도가 높아지면 즉시 중재를 시작합니다.';
+  } else {
+    resultBg = '#E3F2FD'; resultBorder = '#90CAF9'; resultColor = '#1565C0';
+    resultTitle = `🟢 현재는 도전행동 수준이 아닐 수 있습니다 (평균 ${avg.toFixed(1)}점)`;
+    resultDesc  = '지속 관찰을 권장합니다. 일반적인 생활지도(조언·상담)로 대응하세요.';
+  }
+
+  // ── 점수 도트 시각화 ──
+  const dots = (score) =>
+    '● '.repeat(score).trim() + (score < 5 ? ' ' + '○ '.repeat(5 - score).trim() : '');
+
+  // ── 점수 테이블 행 생성 ──
+  const scoreRows = scoreItems.map((item, i) => `
+    <tr>
+      <td style="border:1px solid #ddd;padding:9px 12px;font-size:13.5px;">
+        <div style="font-weight:700;color:#1A1A1A;margin-bottom:2px;">${item.label}</div>
+        <div style="font-size:11.5px;color:#888;">${item.lo} &nbsp;→&nbsp; ${item.hi}</div>
+      </td>
+      <td style="border:1px solid #ddd;padding:9px 12px;text-align:center;font-weight:700;font-size:15px;color:#1B4F4F;">${scores[i]}점</td>
+      <td style="border:1px solid #ddd;padding:9px 12px;text-align:center;font-size:14px;letter-spacing:2px;color:#1B4F4F;">${dots(scores[i])}</td>
+    </tr>`).join('');
+
   const win = window.open('', '_blank');
-  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>초기면담지</title>
-  <style>body{font-family:'Noto Sans KR',sans-serif;max-width:680px;margin:32px auto;font-size:15px;line-height:1.7;}h1{font-size:20px;border-bottom:2px solid #1B4F4F;padding-bottom:8px;color:#1B4F4F;}table{width:100%;border-collapse:collapse;margin:14px 0;}td,th{border:1px solid #ddd;padding:10px 12px;font-size:14px;}th{background:#E4F0F0;font-weight:700;}.result{padding:12px 16px;border-radius:8px;margin:14px 0;background:${avg>=3.5?'#E8F5E9':avg>=2.5?'#FFF8E1':'#E3F2FD'};}<\/style>
-  </head><body>
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>초기면담지</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Noto Sans KR',sans-serif; max-width:680px; margin:32px auto; font-size:14px; line-height:1.7; color:#1A1A1A; padding:0 16px; }
+  h1 { font-size:20px; font-weight:700; border-bottom:2px solid #1B4F4F; padding-bottom:8px; color:#1B4F4F; margin-bottom:10px; }
+  .meta { font-size:13px; color:#666; margin-bottom:14px; }
+  .section-label { font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#1B4F4F; margin:16px 0 6px; }
+  .field-box { background:#F8F7F4; border:1px solid #E0DED8; border-radius:6px; padding:10px 14px; font-size:14px; line-height:1.7; margin-bottom:10px; }
+  table { width:100%; border-collapse:collapse; margin-bottom:14px; }
+  th { background:#E4F0F0; border:1px solid #ddd; padding:9px 12px; font-size:13px; font-weight:700; color:#1B4F4F; }
+  .result-box { padding:13px 16px; border-radius:8px; margin-bottom:14px; background:${resultBg}; border:1.5px solid ${resultBorder}; }
+  .result-title { font-size:14px; font-weight:700; color:${resultColor}; margin-bottom:5px; }
+  .result-desc  { font-size:13.5px; color:${resultColor}; line-height:1.6; }
+  .print-btn { margin-top:20px; text-align:center; }
+  .print-btn button { padding:10px 28px; background:#1B4F4F; color:white; border:none; border-radius:6px; font-size:15px; font-family:inherit; cursor:pointer; }
+  @media print {
+    .print-btn { display:none; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+<\/style></head><body>
+
   <h1>📝 초기면담지</h1>
-  <p><strong>작성일:</strong> ${new Date().toLocaleDateString('ko-KR')} &nbsp;|&nbsp; <strong>학생:</strong> ${name}</p>
-  <p><strong>어려운 행동:</strong><br>${behavior.replace(/\n/g,'<br>')}</p>
-  <table><tr><th>평가 항목</th><th>점수 (1~5)</th></tr>
-  ${labels.map((l,i)=>`<tr><td>${l}</td><td>${scores[i]}점</td></tr>`).join('')}
-  <tr><td><strong>평균</strong></td><td><strong>${avg.toFixed(1)}점</strong></td></tr></table>
-  <div class="result"><strong>판단:</strong> ${avg>=3.5?'도전행동 해당 가능성 높음 → 기능평가 실시':avg>=2.5?'경계 수준 → 2주 추가 관찰':'현재는 도전행동 수준 아닐 수 있음'}</div>
-  <p><strong>지금까지 사용한 중재:</strong><br>${past.replace(/\n/g,'<br>')}</p>
-  </body></html>`);
+  <div class="meta">작성일: ${date} &nbsp;|&nbsp; 학생: <strong>${name}</strong> &nbsp;|&nbsp; 생활지도 PLUS</div>
+
+  <div class="section-label">어려운 행동</div>
+  <div class="field-box">${behavior.replace(/\n/g, '<br>')}</div>
+
+  <div class="section-label">판단 기준 평가</div>
+  <table>
+    <thead><tr>
+      <th style="text-align:left;">평가 항목</th>
+      <th style="width:70px;">점수</th>
+      <th style="width:120px;">시각화</th>
+    </tr></thead>
+    <tbody>
+      ${scoreRows}
+      <tr style="background:#F4F2EE;">
+        <td style="border:1px solid #ddd;padding:9px 12px;font-weight:700;">평균</td>
+        <td style="border:1px solid #ddd;padding:9px 12px;text-align:center;font-weight:700;font-size:16px;color:#1B4F4F;">${avg.toFixed(1)}점</td>
+        <td style="border:1px solid #ddd;padding:9px 12px;"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">판단 결과</div>
+  <div class="result-box">
+    <div class="result-title">${resultTitle}</div>
+    <div class="result-desc">${resultDesc}</div>
+  </div>
+
+  <div class="section-label">지금까지 사용한 중재 방법</div>
+  <div class="field-box">${past.replace(/\n/g, '<br>')}</div>
+
+  <div class="print-btn"><button onclick="window.print()">🖨️ 인쇄 / PDF 저장</button></div>
+</body></html>`);
   win.document.close();
-  win.print();
+  setTimeout(() => win.print(), 700);
 }
 
 function ivReset() {
