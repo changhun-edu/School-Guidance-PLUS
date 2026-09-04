@@ -6723,6 +6723,18 @@ const scenarios = [
 const pages = ['home','learn','sim','ref'];
 const navColors = { home: 'rgba(255,255,255,0.5)', learn: '#2A7B7B', sim: '#C97B3A', ref: '#3B6E4A' };
 
+/* ─── URL에 해시(#)를 남기지 않는 히스토리 헬퍼 ───
+   페이지 상태는 history.state에만 저장하고, 주소창 URL은 항상 깨끗하게 유지 */
+function urlNoHash() {
+  return location.pathname + location.search;
+}
+function pushPageState(state) {
+  try { history.pushState(state, '', urlNoHash()); } catch (e) { /* file:// 등 예외 무시 */ }
+}
+function replacePageState(state) {
+  try { history.replaceState(state, '', urlNoHash()); } catch (e) { /* file:// 등 예외 무시 */ }
+}
+
 function showPage(id) {
   pages.forEach(p => {
     document.getElementById('page-' + p).classList.toggle('active', p === id);
@@ -6748,7 +6760,7 @@ function showPage(id) {
   const targetPage = document.getElementById('page-' + id);
   if (targetPage) targetPage.scrollTop = 0;
 
-  if (history.pushState) history.pushState({ page: id }, '', '#' + id);
+  pushPageState({ page: id });
 }
 
 /* ─── 뒤로가기 / 앞으로가기 처리 ─── */
@@ -6758,12 +6770,12 @@ window.addEventListener('popstate', function(e) {
   if (player && player.classList.contains('open')) {
     closeSim();
     // 현재 페이지 히스토리 엔트리 유지
-    history.pushState({ page: 'sim' }, '', '#sim');
+    pushPageState({ page: 'sim' });
     return;
   }
 
   // state에 페이지 정보가 있으면 복원
-  const targetPage = e.state?.page || location.hash.replace('#', '') || 'home';
+  const targetPage = e.state?.page || 'home';
   if (pages.includes(targetPage)) {
     // pushState 없이 UI만 전환 (히스토리 스택에 추가 안 함)
     pages.forEach(p => {
@@ -8672,10 +8684,11 @@ function resetQABF() {
 }
 
 /* ─── 론 클라크 55가지 원칙 — 학급 규칙 만들기 도구 ─── */(function() {
+  // 예전 #해시 링크로 들어온 경우에도 해당 페이지는 열어 주되, 주소창에서는 해시를 지운다
   const hash = location.hash.replace('#', '');
   const initPage = pages.includes(hash) ? hash : 'home';
 
-  history.replaceState({ page: initPage }, '', '#' + initPage);
+  replacePageState({ page: initPage });
 
   pages.forEach(p => {
     document.getElementById('page-' + p).classList.toggle('active', p === initPage);
