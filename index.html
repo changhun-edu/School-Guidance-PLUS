@@ -6263,7 +6263,7 @@ const scenarios = [
   {
     title: "친구가 갑자기 소리를 질렀습니다. 반 아이들에게 뭐라고 말하나요?",
     func: "통합",
-    situation: "4학년 국어 수업 중 통합학급 학생 지우가 갑자기 크게 소리를 질렀습니다. 30명의 학생이 일제히 지우를 쳐다봤고, 몇몇이 웃거나 수군거립니다. 지우는 곧 진정됐지만, 아이들의 시선과 술렁임이 가라앉지 않습니다. 한 학생이 손을 들며 '선생님, 왜 지우는 저러는 거예요?'라고 물었습니다.",
+    situation: "4학년 국어 수업 중 통합학급 학생 지우가 갑자기 크게 소리를 질렀습니다. 반 학생들이 일제히 지우를 쳐다봤고, 몇몇이 웃거나 수군거립니다. 지우는 곧 진정됐지만, 아이들의 시선과 술렁임이 가라앉지 않습니다. 한 학생이 손을 들며 '선생님, 왜 지우는 저러는 거예요?'라고 물었습니다.",
     steps: [
       {
         label: "Step 1. 즉각 반응 — 30초 이내",
@@ -6329,7 +6329,7 @@ const scenarios = [
           { text: "D. 관리자에게 판단을 맡긴다", result: "wrong" }
         ],
         feedback: {
-          correct: { icon: "✅", text: "통합교육 협력의 핵심입니다. 특수교사의 권고에는 배경 이유가 있습니다 — 예를 들어 '지금은 강제 제지가 역효과를 낳는 시기', '이 행동의 기능이 제지에 의해 강화되는 상황' 등일 수 있습니다. 담임도 '나는 수업이 30명 앞에서 끊긴다'는 현실을 전달해야 합니다. 두 전문가의 관점이 합쳐져야 효과적인 중재가 나옵니다.", law: "고시 제15조 ② — 특수교육교원과 통합학급 교원의 협력", tip: "💡 좋은 협력 대화 예시: '왜 지금 시기에 흘려보내야 하는지 이해하고 싶어요. 그런데 저는 30명 앞에서 수업이 매번 멈추는 게 걱정됩니다. 어떻게 하면 두 가지를 같이 해결할 수 있을까요?'" },
+          correct: { icon: "✅", text: "통합교육 협력의 핵심입니다. 특수교사의 권고에는 배경 이유가 있습니다 — 예를 들어 '지금은 강제 제지가 역효과를 낳는 시기', '이 행동의 기능이 제지에 의해 강화되는 상황' 등일 수 있습니다. 담임도 '반 전체 수업이 자꾸 끊긴다'는 현실을 전달해야 합니다. 두 전문가의 관점이 합쳐져야 효과적인 중재가 나옵니다.", law: "고시 제15조 ② — 특수교육교원과 통합학급 교원의 협력", tip: "💡 좋은 협력 대화 예시: '왜 지금 시기에 흘려보내야 하는지 이해하고 싶어요. 그런데 저는 반 전체 수업이 매번 멈추는 게 걱정됩니다. 어떻게 하면 두 가지를 같이 해결할 수 있을까요?'" },
           caution: { icon: "⚠️", text: "어느 한쪽 의견만 그대로 따르는 것은 협력이 아닙니다. 특수교사는 해당 학생 전문가지만 교실 전체 운영 전문가는 담임입니다. 두 관점이 합쳐져야 합니다.", law: "", tip: "" },
           wrong: { icon: "🔄", text: "관리자에게 맡기는 것은 두 교사 간의 전문적 협의가 먼저 이루어진 후의 선택지입니다. 첫 단계로는 직접 대화가 우선입니다.", law: "", tip: "" }
         }
@@ -6346,7 +6346,7 @@ const scenarios = [
         feedback: {
           correct: { icon: "✅", text: "선행사건 중재(antecedent intervention)의 전형적 예입니다. 이탈이 발생한 후 대응하는 것보다, 이탈 직전 신호를 포착해 먼저 개입하면 이탈 자체를 예방할 수 있습니다. 수호 입장에서는 '교사가 나를 보고 있다'는 신호를 받게 되어 관심 욕구도 충족됩니다. ADHD 학생에게 매우 효과적인 전략입니다.", law: "", tip: "💡 수호가 자주 이탈하는 특정 시간(예: 40분 수업 25분 이후)이 있다면, 그 직전에 짧은 스트레칭 활동을 넣는 '구조화된 움직임' 전략도 고려해보세요." },
           caution: { icon: "⚠️", text: "자리 배치 조정은 방해를 줄이는 데 도움이 되지만, 행동 자체를 예방하지는 않습니다. 이탈 횟수 기록은 중재 효과 측정에는 필요하지만, 그것만으로 행동이 줄지는 않습니다.", law: "", tip: "" },
-          wrong: { icon: "🔄", text: "전체 수업이 한 학생 때문에 멈추는 것은 다른 30명 학생의 학습권을 침해합니다.", law: "", tip: "" }
+          wrong: { icon: "🔄", text: "전체 수업이 한 학생 때문에 멈추는 것은 다른 학생들의 학습권을 침해합니다.", law: "", tip: "" }
         }
       },
       {
@@ -8025,10 +8025,14 @@ function ivReset() {
 
 /* ══ 강화제 체크리스트 ══ */
 const rfItems = [
-  { cat:'사회적 강화', items:['교사의 칭찬 (말로)', '교사의 칭찬 (스티커·도장)', '친구의 관심·인정', '학급 앞에서 발표 기회', '교사와 1:1 대화 시간'] },
-  { cat:'활동 강화', items:['자유 선택 활동 시간', '좋아하는 게임·앱 사용', '쉬는 시간 연장', '교실 심부름·역할', '도서관·특별실 이용'] },
-  { cat:'물질 강화', items:['스티커·도장', '작은 상품(연필·지우개)', '간식', '쿠폰 (활동 선택권)', '배지·메달'] },
-  { cat:'감각 강화', items:['음악 듣기', '특정 장난감·피젯 사용', '좋아하는 색깔·소재 물건', '조용한 공간에서 혼자 있기', '몸 활동 (뛰기·점프)'] },
+  { cat:'사회적 강화', icon:'💬', color:'#C44444', bg:'#FDF3F3', desc:'사람에게서 받는 반응 — 칭찬·관심·인정',
+    items:['선생님의 말 칭찬 ("잘했어!")', '하이파이브·엄지척 같은 몸짓 칭찬', '친구들의 박수·인정', '반 앞에서 잘한 점 소개받기', '선생님과 둘이 이야기하는 시간'] },
+  { cat:'활동 강화', icon:'🎲', color:'#2F6FB0', bg:'#F1F6FC', desc:'하고 싶은 일을 할 기회',
+    items:['자유 선택 활동 시간', '좋아하는 게임·놀이 하기', '쉬는 시간 연장', '교실 도우미 역할 맡기', '도서관·특별실 이용'] },
+  { cat:'물질 강화', icon:'🎁', color:'#B7791F', bg:'#FDF8EE', desc:'받아서 가질 수 있는 물건',
+    items:['스티커·도장', '작은 상품(연필·지우개)', '간식', '쿠폰 (활동 선택권)', '배지·메달'] },
+  { cat:'감각 강화', icon:'✨', color:'#7B44C4', bg:'#F6F1FD', desc:'몸으로 느끼는 즐거운 자극',
+    items:['음악 듣기', '특정 장난감·피젯 사용', '좋아하는 색깔·소재 물건', '조용한 공간에서 혼자 있기', '몸 활동 (뛰기·점프)'] },
 ];
 let rfScores = {};
 
@@ -8039,18 +8043,21 @@ function rfInit() {
 
   let globalIdx = 0;
   rfItems.forEach(cat => {
-    // 카테고리 레이블
+    // 카테고리 상자 — 영역마다 색·아이콘·설명으로 구분
+    const box = document.createElement('div');
+    box.style.cssText = `background:${cat.bg};border:1px solid ${cat.color}33;border-left:5px solid ${cat.color};border-radius:10px;padding:10px 14px 4px;margin-top:10px;`;
     const catLbl = document.createElement('div');
-    catLbl.style.cssText = 'font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sub);margin:12px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border);';
-    catLbl.textContent = cat.cat;
-    list.appendChild(catLbl);
+    catLbl.style.cssText = `display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;padding-bottom:8px;border-bottom:1px solid ${cat.color}33;`;
+    catLbl.innerHTML = `<span style="font-size:15px;font-weight:700;color:${cat.color};">${cat.icon} ${cat.cat}</span><span style="font-size:12.5px;color:var(--text-sub);">${cat.desc}</span>`;
+    box.appendChild(catLbl);
+    list.appendChild(box);
 
     cat.items.forEach(item => {
       const idx = globalIdx++;
 
       // 행 컨테이너
       const row = document.createElement('div');
-      row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);';
+      row.style.cssText = `display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid ${cat.color}1F;`;
 
       // 항목 이름
       const label = document.createElement('span');
@@ -8086,7 +8093,7 @@ function rfInit() {
       });
 
       row.appendChild(btnGroup);
-      list.appendChild(row);
+      box.appendChild(row);
     });
   });
 }
@@ -8786,7 +8793,7 @@ function resetQABF() {
           </div>
         </div>
         <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
+          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 학생들에게는</div>
           사전에 "우리 반 친구 중 갑자기 소리가 나올 수 있는데, 그건 그 친구만의 방식이에요. 우리는 하던 것을 계속해요"라고 학기 초에 한 번 안내해두면 이후 상황이 훨씬 안정됩니다.
         </div>
         <div class="urgent-next">
@@ -8829,7 +8836,7 @@ function resetQABF() {
           </div>
         </div>
         <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
+          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 학생들에게는</div>
           이탈 직후: "선생님이 잠깐 확인하고 올게요. 그 사이 ○쪽 문제 풀어보세요." 학생이 돌아왔을 때 주목하지 않도록: "자, 우리 계속 이어서요."
         </div>
         <div class="urgent-next">
@@ -8871,7 +8878,7 @@ function resetQABF() {
           </div>
         </div>
         <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
+          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 학생들에게는</div>
           학생들을 같은 공간에 두는 것보다 복도·도서관 등으로 잠시 이동시키는 것이 모두를 위해 낫습니다. 가능하다면 옆 반 교사에게 잠시 맡기는 방법도 사전에 협의해두세요.
         </div>
         <div class="urgent-next">
@@ -8913,7 +8920,7 @@ function resetQABF() {
           </div>
         </div>
         <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
+          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 학생들에게는</div>
           사건 직후 학급 전체를 오래 세워두지 마세요. "선생님이 정리하고 있어요. 지금은 하던 것 계속해요."로 신속하게 수업으로 돌아갑니다. 학급 토의는 양쪽 학생이 안정된 다음에 진행합니다.
         </div>
         <div class="urgent-next">
@@ -8955,7 +8962,7 @@ function resetQABF() {
           </div>
         </div>
         <div class="urgent-class-note">
-          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 30명에게는</div>
+          <div class="ucn-title">👨‍👩‍👧‍👦 나머지 학생들에게는</div>
           시선 분산이 핵심입니다. "우리는 계속 공부해요. 방해하지 말고요."를 단호하게, 그러나 짧게. 쉬는 시간이라면 다른 공간으로 이동시켜 주세요.
         </div>
         <div class="urgent-next">
